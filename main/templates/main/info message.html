@@ -1,0 +1,17 @@
+{% extends "main/wrapper.html" %}
+
+{% block styles %}
+
+	{% load static %}
+	<link href="{% static 'main/styles/info message.css' %}" type="text/css" rel="stylesheet" />
+
+{% endblock %}
+
+{% block content %}
+
+{% include "main/includes/header.html" %}
+{% include "main/includes/menu.html" %}
+{% include "main/includes/info message.html" %}
+{% include "main/includes/footer.html" %}
+
+{% endblock %}

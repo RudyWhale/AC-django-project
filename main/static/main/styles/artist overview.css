@@ -1,0 +1,131 @@
+div.artist_overview {
+	float: left;
+	width: 100%;
+	box-sizing: border-box;
+	background-color: white;
+}
+
+div.artist_avatar {
+	float: left;
+	width: 250px;
+	height: 250px;
+	border-radius: 125px;
+	overflow: hidden;
+	border: 1px rgb(40,40,40) solid;
+	margin: 23px;
+}
+
+div.artist_avatar>a>img {
+  height: 250px;
+  position: relative;
+}
+
+div.artist_desc {
+	float: left;
+	width: calc(100% - 300px);
+	font-family: 'Roboto', sans-serif;
+}
+
+div.artist_desc>a>h3 {
+	display: block;
+	width: 100%;
+	height: 60px;
+	line-height: 60px;
+	float: left;
+	margin: 20px 0px 0px 0px;
+	font-size: 50px;
+	color: black;
+}
+
+div.artist_desc>p {
+	display: block;
+	float: left;
+	width: 100%;
+	margin: 0px;
+	font-size: 20px;
+	padding: 0px 10px 10px 0px;
+	box-sizing: border-box;
+}
+
+div.artist_overview_subscribe {
+	width: 100%;
+	float: left;
+	height: 45px;
+}
+
+p.subscribe_count {
+	display: block;
+	width: 60px;
+	float: left;
+	height: 35px;
+	line-height: 35px;
+	font-family: 'Oswald', sans-serif;
+	font-size: 20px;
+	text-align: center;
+	margin: 0px;
+}
+
+button.subscribe_btn {
+	cursor: pointer;
+	background: white;
+	display: block;
+	width: 150px;
+	float: left;
+	height: 35px;
+	line-height: 0px;
+	padding-bottom: 4px;
+	font-family: 'Oswald', sans-serif;
+	font-size: 20px;
+	text-align: center;
+	border: 2px solid black;
+	box-sizing: border-box;
+	margin: 0px 0px 0px 5px;
+	outline: none;
+}
+
+button.subscribe_btn:hover {
+	background-color: rgb(200,200,200);
+	box-shadow: -5px 5px 0 0 rgb(200,200,200), inset -3px 3px 0 0 white;
+}
+
+/*===============================================*/
+/*-------------------- MEDIA --------------------*/
+/*===============================================*/
+
+@media screen and (max-width: 1000px){
+
+	div.artist_desc>p {
+		font-size: 18px;
+		line-height: 22px;
+	}
+}
+
+@media screen and (max-width: 800px){
+
+	div.artist_overview {
+		padding: 10px;
+	}
+
+	div.artist_avatar {
+		width: 100%;
+		height: 180px;
+	}
+
+	div.artist_avatar>a>img {
+		width: 180px;
+		height: 180px;
+		line-height: 180px;
+		margin: 0px;
+	}
+
+	div.artist_desc {
+		width: 100%;
+	}
+
+	div.artist_desc>a>h3 {
+		height: 60px;
+		line-height: 60px;
+		font-size: 40px;
+		margin: 0px;
+	}
+}

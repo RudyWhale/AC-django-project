@@ -1,0 +1,31 @@
+<div class="strip_gallery_wrapper">
+
+	<h1>Другие работы</h1>
+
+	<div class="strip_gallery">
+
+		{% for publication in publications %}
+			<div class="strip_gallery_item_artwork">
+
+				<a href="{% url 'artwork' pk=publication.artwork.pk %}"><img class="center" src="{{publication.artwork.image.url}}" alt="Картина" /></a>
+
+				<div class="sg_item_artwork_desc">
+
+					<h3>{{publication.name}}</h3>
+
+					<a class="sg_item_artwork_author_href" href="{% url 'artist' pk=publication.author.pk %}">от: {{publication.author.user.username}}</a>
+
+					<p>{{publication.artwork.desc}}</p>
+
+				</div><!-- item_artwork_desc -->
+
+				<div class="strip_gallery_item_likes">
+					<p class="strip_gallery_item_likes_label">понравилось: {{publication.likes.count}}</p>
+				</div><!-- strip_gallery_item_likes -->
+
+			</div><!-- strip_gallery_item_artwork -->
+		{% endfor %}
+
+	</div><!-- strip_gallery -->
+
+</div><!-- strip_gallery_wrapper -->

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<html>
+<head>
+    <title>Log in</title>
+
+    {% load static %}
+    <link rel="shortcut icon" type="image/png" href="{% static 'fav.png' %}" />
+    <link href="{% static 'login/login.css' %}" type="text/css" rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+</head>
+
+<body>
+<div class="page">
+
+    <div class="container">
+
+        {% if message %}
+            <p class="login_warning">{{message}}</p>
+        {% endif %}
+
+        {% if form.errors %}
+            <p class="login_warning">Неправильные имя пользователя или пароль.</p>
+        {% endif %}
+
+        <h1 class="login_header">Вход на сайт</h1>
+
+        <form method="post" action="{% url 'login' %}" class="login_form">
+        {% csrf_token %}
+            <table>
+                <tr>
+                    <td class="login_label">Имя</td>
+                    <td class="login_input">{{ form.username }}</td>
+                </tr>
+                <tr>
+                    <td class="login_label">Пароль</td>
+                    <td class="login_input">{{ form.password }}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input class="submit_btn" type="submit" value="Войти">
+                        <input type="hidden" name="next" value="{% url 'index' %}">
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+        <a class="help_link" href="{% url 'index' %}">На главную</a>
+        <a class="help_link" href="{% url 'register' %}">Регистрация</a>
+
+    </div><!-- container -->
+
+</div><!-- page -->
+</body>
+</html>

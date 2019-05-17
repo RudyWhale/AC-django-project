@@ -1,0 +1,5 @@
+<div class="publication_likes">
+  <p class="publication_likes_count">{{publication.likes.count}}</p>
+  {% load main_tags %}
+  <button class="publication_likes_btn" data-pk="{{publication.pk}}">{{publication|like_btn_text:request.user}}</button>
+</div><!-- publication_likes -->

@@ -1,0 +1,43 @@
+div.publication_likes {
+	float: left;
+	width: 100%;
+	height: 40px;
+	font-size: 20px;
+	text-align: center;
+	font-family: 'Oswald', sans-serif;
+	padding-top: 10px;
+}
+
+p.publication_likes_count {
+	margin: 0px 5px 0px 0px;
+	display: block;
+	float: left;
+	height: 30px;
+	width: 70px;
+	background-color: black;
+	color: white;
+	line-height: 30px;
+	border-radius: 15px;
+}
+
+button.publication_likes_btn {
+	cursor: pointer;
+	display: block;
+	float: left;
+	padding-bottom: 5px;
+	height: 30px;
+	line-height: 0px;
+	width: 130px;
+	background-color: black;
+	color: white;
+	border-radius: 15px;
+	text-decoration: none;
+	border: none;
+	font-family: 'Oswald', 'Sans-serif';
+	font-size: 20px;
+	outline: none;
+}
+
+button.publication_likes_btn:hover {
+	color: rgb(120,120,120);
+}

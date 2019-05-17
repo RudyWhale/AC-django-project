@@ -1,0 +1,22 @@
+<div class="content_item_artwork">
+
+	<a href="{% url 'artwork' pk=artwork.pk %}" class="artwork_item_image"><img src="{{artwork.image.url}}" class="center" alt="{{artwork.name}}" /></a>
+
+	<div class="item_artwork_desc">
+
+		<h3>{{artwork.name}}</h3>
+
+		<a class="item_artwork_author_href" href="{% url 'artist' pk=artwork.author.pk %}">{{artwork.author.user.username}}</a>
+
+		<p>{{artwork.desc}}</p>
+
+	</div><!-- item_artwork_desc -->
+
+	<div class="content_item_likes">
+		<div class="likes_container">
+			<p class="likes_label">понравилось:</p>
+			<p class="likes_count">{{artwork.likes.count}}</p>
+		</div>
+	</div><!-- content_item_likes -->
+
+</div><!-- content_item_wrapper -->

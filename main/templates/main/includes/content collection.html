@@ -1,0 +1,42 @@
+<div class="bounded_wrapper">
+	<div class="content_collection">
+
+		{% if content_header %}
+
+			<h1>{{content_header}}</h1>
+
+		{% endif %}
+
+		{% if create_publication %}
+
+			<div class="content_item_create">
+
+				<p>Добавьте что-то новое в свой блог</p>
+				<hr />
+				<a href="{% url 'new-article' %}">Добавить запись</a>
+				<a href="{% url 'new-artwork' %}">Добавить работу</a>
+
+			</div><!-- content_item_artwork -->
+
+		{% endif %}
+
+		{% for publication in publications %}
+
+			{% if publication.artwork %}
+				{% include "main/includes/content item artwork.html" with artwork=publication.artwork %}
+			{% elif publication.article %}
+				{% include "main/includes/content item article.html" with article=publication.article %}
+			{% endif %}
+
+		{% empty %}
+
+			{% if not create_publication %}
+				<div class="empty_label">
+					<p>Здесь пока ничего нет</p>
+				</div>
+			{% endif %}
+
+		{% endfor %}
+
+	</div><!-- content_collection -->
+</div><!-- bounded_wrapper -->

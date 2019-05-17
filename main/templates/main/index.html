@@ -1,0 +1,18 @@
+{% extends "main/wrapper.html" %}
+
+{% block styles %}
+	{% load static %}
+
+	<link href="{% static 'main/styles/site desc.css' %}" type="text/css" rel="stylesheet" />
+	<link href="{% static 'main/styles/content.css' %}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+
+{% include "main/includes/header.html" %}
+{% include "main/includes/site desc.html" %}
+{% include "main/includes/menu.html" %}
+{% include "main/includes/content collection.html" with publications=publications create_publication=false content_header="Популярно:" %}
+{% include "main/includes/footer.html" %}
+
+{% endblock %}

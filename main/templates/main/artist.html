@@ -1,0 +1,23 @@
+{% extends "main/wrapper.html" %}
+
+{% block styles %}
+	{% load static %}
+
+	<link href="{% static 'main/styles/artist overview.css' %}" type="text/css" rel="stylesheet" />
+	<link href="{% static 'main/styles/content.css' %}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block scripts %}
+	{% load static %}
+	<script src="{% static 'useractions/subscription_btn.js' %}" type="text/javascript"></script>
+{% endblock %}
+
+{% block content %}
+
+{% include "main/includes/header.html" %}
+{% include "main/includes/menu.html" %}
+{% include "main/includes/artist overview.html" with artist=user profile=profile %}
+{% include "main/includes/content collection.html" with publications=publications create_publication=create_publication content_header="Блог автора:" %}
+{% include "main/includes/footer.html" %}
+
+{% endblock %}

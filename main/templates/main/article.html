@@ -1,0 +1,70 @@
+{% extends "main/wrapper.html" %}
+
+{% block styles %}
+  {% load static %}
+
+  <link href="{% static 'main/styles/article.css' %}" type="text/css" rel="stylesheet" />
+  <link href="{% static 'main/styles/artist overview.css' %}" type="text/css" rel="stylesheet" />
+  <link href="{% static 'main/styles/publication.css' %}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block scripts %}
+	{% load static %}
+
+	<script src="{% static 'useractions/like_btn.js' %}" type="text/javascript"></script>
+	<script src="{% static 'useractions/subscription_btn.js' %}" type="text/javascript"></script>
+	<script src="{% static 'useractions/comment_btn.js' %}" type="text/javascript"></script>
+{% endblock %}
+
+{% block content %}
+
+{% include "main/includes/header.html" %}
+{% include "main/includes/menu.html" %}
+
+<div class="bounded_wrapper">
+  <div class="article_repr">
+
+    <h2 class="article_header">{{article.name}}</h2>
+    <p class="article_date">{{article.date}}</p>
+    <p class="article_desc">{{article.desc}}</p>
+    <p class="article_text">{{article.text|linebreaksbr}}</p>
+
+    {% include "main/includes/publication likes.html" with publication=article %}
+
+    <div class="tags">
+      <h5 class="tags_header">Теги:</h5>
+
+      {% for tag in article.tag_set.all %}
+        <a class="tag" href="{% url 'tag' pk=tag.pk %}">#{{tag.name}}</p>
+      {% empty %}
+        <p class="no_tags_label">Теги не указаны</p>
+      {% endfor %}
+    </div>
+
+    <div class="comments">
+      <h5 class="comments_header">Комментарии:</h5>
+      <div class="comment_form">
+        <textarea rows="2" cols="20"></textarea>
+        <button data-pk="{{article.pk}}" data-username="{{request.user.username}}">комментировать</button>
+      </div>
+
+      {% for comment in article.comment_set.all %}
+        <div class="comment_container">
+          <h6>{{comment.author}}:</h6>
+          <p>{{comment.text}}</p>
+        </div>
+      {% empty %}
+        <p class="no_comments_label">
+          Пока нет ни одного комментария. Будьте первым!
+        </p>
+      {% endfor %}
+    </div>
+
+    {% include "main/includes/artist overview.html" with artist=article.author.user profile=article.author %}
+
+  </div>
+</div><!-- bounded_wrapper -->
+
+{% include "main/includes/footer.html" %}
+
+{% endblock %}

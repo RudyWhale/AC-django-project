@@ -1,0 +1,156 @@
+div.strip_gallery_wrapper {
+	background-color: black;
+	width: 100%;
+	float: left;
+	color: rgb(200,200,200);
+	padding: 0px;
+}
+
+div.strip_gallery_wrapper>h1 {
+	display: block;
+	width: 100%;
+	height: 70px;
+	line-height: 70px;
+	float: left;
+	text-align: center;
+	text-transform: uppercase;
+	font-weight: normal;
+	font-family: 'Oswald', sans-serif;
+	font-size: 30px;
+	margin: 0px;
+	color: rgb(80,80,80);
+}
+
+div.strip_gallery {
+	width: 100%;
+	max-width: 1200px;
+	margin: 0 auto;
+	overflow: hidden;
+	margin-bottom: 20px;
+}
+
+/*===============================================*/
+/* LIKES BLOCK ----------------------------------*/
+/*===============================================*/
+
+div.strip_gallery_item_likes {
+	float: left;
+	width: 100%;
+	height: 40px;
+	font-size: 18px;
+	text-align: center;
+	font-family: 'Oswald', sans-serif;
+	padding: 5px;
+	box-sizing: border-box;
+}
+
+p.strip_gallery_item_likes_label {
+	display: block;
+	float: left;
+	height: 30px;
+	margin: 0px;
+	background-color: rgb(120,120,120);
+	color: black;
+	border-radius: 15px;
+	text-decoration: none;
+	padding: 0 10px;
+}
+
+/*===============================================*/
+/* ARTWORK BLOCK --------------------------------*/
+/*===============================================*/
+
+div.strip_gallery_item_artwork {
+	width: 25%;
+	float: left;
+	height: 400px;
+	padding: 1px;
+	box-sizing: border-box;
+}
+
+div.strip_gallery_item_artwork>a {
+	display: block;
+	width: 100%;
+	height: 200px;
+	float: left;
+	overflow: hidden;
+	background-color: rgb(80,80,80);
+}
+
+div.strip_gallery_item_artwork>a>img {
+	height: 200px;
+	position: relative;
+	opacity: 0;
+	transition: opacity 0.5s;
+}
+
+div.sg_item_artwork_desc {
+	width: 100%;
+	float: left;
+	height: 160px;
+	overflow: hidden;
+	font-family: 'Roboto', sans-serif;
+}
+
+div.sg_item_artwork_desc>h3 {
+	display: block;
+	float: left;
+	width: 100%;
+	font-size: 30px;
+	font-weight: normal;
+	line-height: 30px;
+	margin: 0px;
+	padding: 5px;
+	box-sizing: border-box;
+	color: white;
+}
+
+a.sg_item_artwork_author_href {
+	display: block;
+	float: left;
+	height: 22px;
+	line-height: 22px;
+	background-color: rgb(120,120,120);
+	color: black;
+	overflow: hidden;
+	margin: 0px 5px;
+	padding: 0px 5px;
+	text-decoration: none;
+	font-family: 'Oswald', sans-serif;
+	font-size: 18px;
+}
+
+a.sg_item_artwork_author_href:hover {
+	background-color: rgb(80,80,80);
+}
+
+div.sg_item_artwork_desc>p {
+	margin: 0px;
+	display: block;
+	width: 100%;
+	overflow: hidden;
+	padding: 0px 5px;
+	box-sizing: border-box;
+	font-size: 18px;
+	line-height: 20px;
+}
+
+/*===============================================*/
+/* MEDIA ----------------------------------------*/
+/*===============================================*/
+
+@media screen and (max-width: 1000px){
+
+	div.strip_gallery_item_artwork {
+		width: 50%;
+	}
+
+}
+
+@media screen and (max-width: 600px){
+
+	div.strip_gallery_item_artwork {
+		width: 100%;
+	}
+
+}

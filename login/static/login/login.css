@@ -1,0 +1,102 @@
+div.page {
+	text-align: center;
+	line-height: 100vh;
+}
+
+div.container {
+	display: inline-block;
+	line-height: 20px;
+	width: 345px;
+}
+
+h1.login_header {
+	font-family: 'Oswald', sans-serif;
+	font-size: 30px;
+	font-weight: normal;
+}
+
+form.login_form {
+	margin: 0 auto;
+}
+
+form.login_form>table {
+	width: 100%;
+	margin: 0px 0px 10px -25px;
+}
+
+td.login_label {
+	font-family: 'Oswald', sans-serif;
+	font-size: 20px;
+	line-height: 28px;
+	text-transform: uppercase;
+	color: rgb(120,120,120);
+	text-align: right;
+	vertical-align: top;
+	max-width: 200px;
+}
+
+td.login_input>input {
+	width: 270px;
+	height: 28px;
+	font-family: 'Roboto', sans-serif;
+	font-size: 16px;
+	border: 1px solid black;
+	outline: none;
+	box-sizing: border-box;
+	padding-left: 2px;
+}
+
+td.login_input>textarea {
+	padding: 2px;
+	font-family:'Roboto', sans-serif;
+	font-size: 16px;
+	border: 1px solid black;
+	outline: none;
+	box-sizing: border-box;
+	width: 270px;
+	resize: none;
+}
+
+td.login_data {
+	font-family: 'Oswald', sans-serif;
+	text-align: left;
+	font-size: 20px;
+}
+
+input.submit_btn {
+	font-family: 'Oswald', sans-serif;
+	font-size: 18px;
+	width: 270px;
+	height: 28px;
+	padding: 0px;
+	background-color: inherit;
+	border: 1px solid black;
+	cursor: pointer;
+}
+
+input.submit_btn:hover {
+	background-color: rgb(200,200,200);
+	box-shadow: -4px 4px 0 0 rgb(200,200,200), inset -3px 3px 0 0 white;
+	outline: none;
+}
+
+a.help_link {
+	font-family: 'Roboto Slab', sans-serif;
+	font-size: 14px;
+	color: rgb(120,120,120);
+	width: 100%;
+	display: block;
+}
+
+a.help_link:hover {
+	color: black;
+}
+
+p.login_warning {
+	font-family: 'Roboto Slab', sans-serif;
+	background-color: rgb(80,80,80);
+	color: white;
+	padding: 5px;
+	width: 335px;
+	margin: 0 auto;
+}

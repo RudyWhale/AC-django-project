@@ -1,0 +1,32 @@
+<div class="bounded_wrapper">
+
+	<div class="header">
+
+		<div class="header_logo">
+			<a href="{% url 'index' %}"><h1 class="logo">ArtChart</h1></a>
+		</div>
+
+		<div class="header_user_info">
+
+			{% if request.user.is_authenticated %}
+
+				<p class="user_info_label">Добро пожаловать,</p>
+				<p class="user_info_name">{{request.user.username}}</p>
+
+				{% if request.user.profile %}
+					<a href="{% url 'artist' pk=request.user.profile.pk %}" class="user_info_href">ваша страница</a>
+				{% endif %}
+
+				<a href="{% url 'logout' %}" class="user_info_href">выйти</a>
+
+			{% else %}
+
+				<p class="user_info_label">Вы не вошли на сайт</p>
+
+			{% endif %}
+
+		</div><!-- header_user_info -->
+
+	</div><!-- header -->
+
+</div><!-- bounded_wrapper -->

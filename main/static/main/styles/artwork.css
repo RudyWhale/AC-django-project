@@ -1,0 +1,240 @@
+div.artwork_repr {
+	float: left;
+	width: 100%;
+	height: 450px;
+	background-color: white;
+}
+
+div.artwork_img {
+	display: block;
+	float: left;
+	height: 100%;
+	width: calc(100% - 350px);
+	background-color: rgb(80,80,80);
+	overflow: hidden;
+}
+
+div.artwork_img>img {
+	height: 100%;
+	position: relative;
+	opacity: 0;
+	transition: opacity 0.5s;
+}
+
+div.artwork_desc {
+	float: left;
+	width: 350px;
+	height: 450px;
+	padding-left: 10px;
+	box-sizing: border-box;
+}
+
+div.artwork_desc_text {
+	float: left;
+	width: 100%;
+	height: 400px;
+	padding-right: 10px;
+	box-sizing: border-box;
+	font-size: 20px;
+	line-height: 25px;
+	font-family: 'Roboto', sans-serif;
+	color: rgb(40,40,40);
+	overflow: auto;
+}
+
+div.artwork_desc_text>h3 {
+	display: block;
+	margin: 0px;
+	font-size: 36px;
+	float: left;
+	width: 100%;
+	line-height: 44px;
+	box-sizing: border-box;
+}
+
+div.artwork_desc_text>p{
+	margin: 0px;
+}
+
+p.artwork_date {
+	color: rgb(120,120,120);
+	font-size: 16px;
+	font-family: 'Roboto Slab', sans-serif;
+	padding-top: 5px;
+}
+
+/*===============================================*/
+/* TAGS -----------------------------------------*/
+/*===============================================*/
+
+div.tags {
+	margin-top: 10px;
+	float: left;
+	width: 100%;
+}
+
+h5.tags_header {
+	display: block;
+	font-size: 20px;
+	margin: 0px;
+	float: left;
+}
+
+p.no_tags_label {
+	display: block;
+	float: left;
+	margin: 0 0 0 5px;
+	color: rgb(120,120,120);
+	font-style: italic;
+	font-family: 'Oswald', sans-serif;
+}
+
+a.tag {
+	display: block;
+	float: left;
+	background-color: rgb(200,200,200);
+	padding: 0 4px;
+	margin: 0px 0 0 4px;
+	font-family: 'Roboto Slab', sans-serif;
+	font-size: 18px;
+	text-decoration: none;
+	color: black;
+}
+
+/*===============================================*/
+/* COMMENTS -------------------------------------*/
+/*===============================================*/
+
+div.comments {
+	margin-top: 10px;
+	float: left;
+}
+
+h5.comments_header {
+	display: block;
+	font-size: 20px;
+	margin: 0px;
+	float: left;
+	width: 100%;
+}
+
+div.comment_form {
+	margin: 10px 0px;
+	width: 100%;
+	float: left;
+}
+
+div.comment_form>textarea {
+	width: 100%;
+	height: 40px;
+	box-sizing: border-box;
+	border: 1px solid black;
+	outline: none;
+	font-family: 'Roboto', sans-serif;
+	font-size: 16px;
+	resize: none;
+}
+
+div.comment_form>button {
+	width: 150px;
+	height: 30px;
+	line-height: 0px;
+	padding-bottom: 5px;
+	background-color: inherit;
+	color: black;
+	border: 1px solid black;
+	font-family: 'Oswald', sans-serif;
+	font-size: 18px;
+	cursor: pointer;
+	float: right;
+	outline: none;
+}
+
+div.comment_form>button:hover {
+	background-color: rgb(200,200,200);
+	box-shadow: -4px 4px 0 0 rgb(200,200,200), inset -3px 3px 0 0 white;
+}
+
+div.comment_container {
+	width: 100%;
+	float: left;
+	background-color: rgb(200,200,200);
+	padding: 0 5px;
+	margin: 2px 0;
+	box-sizing: border-box;
+}
+
+div.comment_container>h6 {
+	margin: 0px;
+	font-size: 16px;
+	font-weight: bold;
+	font-family: 'Roboto Slab', sans-serif;
+}
+
+div.comment_container>p {
+	margin: 0px;
+}
+
+/*===============================================*/
+/* MEDIA ----------------------------------------*/
+/*===============================================*/
+
+@media screen and (max-width: 1000px){
+
+	div.artwork_repr {
+		height: 400px;
+	}
+
+	div.artwork_img {
+		height: 400px;
+		width: calc(100% - 270px);
+	}
+
+	div.artwork_desc {
+		width: 270px;
+	}
+
+	div.artwork_desc_text {
+		height: 350px;
+		font-size: 18px;
+		line-height: 22px;
+	}
+}
+
+@media screen and (max-width: 800px){
+
+	div.artwork_repr {
+		height: 670px;
+	}
+
+	div.artwork_img {
+		padding: 0px;
+		width: 100%;
+	}
+
+	div.artwork_desc {
+		width: 100%;
+		height: 280px;
+	}
+
+	div.painting_name {
+		height: 60px;
+		line-height: 60px;
+	}
+
+	div.artwork_desc_text {
+		height: 220px;
+		margin-right: 0px;
+	}
+}
+
+@media screen and (max-width: 600px){
+
+	div.artwork_repr {
+		height: 570px;
+	}
+
+	div.artwork_img {
+		height: 300px;
+	}
+}

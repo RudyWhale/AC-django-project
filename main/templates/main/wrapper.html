@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<html>
+<head>
+	<title>ArtChart</title>
+
+	{% load static %}
+	<link href="{% static 'main/styles/body.css' %}" type="text/css" rel="stylesheet" />
+	<link href="{% static 'main/styles/footer.css' %}" type="text/css" rel="stylesheet" />
+	<link href="{% static 'main/styles/logo.css' %}" type="text/css" rel="stylesheet" />
+	<link href="{% static 'main/styles/menu.css' %}" type="text/css" rel="stylesheet" />
+	<link rel="shortcut icon" type="image/png" href="{% static 'fav.png' %}">
+
+	{% block styles %}
+	{% endblock %}
+
+	<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+	<script src="{% static 'main/scripts/img_centering.js' %}" type="text/javascript"></script>
+
+	{% block scripts %}
+	{% endblock %}
+</head>
+
+<body>
+
+<div class="page">
+
+	{% block content %}
+	{% endblock %}
+
+</div><!-- page -->
+</body>
+</html>

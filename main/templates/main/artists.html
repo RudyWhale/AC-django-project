@@ -1,0 +1,30 @@
+{% extends "main/wrapper.html" %}
+
+{% block styles %}
+	{% load static %}
+
+	<link href="{% static 'main/styles/artist overview.css' %}" type="text/css" rel="stylesheet" />
+	<link href="{% static 'main/styles/content.css' %}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block scripts %}
+	{% load static %}
+	<script src="{% static 'useractions/subscription_btn.js' %}" type="text/javascript"></script>
+{% endblock %}
+
+{% block content %}
+
+{% include "main/includes/header.html" %}
+{% include "main/includes/menu.html" %}
+
+<div class="bounded_wrapper">
+
+	{% for profile in artists %}
+		{% include "main/includes/artist overview.html" with artist=profile.user profile=profile %}
+	{% endfor %}
+
+</div><!-- bounded_wrapper -->
+
+{% include "main/includes/footer.html" %}
+
+{% endblock %}

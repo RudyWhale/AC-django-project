@@ -3,7 +3,7 @@
 	<div class="artist_overview">
 
 		<div class="artist_avatar">
-			<a href="{% url 'artist' pk=profile.pk %}"><img class="centered" src="{{profile.avatar.url}}" alt="{{artist.username}}" /></a>
+			<a href="{% url 'artist' pk=profile.pk %}"><img class="center" src="{{profile.avatar.url}}" alt="{{artist.username}}" onload="onimageload(this)" /></a>
 		</div><!-- artist_avatar -->
 
 		<div class="artist_desc">

@@ -7,7 +7,7 @@
 		{% for publication in publications %}
 			<div class="strip_gallery_item_artwork">
 
-				<a href="{% url 'artwork' pk=publication.artwork.pk %}"><img class="center" src="{{publication.artwork.image.url}}" alt="Картина" /></a>
+				<a href="{% url 'artwork' pk=publication.artwork.pk %}"><img class="center" src="{{publication.artwork.image.url}}" alt="Картина" onload="onimageload(this)" /></a>
 
 				<div class="sg_item_artwork_desc">
 

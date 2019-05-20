@@ -106,20 +106,19 @@ button.subscribe_btn:hover {
 		padding: 10px;
 	}
 
-	div.artist_avatar {
+	div.artist_desc {
 		width: 100%;
-		height: 180px;
+	}
+
+	div.artist_avatar {
+		margin: 4px;
+		height: 150px;
+		width: 150px;
+		border-radius: 75px;
 	}
 
 	div.artist_avatar>a>img {
-		width: 180px;
-		height: 180px;
-		line-height: 180px;
-		margin: 0px;
-	}
-
-	div.artist_desc {
-		width: 100%;
+		height: 150px;
 	}
 
 	div.artist_desc>a>h3 {

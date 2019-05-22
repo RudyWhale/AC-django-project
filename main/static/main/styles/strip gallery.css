@@ -39,7 +39,6 @@ div.strip_gallery_item_likes {
 	height: 40px;
 	font-size: 18px;
 	text-align: center;
-	font-family: 'Oswald', sans-serif;
 	padding: 5px;
 	box-sizing: border-box;
 }
@@ -54,6 +53,7 @@ p.strip_gallery_item_likes_label {
 	border-radius: 15px;
 	text-decoration: none;
 	padding: 0 10px;
+	font-family: 'Oswald', sans-serif;
 }
 
 /*===============================================*/

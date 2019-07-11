@@ -21,7 +21,7 @@ form.login_form {
 
 form.login_form>table {
 	width: 100%;
-	margin: 0px 0px 10px -25px;
+	border-collapse: collapse;
 }
 
 td.login_label {
@@ -29,21 +29,26 @@ td.login_label {
 	font-size: 20px;
 	line-height: 28px;
 	text-transform: uppercase;
-	color: rgb(120,120,120);
 	text-align: right;
 	vertical-align: top;
-	max-width: 200px;
+	width: 65px;
 }
 
 td.login_input>input {
-	width: 270px;
+	width: 100%;
 	height: 28px;
 	font-family: 'Roboto', sans-serif;
 	font-size: 16px;
-	border: 1px solid black;
+	border: none;
+	border-bottom: 1px solid black;
 	outline: none;
 	box-sizing: border-box;
 	padding-left: 2px;
+	background-color: inherit;
+}
+
+td.login_input>input::placeholder {
+	color: rgb(120,120,120);
 }
 
 td.login_input>textarea {
@@ -53,7 +58,7 @@ td.login_input>textarea {
 	border: 1px solid black;
 	outline: none;
 	box-sizing: border-box;
-	width: 270px;
+	width: 100%;
 	resize: none;
 }
 
@@ -66,12 +71,13 @@ td.login_data {
 input.submit_btn {
 	font-family: 'Oswald', sans-serif;
 	font-size: 18px;
-	width: 270px;
+	width: 180px;
 	height: 28px;
 	padding: 0px;
-	background-color: inherit;
 	border: 1px solid black;
+	background-color: inherit;
 	cursor: pointer;
+	margin: 20px auto;
 }
 
 input.submit_btn:hover {
@@ -94,9 +100,22 @@ a.help_link:hover {
 
 p.login_warning {
 	font-family: 'Roboto Slab', sans-serif;
-	background-color: rgb(80,80,80);
+	background-color: rgb(100,100,100);
 	color: white;
 	padding: 5px;
-	width: 335px;
-	margin: 0 auto;
+	width: 100%;
+	margin: 2px auto;
+	box-sizing: border-box;
+}
+
+/*===============================================*/
+/* MEDIA ----------------------------------------*/
+/*===============================================*/
+
+@media screen and (max-width: 600px){
+
+	div.container {
+		width: 250px;
+	}
+
 }

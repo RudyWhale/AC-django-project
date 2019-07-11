@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 
 '''
-Class represents user who can upload publications
+Class represents user who can create publications
 '''
 class ArtistProfile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')

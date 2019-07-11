@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<html>
+<head>
+    <title>Log in</title>
+
+    {% load static %}
+    <link rel="shortcut icon" type="image/png" href="{% static 'fav.png' %}" />
+    <link href="{% static 'login/login.css' %}" type="text/css" rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com/css?family=Oswald|Roboto|Roboto+Slab&subset=cyrillic-ext" rel="stylesheet" />
+</head>
+
+<body>
+<div class="page">
+
+    <div class="container">
+
+        <h1 class="login_header">Регистрация на сайте</h1>
+        <p class="login_warning">{{message}}</p>
+        <a class="help_link" href="{% url 'register' %}">На страницу регистрации</a>
+        <a class="help_link" href="{% url 'login' %}">На страницу входа</a>
+        <a class="help_link" href="{% url 'index' %}">На главную</a>
+
+    </div><!-- container -->
+
+</div><!-- page -->
+</body>
+</html>

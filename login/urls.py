@@ -1,31 +1,41 @@
 from django.urls import path, re_path, include
-from . import views
+from . import views, ajax
 from django.contrib.auth import views as auth_views
 
-urlpatterns = [	
+urlpatterns = [
 	path(
-		'', 
-		auth_views.LoginView.as_view(template_name='login/login.html'), 
-		name='login'
+		'',
+		auth_views.LoginView.as_view(template_name='login/login.html'),
+		name = 'login'
 	),
 	path(
         'change_password/',
         auth_views.PasswordChangeView.as_view(template_name='login/change-password.html'),
-        name='password_reset'
+        name = 'password_reset'
     ),
     path(
     	'logout',
     	views.logout,
-    	name='logout'
+    	name = 'logout'
     ),
     path(
 		'register',
 		views.register,
-		name='register'
+		name = 'register'
 	),
 	path(
 		'register_as_artist',
 		views.register_as_artist,
-		name='register_as_artist'
+		name = 'register_as_artist'
+	),
+	path(
+		'check_nickname',
+		ajax.check_nickname,
+		name = 'check_nickname'
+	),
+	path(
+		'activate/<pk>/<hash>',
+		views.activate,
+		name = 'activate'
 	)
 ]

@@ -1,29 +1,47 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect
 from django.contrib.auth import logout as user_logout
-from django.contrib import messages
-from django.contrib.auth.models import User, Permission
+from django.contrib.auth.models import User
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.validators import validate_email
+from django.core.mail import send_mail
+from django.core.exceptions import ValidationError
+from django.urls import reverse
 from main.models import ArtistProfile
+from ArtChart.settings import EMAIL_HOST_USER
 from .forms import ArtistCreationForm, RegistrationForm
+from .tokens import get_hash
+
 
 def register(request):
 	if request.method == 'POST':
-   		form = RegistrationForm(request.POST)
-   		username = request.POST['username']
-   		email = request.POST['email']
-   		password = request.POST['password1']
-   		password_repeat = request.POST['password2']
+		username = request.POST['username']
+		user_email = request.POST['email']
+		password = request.POST['password1']
+		password_repeat = request.POST['password2']
 
-   		if User.objects.filter(username=username).exists():
-   			message = 'Простите, пользователь с таким именем уже существует. Выберите, пожалуйста, другое имя.'
-   			return render(request, 'login/register.html', {'form': form, 'message': message})
+		try:
+			valid_email = True
+			validate_email(user_email)
 
-   		elif password != password_repeat:
-   			message = 'Неверно повторен пароль'
-   			return render(request, 'login/register.html', {'form': form, 'message': message})
+		except ValidationError:
+			valid_email = False
 
-   		else:
-   			User.objects.create_user(username=username, password=password, email=email)
-   			return redirect('login')
+		if User.objects.filter(username=username).exists() or password != password_repeat or not valid_email:
+			message = "Во время регистрации произошла ошибка. Пожалуйста, проверьте корректность введенных данных"
+			return render(request, 'login/message.html', {'message': message})
+
+		else:
+			user = User.objects.create(username=username, password=password, email=user_email, is_active=False)
+			link = request.META['HTTP_HOST'] + reverse('activate', args=[user.pk, get_hash(user)])
+			send_mail(
+				'Завершите регистрацию на ArtChart',
+				'Для завершения регистрации перейдите по следующей ссылке: ' + link,
+				EMAIL_HOST_USER,
+				[user_email]
+			)
+			user.save()
+			message = 'Для завершения регистрации зайдите на указанный вами почтовый ящик. Мы направили вам письмо с инструкциями'
+			return render(request, 'login/message.html', {'message': message})
 
 	else:
 		form = RegistrationForm()
@@ -64,3 +82,19 @@ def register_as_artist(request):
 			return render(request, 'login/register as artist.html', {'form': form})
 		else:
 			return redirect('become_artist')
+
+
+def activate(request, pk, hash):
+	message = 'Произошла ошибка'
+
+	try:
+		user = User.objects.get(pk = pk)
+
+		if (get_hash(user) == hash):
+			user.is_active = True
+			message = 'Ваш аккаунт успешно активирован. Добро пожаловать на ArtChart'
+
+	except User.DoesNotExist:
+		pass
+
+	return render(request, 'login/message.html', {'message': message})

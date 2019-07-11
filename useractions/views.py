@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import JsonResponse, HttpResponse
 from datetime import datetime
 from main.models import Publication, ArtistProfile, Comment
 import json
@@ -24,10 +24,10 @@ def like(request):
 				publ.likes.remove(user)
 			likes = publ.likes.count();
 
-		return HttpResponse(json.dumps({'count': likes, 'error_msg': ''}))
+		return JsonResponse({'count': likes, 'error_msg': ''})
 
 	else:
-		return HttpResponse(json.dumps({'count': 0, 'error_msg': 'Войдите на сайт, чтобы отмечать понравившиеся записи'}))
+		return JsonResponse({'count': 0, 'error_msg': 'Войдите на сайт, чтобы отмечать понравившиеся записи'})
 
 
 def subscribe(request):
@@ -44,17 +44,17 @@ def subscribe(request):
 			profile = ArtistProfile.objects.get(pk = profile_pk)
 
 			if profile.user == user:
-				return HttpResponse(json.dumps({'count': subs, 'error_msg': 'Вы не можете подписаться на собственный аккаунт'}))
+				return JsonResponse({'count': subs, 'error_msg': 'Вы не можете подписаться на собственный аккаунт'})
 			if user not in profile.subscribers.all():
 				profile.subscribers.add(user)
 			else:
 				profile.subscribers.remove(user)
 			subs = profile.subscribers.count();
 
-		return HttpResponse(json.dumps({'count': subs, 'error_msg': ''}))
+		return JsonResponse({'count': subs, 'error_msg': ''})
 
 	else:
-		return HttpResponse(json.dumps({'count': 0, 'error_msg': 'Войдите на сайт, чтобы следить за деятельностью любимых авторов'}))
+		return JsonResponse({'count': 0, 'error_msg': 'Войдите на сайт, чтобы следить за деятельностью любимых авторов'})
 
 
 def comment(request):

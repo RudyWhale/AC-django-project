@@ -8,16 +8,16 @@ from django.core.exceptions import ValidationError
 from django.urls import reverse
 from main.models import ArtistProfile
 from ArtChart.settings import EMAIL_HOST_USER
-from .forms import ArtistCreationForm, RegistrationForm
+from .forms import ArtistCreationForm, RegistrationForm, ACPasswordResetForm
 from .tokens import get_hash
 
 
 def register(request):
 	if request.method == 'POST':
-		username = request.POST['username']
-		user_email = request.POST['email']
-		password = request.POST['password1']
-		password_repeat = request.POST['password2']
+		username = request.POST.get('username')
+		user_email = request.POST.get('email')
+		password = request.POST.get('password1')
+		password_repeat = request.POST.get('password2')
 
 		try:
 			valid_email = True
@@ -31,7 +31,8 @@ def register(request):
 			return render(request, 'login/message.html', {'message': message})
 
 		else:
-			user = User.objects.create(username=username, password=password, email=user_email, is_active=False)
+			user = User.objects.create(username=username, email=user_email, is_active=False)
+			user.set_password(password)
 			link = request.META['HTTP_HOST'] + reverse('activate', args=[user.pk, get_hash(user)])
 			send_mail(
 				'Завершите регистрацию на ArtChart',
@@ -92,9 +93,63 @@ def activate(request, pk, hash):
 
 		if (get_hash(user) == hash):
 			user.is_active = True
+			user.save()
 			message = 'Ваш аккаунт успешно активирован. Добро пожаловать на ArtChart'
 
 	except User.DoesNotExist:
 		pass
 
 	return render(request, 'login/message.html', {'message': message})
+
+
+def password_reset(request):
+	if request.method == 'POST':
+		email = request.POST.get('email')
+		try:
+			user = User.objects.get(email = email)
+			link = request.META['HTTP_HOST'] + reverse('password change', args=[user.pk, get_hash(user)])
+			send_mail(
+				'Смена пароля на ArtChart',
+				'Для смены пароля перейдите по ссылке: ' + link,
+				EMAIL_HOST_USER,
+				[email]
+			)
+			message = 'Мы направили на ваш эл. адрес инструкции по смене пароля'
+		except User.DoesNotExist:
+			message = 'Произошла ошибка'
+
+		return render(request, 'login/message.html', {'message': message})
+
+	else:
+		form = ACPasswordResetForm()
+		return render(request, 'login/password reset.html', {'form': form})
+
+
+def password_change(request, pk, hash):
+	try:
+		user = User.objects.get(pk = pk)
+
+		if get_hash(user) != hash:
+			message = 'Произошла ошибка. Возможно, ссылка для восстановления пароля устарела'
+			return render(request, 'login/message.html', {'message': message})
+
+		if request.method == 'POST':
+			pass1 = request.POST.get('new_password1')
+			pass2 = request.POST.get('new_password2')
+
+			if pass1 != pass2:
+				message = 'Прозошла ошибка. Пароли не совпадают'
+				return render(request, 'login/message.html', {'message': message})
+
+			user.set_password(pass2)
+			user.save()
+			message = 'Пароль был успешно изменен'
+			return render(request, 'login/message.html', {'message': message})
+
+		else:
+			form = SetPasswordForm(user)
+			return render(request, 'login/password change.html', {'form': form, 'hash': hash})
+
+	except User.DoesNotExist:
+		message = 'Произошла ошибка'
+		return render(request, 'login/message.html', {'message': message})

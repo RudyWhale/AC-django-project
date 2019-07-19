@@ -39,6 +39,23 @@ $(function(){
       else {
         $('.invalid_email').remove();
         $('.inp_email').css('border-bottom', '1px solid black');
+
+        $.get(
+          './check_email',
+          {email: text},
+          function(message){
+            $('.email_exists').remove();
+            if (message != ''){
+              ($('<p class="login_warning email_exists"></p>').text(message)).prependTo($('.login_form'));
+              $('.inp_email').css('border-bottom', '1px solid red');
+            }
+            else {
+              $('.inp_email').css('border-bottom', '1px solid black');
+              removeErrorsMessage();
+            }
+          }
+        )
+
         removeErrorsMessage();
       }
     }

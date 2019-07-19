@@ -9,10 +9,15 @@ urlpatterns = [
 		name = 'login'
 	),
 	path(
-        'change_password/',
-        auth_views.PasswordChangeView.as_view(template_name='login/change-password.html'),
-        name = 'password_reset'
+        'password_reset',
+        views.password_reset,
+        name = 'password reset'
     ),
+	path(
+		'password_change/<pk>/<hash>',
+		views.password_change,
+		name = 'password change'
+	),
     path(
     	'logout',
     	views.logout,
@@ -26,12 +31,17 @@ urlpatterns = [
 	path(
 		'register_as_artist',
 		views.register_as_artist,
-		name = 'register_as_artist'
+		name = 'register as artist'
 	),
 	path(
 		'check_nickname',
 		ajax.check_nickname,
-		name = 'check_nickname'
+		name = 'check nickname'
+	),
+	path(
+		'check_email',
+		ajax.check_email,
+		name = 'check email'
 	),
 	path(
 		'activate/<pk>/<hash>',

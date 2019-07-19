@@ -1,5 +1,6 @@
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, SetPasswordForm
 from django.contrib.auth.models import User
+from django.utils.translation import ugettext, ugettext_lazy as _
 from main.models import ArtistProfile
 from django import forms
 from django.utils.html import strip_tags
@@ -39,3 +40,7 @@ class ArtistCreationForm(forms.ModelForm):
 	class Meta:
 		model = ArtistProfile
 		fields = ['desc', 'avatar']
+
+
+class ACPasswordResetForm(PasswordResetForm):
+	email = forms.EmailField(label=_("Email"), max_length=254, help_text="Введите email, привязанный к аккаунту")

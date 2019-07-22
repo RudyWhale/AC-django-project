@@ -20,6 +20,8 @@
 
     <div class="container">
 
+        <h1 class="login_header">Вход на сайт</h1>
+
         {% if message %}
             <p class="login_warning">{{message}}</p>
         {% endif %}
@@ -27,8 +29,6 @@
         {% if form.errors %}
             <p class="login_warning">Неправильные имя пользователя или пароль.</p>
         {% endif %}
-
-        <h1 class="login_header">Вход на сайт</h1>
 
         <form method="post" action="{% url 'login' %}" class="login_form">
         {% csrf_token %}

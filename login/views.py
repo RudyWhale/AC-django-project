@@ -3,45 +3,37 @@ from django.contrib.auth import logout as user_logout
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.validators import validate_email
-from django.core.mail import send_mail
 from django.core.exceptions import ValidationError
+from django.core.mail import send_mail
 from django.urls import reverse
 from main.models import ArtistProfile
 from ArtChart.settings import EMAIL_HOST_USER
-from .forms import ArtistCreationForm, RegistrationForm, ACPasswordResetForm
+from .forms import ArtistCreationForm, RegistrationForm, ACPasswordResetForm, ACSetPasswordForm
 from .tokens import get_hash
 
 
 def register(request):
 	if request.method == 'POST':
-		username = request.POST.get('username')
-		user_email = request.POST.get('email')
-		password = request.POST.get('password1')
-		password_repeat = request.POST.get('password2')
+		form = RegistrationForm(request.POST)
 
-		try:
-			valid_email = True
-			validate_email(user_email)
+		if form.is_valid():
+			user = form.save()
 
-		except ValidationError:
-			valid_email = False
+			message = ('Для завершения регистрации на портале ArtChart перейдите по ссылке:\n' +
+						request.META['HTTP_HOST'] + reverse('activate', args=[user.pk, get_hash(user)]) +
+						'\nЕсли вы получили это сообщение по ошибке, проигнорируйте его.')
+			send_mail(
+				'Завершите регистрацию на ArtChart',
+				message,
+				EMAIL_HOST_USER,
+				[user.email]
+			)
 
-		if User.objects.filter(username=username).exists() or password != password_repeat or not valid_email:
-			message = "Во время регистрации произошла ошибка. Пожалуйста, проверьте корректность введенных данных"
+			message = 'Мы отправили на указанную вами почту дальнейшие инструкции'
 			return render(request, 'login/message.html', {'message': message})
 
 		else:
-			user = User.objects.create(username=username, email=user_email, is_active=False)
-			user.set_password(password)
-			link = request.META['HTTP_HOST'] + reverse('activate', args=[user.pk, get_hash(user)])
-			send_mail(
-				'Завершите регистрацию на ArtChart',
-				'Для завершения регистрации перейдите по следующей ссылке: ' + link,
-				EMAIL_HOST_USER,
-				[user_email]
-			)
-			user.save()
-			message = 'Для завершения регистрации зайдите на указанный вами почтовый ящик. Мы направили вам письмо с инструкциями'
+			message = 'Во время регистрации произошла ошибка. Проверьте правильность введенных данных '
 			return render(request, 'login/message.html', {'message': message})
 
 	else:
@@ -147,7 +139,7 @@ def password_change(request, pk, hash):
 			return render(request, 'login/message.html', {'message': message})
 
 		else:
-			form = SetPasswordForm(user)
+			form = ACSetPasswordForm(user)
 			return render(request, 'login/password change.html', {'form': form, 'hash': hash})
 
 	except User.DoesNotExist:

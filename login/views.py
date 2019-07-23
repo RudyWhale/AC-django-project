@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout as user_logout
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Permission
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
@@ -52,22 +52,23 @@ def logout(request):
 
 def register_as_artist(request):
 	if request.method == 'POST':
-		# Takes care of user permissions
-		reg_perm = Permission.objects.get(name="Can add artist profile")
-		download_perm = Permission.objects.get(name="Can add publication")
-		request.user.user_permissions.remove(reg_perm)
-		request.user.user_permissions.add(download_perm)
+		form = ArtistCreationForm(request.POST, request.FILES)
 
-		# creates new artist profile
-		image = request.FILES.get('avatar')
-		desc = request.POST.get('desc')
-		ArtistProfile.objects.create(
-			desc = desc,
-			avatar = image,
-			user = request.user
-			)
+		if form.is_valid():
+			# Takes care of user permissions
+			reg_perm = Permission.objects.get(name="Can add artist profile")
+			download_perm = Permission.objects.get(name="Can add publication")
+			request.user.user_permissions.remove(reg_perm)
+			request.user.user_permissions.add(download_perm)
 
-		return redirect('index')
+			# Creates new artist profile
+			form.save(request.user)
+			message = 'Профиль художника был успешно создан. Теперь вы можете создавать публикации, которые будут видны другим пользователям'
+			return render(request, 'login/message.html', {'message': message})
+
+		else:
+			message = 'Во время создания профиля художника произошла ошибка. Пожалуйста, свяжитесь с администрацией сайта'
+			return render(request, 'login/message.html', {'message': message})
 
 	else:
 		if (request.user.has_perm('main.add_artistprofile')):
@@ -126,16 +127,15 @@ def password_change(request, pk, hash):
 			return render(request, 'login/message.html', {'message': message})
 
 		if request.method == 'POST':
-			pass1 = request.POST.get('new_password1')
-			pass2 = request.POST.get('new_password2')
+			form = ACSetPasswordForm(user, request.POST)
 
-			if pass1 != pass2:
-				message = 'Прозошла ошибка. Пароли не совпадают'
-				return render(request, 'login/message.html', {'message': message})
+			if form.is_valid():
+				form.save()
+				message = 'Пароль был успешно изменен'
 
-			user.set_password(pass2)
-			user.save()
-			message = 'Пароль был успешно изменен'
+			else:
+				message = 'Произошла ошибка'
+
 			return render(request, 'login/message.html', {'message': message})
 
 		else:

@@ -67,7 +67,7 @@ def feed(request):
 def become_artist(request):
 	if request.user.is_authenticated:
 		if  request.user.has_perm('main.add_artistprofile'):
-			return redirect('register_as_artist')
+			return redirect('register as artist')
 		else:
 			args = {
 				'msg_header': 'Вы не можете сейчас стать художником',

@@ -10,6 +10,9 @@ from .tokens import get_hash
 from ArtChart.settings import EMAIL_HOST_USER
 
 
+'''
+Form for ordinary user registration
+'''
 class RegistrationForm(UserCreationForm):
 	password1 = forms.CharField(
 			required = True,
@@ -50,6 +53,9 @@ class RegistrationForm(UserCreationForm):
 		return user
 
 
+'''
+Form for artist registration
+'''
 class ArtistCreationForm(forms.ModelForm):
 	desc = forms.CharField(
 		required = True,
@@ -61,6 +67,15 @@ class ArtistCreationForm(forms.ModelForm):
 	class Meta:
 		model = ArtistProfile
 		fields = ['desc', 'avatar']
+
+	def save(self, user, commit=True):
+		profile = super().save(commit=False)
+		profile.user = user
+
+		if commit:
+			profile.save()
+
+		return profile
 
 
 class ACPasswordResetForm(PasswordResetForm):

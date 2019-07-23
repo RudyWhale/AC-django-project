@@ -48,7 +48,7 @@ urlpatterns = [
 	path(
 		'become_artist',
 		views.become_artist,
-		name='become_artist'
+		name='become artist'
 	),
 	path(
 		'feed',

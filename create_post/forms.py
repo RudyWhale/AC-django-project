@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from datetime import datetime
-from main.models import Artwork, Article, Tag
+from main.models import Artwork, Tag
 
 
 class AbstractPostCreationForm(ModelForm):
@@ -10,7 +10,7 @@ class AbstractPostCreationForm(ModelForm):
     def save(self, profile, commit=True):
         post = super().save(commit=False)
         post.author = profile
-        post.date = datetime.now()
+        post.datetime = datetime.now()
 
         if commit:
             post.save()
@@ -33,9 +33,3 @@ class ArtworkCreationForm(AbstractPostCreationForm):
     class Meta:
         model = Artwork
         fields = ['name', 'desc', 'image']
-
-
-class ArticleCreationForm(AbstractPostCreationForm):
-    class Meta:
-        model = Article
-        fields = ['name', 'desc', 'text']

@@ -108,6 +108,9 @@ a.tag {
 div.comments {
 	margin-top: 10px;
 	float: left;
+	width: 100%;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
 }
 
 h5.comments_header {

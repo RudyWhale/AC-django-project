@@ -9,14 +9,13 @@
 
 		{% if create_publication %}
 
-			<div class="content_item_create">
+			<div class="content_item_create content_block">
 
 				<p>Добавьте что-то новое в свой блог</p>
 				<hr />
-				<a href="{% url 'new-article' %}">Добавить запись</a>
 				<a href="{% url 'new-artwork' %}">Добавить работу</a>
 
-			</div><!-- content_item_artwork -->
+			</div><!-- content_item_create -->
 
 		{% endif %}
 
@@ -26,6 +25,12 @@
 				{% include "main/includes/content item artwork.html" with artwork=publication.artwork %}
 			{% elif publication.article %}
 				{% include "main/includes/content item article.html" with article=publication.article %}
+			{% endif %}
+
+			{% if infinite %}
+				<div class="load_more content_block">
+					<button class="load_more_btn" data-timestamp="{{timestamp}}" data-url="{{load_content_url}}">Показать больше</button>
+				</div>
 			{% endif %}
 
 		{% empty %}

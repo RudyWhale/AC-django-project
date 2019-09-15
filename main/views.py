@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from django.db.models import Count
-from .models import Publication, Artwork, Article, ArtistProfile, Tag
+from django.urls import reverse
+from .models import Publication, Artwork, ArtistProfile, Tag
+from ArtChart.settings import CONTENT_ITEMS_LIMIT
 
 def index(request):
 	publications = Publication.objects.annotate(likes_count=Count('likes')).order_by('-likes_count')
@@ -12,7 +14,7 @@ def index(request):
 def artist(request, pk):
 	profile = get_object_or_404(ArtistProfile, pk = pk)
 	user = profile.user;
-	publications = profile.publication_set.all().order_by('-date')
+	publications = profile.publication_set.all().order_by('-datetime')
 	create_publication = True if profile.user == request.user else False
 	return render(request, 'main/artist.html', {'user': user,
 												'profile': profile,
@@ -26,13 +28,16 @@ def artists(request):
 
 
 def artworks(request):
-	publications = Artwork.objects.annotate(likes_count=Count('likes')).order_by('-likes_count')
-	return render(request, 'main/publications.html', {'publications': publications, 'content_header': 'популярные работы'})
-
-
-def articles(request):
-	publications = Article.objects.annotate(likes_count=Count('likes')).order_by('-likes_count')
-	return render(request, 'main/publications.html', {'publications': publications, 'content_header': 'популярные статьи'})
+	publications = Artwork.objects.order_by('-datetime')[:CONTENT_ITEMS_LIMIT]
+	timestamp = publications[CONTENT_ITEMS_LIMIT - 1].datetime.timestamp() if publications else 0
+	args = {
+		'publications': publications,
+		'content_header': 'картины',
+		'infinite': True,
+		'timestamp': timestamp,
+		'load_content_url': reverse('load content publications')
+	}
+	return render(request, 'main/publications.html', args)
 
 
 def artwork(request, pk):
@@ -41,19 +46,22 @@ def artwork(request, pk):
 	return render(request, 'main/artwork.html', {'artwork': artwork, 'related_pubs': related_pubs})
 
 
-def article(request, pk):
-	article = get_object_or_404(Article, pk = pk)
-	return render(request, 'main/article.html', {'article': article, 'author': article.author})
-
-
 def feed(request):
 	if request.user.is_authenticated:
 		publications = Publication.objects.none()
 		for artistprofile in request.user.subscriptions.all():
 			publications = publications.union(artistprofile.publication_set.all())
 
-		publications.order_by('-date')
-		return render(request, 'main/publications.html', {'publications': publications, 'content_header': 'ваша лента:'})
+		publications = publications.order_by('-datetime')[:CONTENT_ITEMS_LIMIT]
+		timestamp = publications[CONTENT_ITEMS_LIMIT - 1].datetime.timestamp() if publications else 0
+		args = {
+			'publications': publications,
+			'content_header': 'ваша лента:',
+			'infinite': True,
+			'timestamp': timestamp,
+			'load_content_url': reverse('load content feed')
+		}
+		return render(request, 'main/publications.html', args)
 
 	else:
 		args = {
@@ -87,6 +95,13 @@ def become_artist(request):
 
 def tag(request, pk):
 	tag = get_object_or_404(Tag, pk = pk)
-	publications = tag.publications.all()
-	args = {'publications': publications, 'content_header': 'Поиск по тегу ' + tag.name + ':'}
+	publications = tag.publications.order_by('-datetime')[:CONTENT_ITEMS_LIMIT]
+	timestamp = publications[CONTENT_ITEMS_LIMIT - 1].datetime.timestamp() if publications else 0
+	args = {
+		'publications': publications,
+		'content_header': 'Поиск по тегу ' + tag.name + ':',
+		'infinite': True,
+		'timestamp': timestamp,
+		'load_content_url': reverse('load content tag', args=(tag.pk,))
+	}
 	return render(request, 'main/publications.html', args)

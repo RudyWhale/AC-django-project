@@ -270,6 +270,35 @@ div.content_item_create>a:hover {
 }
 
 /*===============================================*/
+/* LOAD BLOCK -----------------------------------*/
+/*===============================================*/
+
+div.load_more {
+  width: 25%;
+  height: 400px;
+  float: left;
+  border: 1px solid white;
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+div.load_more>button {
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  border: 2px solid black;
+  font-family: 'Oswald', sans-serif;
+  font-size: 32px;
+  background-color: inherit;
+  outline: none;
+}
+
+div.load_more>button:hover {
+  background-color: rgb(200,200,200);
+	box-shadow: -7px 7px 0 0 rgb(200,200,200), inset -5px 5px 0 0 white;
+}
+
+/*===============================================*/
 /* EMPTY LABEL ----------------------------------*/
 /*===============================================*/
 
@@ -294,48 +323,23 @@ div.empty_label>p {
 /*===============================================*/
 
 @media screen and (max-width: 1000px){
-
-	div.content_item_artwork {
-		width: 33.3333%;
-	}
-
-	div.content_item_article {
-		width: 33.3333%;
-	}
-
-	div.content_item_create {
+	div.content_block {
 		width: 33.3333%;
 	}
 }
 
 @media screen and (max-width: 800px){
-
-	div.content_item_artwork {
+	div.content_block {
 		width: 50%;
 	}
-
-	div.content_item_article {
-		width: 50%;
-	}
-
-	div.content_item_create {
-		width: 50%%;
-	}
-
 }
 
 @media screen and (max-width: 600px){
-
-	div.content_item_artwork {
+	div.content_block {
 		width: 100%;
 	}
 
-	div.content_item_article {
-		width: 100%;
-	}
-
-	div.content_item_create {
-		width: 100%;
-	}
-
+  div.load_more {
+    height: 200px;
+  }
 }

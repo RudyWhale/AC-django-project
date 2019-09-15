@@ -8,10 +8,5 @@ urlpatterns = [
         'new-artwork',
         views.new_artwork,
         name='new-artwork'
-    ),
-    path(
-        'new-article',
-        views.new_article,
-        name='new-article'
     )
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

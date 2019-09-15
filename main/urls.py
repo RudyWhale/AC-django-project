@@ -1,6 +1,6 @@
 from django.urls import path, re_path, include
-from . import views
 from django.conf.urls.static import static
+from . import views, ajax
 from ArtChart import settings
 
 urlpatterns = [
@@ -26,11 +26,6 @@ urlpatterns = [
 		name='artworks'
 	),
 	path(
-		'articles',
-		views.articles,
-		name='articles'
-	),
-	path(
 		'artworks/<int:pk>',
 		views.artwork,
 		name='artwork'
@@ -39,11 +34,6 @@ urlpatterns = [
 		'tag/<int:pk>',
 		views.tag,
 		name='tag'
-	),
-	path(
-		'articles/<int:pk>',
-		views.article,
-		name='article'
 	),
 	path(
 		'become_artist',
@@ -55,4 +45,19 @@ urlpatterns = [
 		views.feed,
 		name='feed'
 	),
+	path(
+		'load_content_publications',
+		ajax.load_content_publications,
+		name='load content publications'
+	),
+	path(
+		'load_content_tag/<int:pk>',
+		ajax.load_content_tag,
+		name='load content tag'
+	),
+	path(
+		'load_content_feed',
+		ajax.load_content_feed,
+		name='load content feed'
+	)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

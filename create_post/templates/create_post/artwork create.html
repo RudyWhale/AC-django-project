@@ -3,8 +3,13 @@
 {% block styles %}
 	{% load static %}
 
-	<link href="{% static 'create_post/create post.css' %}" type="text/css" rel="stylesheet" />
+	<link href="{% static 'create_post/styles/create post.css' %}" type="text/css" rel="stylesheet" />
+{% endblock %}
 
+{% block scripts %}
+	{% load static %}
+
+	<link href="{% static 'create_post/scripts/create form.css' %}" type="text/css" rel="stylesheet" />
 {% endblock %}
 
 {% block content %}

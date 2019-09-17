@@ -2,13 +2,21 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from django.db.models import Count
 from django.urls import reverse
+from datetime import datetime
 from .models import Publication, Artwork, ArtistProfile, Tag
 from ArtChart.settings import CONTENT_ITEMS_LIMIT
 
 def index(request):
-	publications = Publication.objects.annotate(likes_count=Count('likes')).order_by('-likes_count')
-	return render(request, 'main/index.html', {	'publications': publications,
-												'content_header': 'Популярно:'})
+	publications = Publication.objects.annotate(likes_count=Count('likes')).order_by('-likes_count')[:CONTENT_ITEMS_LIMIT]
+	timestamp = datetime.now().timestamp()
+	args = {
+		'publications': publications,
+		'content_header': 'популярно:',
+		'infinite': True,
+		'timestamp': timestamp,
+		'load_content_url': reverse('load content main')
+	}
+	return render(request, 'main/publications.html', args)
 
 
 def artist(request, pk):

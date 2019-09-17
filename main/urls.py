@@ -59,5 +59,10 @@ urlpatterns = [
 		'load_content_feed',
 		ajax.load_content_feed,
 		name='load content feed'
+	),
+	path(
+		'load_content_main',
+		ajax.load_content_main,
+		name='load content main'
 	)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

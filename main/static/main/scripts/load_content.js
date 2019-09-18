@@ -5,8 +5,15 @@ $(function(){
 
     $.get(url, {from_tstamp: $(this).attr('data-timestamp'), shown: shown},
       function(result){
-        if (result){
-          $('div.load_more').before(result);
+        content = result.content;
+        hide_btn = result.hide_btn;
+
+        if (content){
+          $('div.load_more').before(content);
+
+          if (hide_btn){
+            $('button.load_more_btn').remove();
+          }
         }
         else {
           $('button.load_more_btn').remove();

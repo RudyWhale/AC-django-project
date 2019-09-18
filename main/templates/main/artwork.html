@@ -15,6 +15,7 @@
 	<script src="{% static 'useractions/like_btn.js' %}" type="text/javascript"></script>
 	<script src="{% static 'useractions/subscription_btn.js' %}" type="text/javascript"></script>
 	<script src="{% static 'useractions/comment_btn.js' %}" type="text/javascript"></script>
+	<script src="{% static 'main/scripts/publication_delete.js' %}" type="text/javascript"></script>
 {% endblock %}
 
 {% block content %}
@@ -35,7 +36,11 @@
 			<div class="artwork_desc_text">
 
 				<h3>{{artwork.name}}</h3>
-				<p class="artwork_date">{{artwork.datetime}}</p>
+				<p class="artwork_date">{{artwork.datetime}}
+					{% if delete_link %}
+						<button href="{% url 'delete publication' pk=artwork.pk %}" class="publication_delete">Удалить публикацию</button>
+					{% endif %}
+				</p>
 				<p>{{artwork.desc}}</p>
 
 				<div class="tags">

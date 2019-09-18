@@ -2,6 +2,9 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.template.loader import render_to_string
+from django.dispatch import receiver
+from django.db.models.signals import post_delete, pre_save
+import os
 
 
 '''
@@ -37,18 +40,15 @@ class Artwork(Publication):
 	desc = models.TextField(default='no desc')
 	image = models.ImageField(upload_to='artworks')
 
-	# def as_json(self):
-	# 	return {
-	# 			"author_pk": self.author.pk,
-	# 			"datestamp": self.datetime.timestamp(),
-	# 			"likes": self.likes,
-	# 			"name": self.name,
-	# 			"desc": self.desc,
-	# 			"image_url": self.image.url
-	# 		}
-
 	def as_html(self):
 		return render_to_string('main/includes/content item artwork.html', {'artwork': self})
+
+# Deletes image file after instance deleting
+@receiver(post_delete, sender=Artwork)
+def on_instance_delete(sender, instance, **kwargs):
+	if instance.image:
+		if os.path.isfile(instance.image.path):
+			os.remove(instance.image.path)
 
 
 class Comment(models.Model):

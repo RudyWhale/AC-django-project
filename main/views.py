@@ -63,7 +63,8 @@ def artworks(request):
 def artwork(request, pk):
 	artwork = get_object_or_404(Artwork, pk = pk)
 	related_pubs = Artwork.objects.exclude(pk = pk)[:4]
-	return render(request, 'main/artwork.html', {'artwork': artwork, 'related_pubs': related_pubs})
+	show_delete_link = request.user == artwork.author.user
+	return render(request, 'main/artwork.html', {'artwork': artwork, 'related_pubs': related_pubs, 'delete_link': show_delete_link})
 
 
 def feed(request):
@@ -127,3 +128,31 @@ def tag(request, pk):
 		'load_content_url': reverse('load content tag', args=(tag.pk,))
 	}
 	return render(request, 'main/publications.html', args)
+
+
+def delete_publication(request, pk):
+	initiator = request.user
+
+	if request.user.is_authenticated:
+		publication = get_object_or_404(Publication, pk = pk)
+		profile = publication.author
+
+		if profile.user == initiator:
+			publication.delete()
+			return redirect('artist', pk=profile.pk)
+
+		else:
+			args = {
+				'msg_header': 'Произошла ошибка',
+				'msg_text':  'Возможно, вы пытаетесь удалить чужую публикацию',
+				'from_page': request.META.get('HTTP_REFERER')
+			}
+			return render(request, 'main/info message.html', args)
+
+	else:
+		args = {
+			'msg_header': 'Произошла ошибка',
+			'msg_text':  'В данный момент вы не авторизованы. Если вы пытаетесь удалить вашу публикацию, войдите на сайт',
+			'from_page': request.META.get('HTTP_REFERER')
+		}
+		return render(request, 'main/info message.html', args)

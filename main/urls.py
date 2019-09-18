@@ -64,5 +64,10 @@ urlpatterns = [
 		'load_content_main',
 		ajax.load_content_main,
 		name='load content main'
+	),
+	path(
+		'load_content_artist/<int:pk>',
+		ajax.load_content_artist,
+		name='load content artist'
 	)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

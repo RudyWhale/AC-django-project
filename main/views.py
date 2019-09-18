@@ -8,11 +8,13 @@ from ArtChart.settings import CONTENT_ITEMS_LIMIT
 
 def index(request):
 	publications = Publication.objects.annotate(likes_count=Count('likes')).order_by('-likes_count')[:CONTENT_ITEMS_LIMIT]
+	infinite = publications.count() > CONTENT_ITEMS_LIMIT
 	timestamp = datetime.now().timestamp()
 	args = {
+		'description': True,
 		'publications': publications,
 		'content_header': 'популярно:',
-		'infinite': True,
+		'infinite': infinite,
 		'timestamp': timestamp,
 		'load_content_url': reverse('load content main')
 	}
@@ -21,13 +23,22 @@ def index(request):
 
 def artist(request, pk):
 	profile = get_object_or_404(ArtistProfile, pk = pk)
-	user = profile.user;
-	publications = profile.publication_set.all().order_by('-datetime')
+	publications = profile.publication_set.all().order_by('-datetime')[:CONTENT_ITEMS_LIMIT]
+	infinite = publications.count() > CONTENT_ITEMS_LIMIT
+	timestamp = datetime.now().timestamp()
+	user = profile.user
 	create_publication = True if profile.user == request.user else False
-	return render(request, 'main/artist.html', {'user': user,
-												'profile': profile,
-												'publications': publications,
-												'create_publication': create_publication})
+	args = {
+		'user': user,
+		'profile': profile,
+		'artist': user,
+		'publications': publications,
+		'create_publication': create_publication,
+		'infinite': infinite,
+		'timestamp': timestamp,
+		'load_content_url': reverse('load content artist', args=(profile.pk,))
+	}
+	return render(request, 'main/publications.html', args)
 
 
 def artists(request):
@@ -37,11 +48,12 @@ def artists(request):
 
 def artworks(request):
 	publications = Artwork.objects.order_by('-datetime')[:CONTENT_ITEMS_LIMIT]
-	timestamp = publications[CONTENT_ITEMS_LIMIT - 1].datetime.timestamp() if publications else 0
+	infinite = publications.count() > CONTENT_ITEMS_LIMIT
+	timestamp = datetime.now().timestamp()
 	args = {
 		'publications': publications,
 		'content_header': 'картины',
-		'infinite': True,
+		'infinite': infinite,
 		'timestamp': timestamp,
 		'load_content_url': reverse('load content publications')
 	}
@@ -61,11 +73,12 @@ def feed(request):
 			publications = publications.union(artistprofile.publication_set.all())
 
 		publications = publications.order_by('-datetime')[:CONTENT_ITEMS_LIMIT]
-		timestamp = publications[CONTENT_ITEMS_LIMIT - 1].datetime.timestamp() if publications else 0
+		infinite = publications.count() > CONTENT_ITEMS_LIMIT
+		timestamp = datetime.now().timestamp()
 		args = {
 			'publications': publications,
 			'content_header': 'ваша лента:',
-			'infinite': True,
+			'infinite': infinite,
 			'timestamp': timestamp,
 			'load_content_url': reverse('load content feed')
 		}
@@ -104,11 +117,12 @@ def become_artist(request):
 def tag(request, pk):
 	tag = get_object_or_404(Tag, pk = pk)
 	publications = tag.publications.order_by('-datetime')[:CONTENT_ITEMS_LIMIT]
-	timestamp = publications[CONTENT_ITEMS_LIMIT - 1].datetime.timestamp() if publications else 0
+	infinite = publications.count() > CONTENT_ITEMS_LIMIT
+	timestamp = datetime.now().timestamp()
 	args = {
 		'publications': publications,
 		'content_header': 'Поиск по тегу ' + tag.name + ':',
-		'infinite': True,
+		'infinite': infinite,
 		'timestamp': timestamp,
 		'load_content_url': reverse('load content tag', args=(tag.pk,))
 	}

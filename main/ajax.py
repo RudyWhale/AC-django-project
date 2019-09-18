@@ -1,8 +1,9 @@
 from django.http import HttpResponse
 from django.db.models import Count
+from django.shortcuts import get_object_or_404
 from datetime import datetime
 import json
-from .models import Artwork, Tag, Publication
+from .models import Artwork, Tag, Publication, ArtistProfile
 from ArtChart.settings import CONTENT_ITEMS_LIMIT as LIMIT
 
 # def get_content(query, from_date):
@@ -48,5 +49,14 @@ def load_content_main(request):
     from_date = datetime.fromtimestamp(float(request.GET['from_tstamp']))
     shown = int(request.GET['shown'])
     query = Publication.objects.exclude(datetime__gte = from_date).annotate(likes_count=Count('likes')).order_by('-likes_count')[shown:shown + LIMIT]
+    content = ''.join([obj.artwork.as_html() for obj in query])
+    return HttpResponse(content)
+
+
+def load_content_artist(request, pk):
+    from_date = datetime.fromtimestamp(float(request.GET['from_tstamp']))
+    shown = int(request.GET['shown'])
+    profile = get_object_or_404(ArtistProfile, pk = pk)
+    query = profile.publication_set.all().order_by('-datetime')[shown:shown + LIMIT]
     content = ''.join([obj.artwork.as_html() for obj in query])
     return HttpResponse(content)

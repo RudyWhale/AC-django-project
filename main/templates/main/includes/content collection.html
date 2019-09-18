@@ -27,12 +27,6 @@
 				{% include "main/includes/content item article.html" with article=publication.article %}
 			{% endif %}
 
-			{% if infinite %}
-				<div class="load_more content_block">
-					<button class="load_more_btn" data-timestamp="{{timestamp}}" data-url="{{load_content_url}}">Показать больше</button>
-				</div>
-			{% endif %}
-
 		{% empty %}
 
 			{% if not create_publication %}
@@ -42,6 +36,12 @@
 			{% endif %}
 
 		{% endfor %}
+
+		{% if infinite and publications %}
+			<div class="load_more content_block">
+				<button class="load_more_btn" data-timestamp="{{timestamp}}" data-url="{{load_content_url}}">Показать больше</button>
+			</div>
+		{% endif %}
 
 	</div><!-- content_collection -->
 </div><!-- bounded_wrapper -->

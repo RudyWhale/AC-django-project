@@ -7,8 +7,8 @@ from .models import Publication, Artwork, ArtistProfile, Tag
 from ArtChart.settings import CONTENT_ITEMS_LIMIT
 
 def index(request):
-	publications = Publication.objects.annotate(likes_count=Count('likes')).order_by('-likes_count')[:CONTENT_ITEMS_LIMIT]
-	infinite = publications.count() > CONTENT_ITEMS_LIMIT
+	publications = Publication.objects.annotate(likes_count=Count('likes')).order_by('-likes_count')[:CONTENT_ITEMS_LIMIT - 1]
+	infinite = publications.count() == (CONTENT_ITEMS_LIMIT - 1)
 	timestamp = datetime.now().timestamp()
 	args = {
 		'description': True,
@@ -24,7 +24,7 @@ def index(request):
 def artist(request, pk):
 	profile = get_object_or_404(ArtistProfile, pk = pk)
 	publications = profile.publication_set.all().order_by('-datetime')[:CONTENT_ITEMS_LIMIT]
-	infinite = publications.count() > CONTENT_ITEMS_LIMIT
+	infinite = publications.count() == (CONTENT_ITEMS_LIMIT - 1)
 	timestamp = datetime.now().timestamp()
 	user = profile.user
 	create_publication = True if profile.user == request.user else False
@@ -48,7 +48,7 @@ def artists(request):
 
 def artworks(request):
 	publications = Artwork.objects.order_by('-datetime')[:CONTENT_ITEMS_LIMIT]
-	infinite = publications.count() > CONTENT_ITEMS_LIMIT
+	infinite = publications.count() == (CONTENT_ITEMS_LIMIT - 1)
 	timestamp = datetime.now().timestamp()
 	args = {
 		'publications': publications,
@@ -73,7 +73,7 @@ def feed(request):
 			publications = publications.union(artistprofile.publication_set.all())
 
 		publications = publications.order_by('-datetime')[:CONTENT_ITEMS_LIMIT]
-		infinite = publications.count() > CONTENT_ITEMS_LIMIT
+		infinite = publications.count() == (CONTENT_ITEMS_LIMIT - 1)
 		timestamp = datetime.now().timestamp()
 		args = {
 			'publications': publications,
@@ -117,7 +117,7 @@ def become_artist(request):
 def tag(request, pk):
 	tag = get_object_or_404(Tag, pk = pk)
 	publications = tag.publications.order_by('-datetime')[:CONTENT_ITEMS_LIMIT]
-	infinite = publications.count() > CONTENT_ITEMS_LIMIT
+	infinite = publications.count() == (CONTENT_ITEMS_LIMIT - 1)
 	timestamp = datetime.now().timestamp()
 	args = {
 		'publications': publications,

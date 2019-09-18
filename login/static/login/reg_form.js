@@ -62,6 +62,19 @@ $(function(){
   });
 
   $('.pass2, .pass1').focusout(function(){
+    if ($(this).val().length < 6){
+      if (!$('.password_too_short').length){
+        var message = "Пароль должен быть не короче 6 символов";
+        ($('<p class="login_warning password_too_short"></p>').text(message)).prependTo($('.login_form'));
+        $(this).css('border-bottom', '1px solid red');
+      }
+    }
+    else {
+      $('.password_too_short').remove();
+      $(this).css('border-bottom', '1px solid black');
+      removeErrorsMessage();
+    }
+
     var pass1 = $('.pass1').val();
     var pass2 = $('.pass2').val();
 

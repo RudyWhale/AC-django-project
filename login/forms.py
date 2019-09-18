@@ -41,6 +41,14 @@ class RegistrationForm(UserCreationForm):
 
 		return email
 
+	def clean_password2(self):
+		password = self.cleaned_data['password2']
+
+		if len(password) < 6:
+			raise forms.ValidationError('Password too short')
+
+		return password
+
 	def save(self, commit=True):
 		user = super().save(commit = False)
 

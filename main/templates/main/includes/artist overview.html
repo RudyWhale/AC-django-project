@@ -8,7 +8,7 @@
 
 		<div class="artist_desc">
 
-			<a href="{% url 'artist' pk=profile.pk %}"><h3>{{artist.username}}</h3></a>
+			<a href="{% url 'artist' pk=profile.pk %}"><h3>{{profile.user.username}}</h3></a>
 
 			<div class="artist_overview_subscribe">
 				<p class="subscribe_count" id="subs_count_{{profile.pk}}">{{profile.subscribers.count}}</p>

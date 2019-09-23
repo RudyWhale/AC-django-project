@@ -1,5 +1,6 @@
 from django import forms
 from django.forms import ModelForm
+from PIL import Image
 from datetime import datetime
 from main.models import Artwork, Tag
 

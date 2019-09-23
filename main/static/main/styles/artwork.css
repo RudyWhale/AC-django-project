@@ -27,6 +27,8 @@ div.artwork_desc {
 	height: 450px;
 	padding-left: 10px;
 	box-sizing: border-box;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
 }
 
 div.artwork_desc_text {
@@ -39,20 +41,19 @@ div.artwork_desc_text {
 	line-height: 25px;
 	font-family: 'Roboto', sans-serif;
 	color: rgb(40,40,40);
-	overflow: auto;
+	overflow-y: auto;
 }
 
 div.artwork_desc_text>h3 {
 	display: block;
 	margin: 0px;
 	font-size: 36px;
-	float: left;
 	width: 100%;
 	line-height: 44px;
 	box-sizing: border-box;
 }
 
-div.artwork_desc_text>p{
+div.artwork_desc_text>p {
 	margin: 0px;
 }
 
@@ -60,7 +61,6 @@ p.artwork_date {
 	color: rgb(120,120,120);
 	font-size: 14px;
 	font-family: 'Roboto Slab', sans-serif;
-	padding-top: 5px;
 }
 
 button.publication_delete {
@@ -106,7 +106,7 @@ a.tag {
 	float: left;
 	background-color: rgb(200,200,200);
 	padding: 0 4px;
-	margin: 0px 0 0 4px;
+	margin: 0 0 2px 4px;
 	font-family: 'Roboto Slab', sans-serif;
 	font-size: 18px;
 	text-decoration: none;
@@ -118,11 +118,9 @@ a.tag {
 /*===============================================*/
 
 div.comments {
-	margin-top: 10px;
+	margin-top: 8px;
 	float: left;
 	width: 100%;
-	overflow-wrap: break-word;
-	word-wrap: break-word;
 }
 
 h5.comments_header {

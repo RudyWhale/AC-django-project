@@ -3,8 +3,12 @@ from django.utils.html import strip_tags
 from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, SetPasswordForm
 from django.contrib.auth.models import User
 from django.core.validators import validate_email
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.utils.translation import ugettext, ugettext_lazy as _
 from django.urls import reverse
+from PIL import Image
+from io import BytesIO
+import sys
 from main.models import ArtistProfile
 from .tokens import get_hash
 from ArtChart.settings import EMAIL_HOST_USER
@@ -67,7 +71,8 @@ Form for artist registration
 class ArtistCreationForm(forms.ModelForm):
 	desc = forms.CharField(
 		required = True,
-		widget = forms.widgets.Textarea(attrs={'cols': '38', 'rows': '10'})
+		widget = forms.widgets.Textarea(attrs={'cols': '38', 'rows': '7',
+												'placeholder': 'Напишите о себе. Эта информация будет отображаться в вашем профиле'})
 		)
 
 	avatar = forms.ImageField(required=True)
@@ -78,6 +83,14 @@ class ArtistCreationForm(forms.ModelForm):
 
 	def save(self, user, commit=True):
 		profile = super().save(commit=False)
+
+		# image = Image.open(profile.avatar)
+		# image.thumbnail((100,100))
+		# output = BytesIO()
+		# image.save(output, format='JPEG', quality=100)
+		# output.seek(0)
+		# self.img = InMemoryUploadedFile(output,'ImageField', "%s.jpg" % profile.avatar.name.split('.')[0], 'image/jpeg', sys.getsizeof(output), None)
+
 		profile.user = user
 
 		if commit:

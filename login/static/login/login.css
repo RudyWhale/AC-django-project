@@ -52,20 +52,23 @@ td.login_input>input::placeholder {
 }
 
 td.login_input>textarea {
-	padding: 2px;
+	padding: 2px 4px;
+	margin-top: 2px;
 	font-family:'Roboto', sans-serif;
 	font-size: 16px;
 	border: 1px solid black;
 	outline: none;
 	box-sizing: border-box;
 	width: 100%;
-	resize: none;
+	resize: vertical;
+	background-color: inherit;
 }
 
 td.login_data {
 	font-family: 'Oswald', sans-serif;
 	text-align: left;
 	font-size: 20px;
+	padding-left: 2px;
 }
 
 input.submit_btn {

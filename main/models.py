@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.template.loader import render_to_string
 from django.dispatch import receiver
 from django.db.models.signals import post_delete, pre_save
+
 import os
 
 
@@ -38,7 +39,7 @@ Class represents artwork publication object
 '''
 class Artwork(Publication):
 	desc = models.TextField(default='no desc')
-	image = models.ImageField(upload_to='artworks')
+	image = models.ImageField(upload_to='artworks/%Y/%m')
 
 	def as_html(self):
 		return render_to_string('main/includes/content item artwork.html', {'artwork': self})

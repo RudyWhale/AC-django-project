@@ -68,12 +68,10 @@ def artwork(request, pk):
 
 
 def feed(request):
-	if request.user.is_authenticated:
-		publications = Publication.objects.none()
-		for artistprofile in request.user.subscriptions.all():
-			publications = publications.union(artistprofile.publication_set.all())
+	user = request.user
 
-		publications = publications.order_by('-datetime')[:CONTENT_ITEMS_LIMIT]
+	if user.is_authenticated:
+		publications = Publication.objects.filter(author__in = user.subscriptions.all()).order_by('-datetime')[:CONTENT_ITEMS_LIMIT]
 		infinite = publications.count() == (CONTENT_ITEMS_LIMIT - 1)
 		timestamp = datetime.now().timestamp()
 		args = {

@@ -75,7 +75,7 @@ def register_as_artist(request):
 			form = ArtistCreationForm()
 			return render(request, 'login/register as artist.html', {'form': form})
 		else:
-			return redirect('become_artist')
+			return redirect('become artist')
 
 
 def activate(request, pk, hash):

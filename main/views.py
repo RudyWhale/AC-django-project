@@ -23,7 +23,7 @@ def index(request):
 
 def artist(request, pk):
 	profile = get_object_or_404(ArtistProfile, pk = pk)
-	publications = profile.publication_set.all().order_by('-datetime')[:CONTENT_ITEMS_LIMIT]
+	publications = profile.publication_set.all().order_by('-datetime')[:CONTENT_ITEMS_LIMIT - 1]
 	infinite = publications.count() == (CONTENT_ITEMS_LIMIT - 1)
 	timestamp = datetime.now().timestamp()
 	user = profile.user
@@ -47,7 +47,7 @@ def artists(request):
 
 
 def artworks(request):
-	publications = Artwork.objects.order_by('-datetime')[:CONTENT_ITEMS_LIMIT]
+	publications = Artwork.objects.order_by('-datetime')[:CONTENT_ITEMS_LIMIT - 1]
 	infinite = publications.count() == (CONTENT_ITEMS_LIMIT - 1)
 	timestamp = datetime.now().timestamp()
 	args = {
@@ -71,7 +71,7 @@ def feed(request):
 	user = request.user
 
 	if user.is_authenticated:
-		publications = Publication.objects.filter(author__in = user.subscriptions.all()).order_by('-datetime')[:CONTENT_ITEMS_LIMIT]
+		publications = Publication.objects.filter(author__in = user.subscriptions.all()).order_by('-datetime')[:CONTENT_ITEMS_LIMIT - 1]
 		infinite = publications.count() == (CONTENT_ITEMS_LIMIT - 1)
 		timestamp = datetime.now().timestamp()
 		args = {
@@ -115,7 +115,7 @@ def become_artist(request):
 
 def tag(request, pk):
 	tag = get_object_or_404(Tag, pk = pk)
-	publications = tag.publications.order_by('-datetime')[:CONTENT_ITEMS_LIMIT]
+	publications = tag.publications.order_by('-datetime')[:CONTENT_ITEMS_LIMIT - 1]
 	infinite = publications.count() == (CONTENT_ITEMS_LIMIT - 1)
 	timestamp = datetime.now().timestamp()
 	args = {

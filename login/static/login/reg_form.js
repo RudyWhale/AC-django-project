@@ -5,7 +5,7 @@ $(function(){
     }
   };
 
-  $('.inp_name').focusout(function(){
+  $('input.inp_name').focusout(function(){
     var text = $(this).val();
     if (text.trim()){
       $.get(
@@ -13,7 +13,7 @@ $(function(){
         {name: text},
         function(message){
           $('.name_exists').remove();
-          if (message != ''){
+          if (message){
             ($('<p class="login_warning name_exists"></p>').text(message)).prependTo($('.login_form'));
             $('.inp_name').css('border-bottom', '1px solid red');
           }
@@ -25,10 +25,10 @@ $(function(){
     )}
   });
 
-  $('.inp_email').focusout(function(){
+  $('input.inp_email').focusout(function(){
     var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     var text = $(this).val();
-    if (text != "") {
+    if (text) {
       if (!regex.test(text)) {
         if (!$('.invalid_email').length){
           var message = "Пожалуйста, введите корректный email адрес";
@@ -45,7 +45,7 @@ $(function(){
           {email: text},
           function(message){
             $('.email_exists').remove();
-            if (message != ''){
+            if (message){
               ($('<p class="login_warning email_exists"></p>').text(message)).prependTo($('.login_form'));
               $('.inp_email').css('border-bottom', '1px solid red');
             }
@@ -61,7 +61,7 @@ $(function(){
     }
   });
 
-  $('.pass2, .pass1').focusout(function(){
+  $('input.pass2, input.pass1').focusout(function(){
     var length = $(this).val().length;
 
     if (length){
@@ -81,7 +81,7 @@ $(function(){
       var pass1 = $('.pass1').val();
       var pass2 = $('.pass2').val();
 
-      if (pass1 != "" && pass2 != ""){
+      if (pass1 && pass2){
         if (pass1 != pass2){
           if (!$('.wrong_pass_repeat').length){
             var message = "Пароли не совпадают";
@@ -100,15 +100,34 @@ $(function(){
     }
   });
 
+  $('input.avatar_inp').change(function(){
+    var file = ($(this))[0].files[0];
+
+    if (file.size > 1048576){
+      $(this).value = '';
+
+      if (!$('.too_big_avatar').length){
+        var message = "Размер аватара не должен превышать 1Мбайт";
+        ($('<p class="login_warning too_big_avatar"></p>').text(message)).prependTo($('.login_form'));
+        $(this).css('border-bottom', '1px solid red');
+      }
+    }
+    else{
+      $('.too_big_avatar').remove();
+      $(this).css('border-bottom', '1px solid black');
+      removeErrorsMessage();
+    }
+  });
+
   $('form.login_form').submit(function(){
-    var name = $('input.inp_name').val().trim();
-    var email = $('input.inp_email').val().trim();
-    var pass1 = $('input.pass1').val();
-    var pass2 = $('input.pass2').val();
+    // Finds empty field if it exists
+    var is_clean_field = false;
+    $('.login_input>input').each(function(index) {
+      if (!$(this).val().trim()) {is_clean_field = true;}
+      if (is_clean_field) {return false;}
+    });
 
-    $('.login_input').trigger('focusout');
-
-    if ($('.login_warning').length || name == "" || email == "" || pass1 == "" || pass2 == ""){
+    if ($('.login_warning').length || is_clean_field){
       if (!$('.form_errors').length){
         var message = "Пожалуйста, корректно заполните все поля формы для регистрации";
         ($('<p class="login_warning form_errors"></p>').text(message)).prependTo($('.login_form'));

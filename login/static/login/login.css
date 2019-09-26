@@ -81,6 +81,7 @@ input.submit_btn {
 	background-color: inherit;
 	cursor: pointer;
 	margin: 20px auto;
+	outline: none;
 }
 
 input.submit_btn:hover {

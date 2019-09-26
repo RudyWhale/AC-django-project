@@ -8,10 +8,11 @@ from django.utils.translation import ugettext, ugettext_lazy as _
 from django.urls import reverse
 from PIL import Image
 from io import BytesIO
+from datetime import datetime
 import sys
 from main.models import ArtistProfile
 from .tokens import get_hash
-from ArtChart.settings import EMAIL_HOST_USER
+from ArtChart.settings import EMAIL_HOST_USER, PROFILE_AVATAR_MAX_SIZE as MAX_AVATAR_SIZE
 
 
 '''
@@ -74,22 +75,22 @@ class ArtistCreationForm(forms.ModelForm):
 		widget = forms.widgets.Textarea(attrs={'cols': '38', 'rows': '7',
 												'placeholder': 'Напишите о себе. Эта информация будет отображаться в вашем профиле'})
 		)
-
-	avatar = forms.ImageField(required=True)
+	avatar = forms.ImageField(required=True, widget=forms.widgets.FileInput(attrs={'class': 'avatar_inp'}))
 
 	class Meta:
 		model = ArtistProfile
 		fields = ['desc', 'avatar']
 
+	def clean_avatar(self):
+		file = self.cleaned_data['avatar']
+
+		if file.size > MAX_AVATAR_SIZE:
+			raise forms.ValidationError('Avatar is too big')
+
+		return file
+
 	def save(self, user, commit=True):
 		profile = super().save(commit=False)
-
-		# image = Image.open(profile.avatar)
-		# image.thumbnail((100,100))
-		# output = BytesIO()
-		# image.save(output, format='JPEG', quality=100)
-		# output.seek(0)
-		# self.img = InMemoryUploadedFile(output,'ImageField', "%s.jpg" % profile.avatar.name.split('.')[0], 'image/jpeg', sys.getsizeof(output), None)
 
 		profile.user = user
 

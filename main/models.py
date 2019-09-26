@@ -6,19 +6,31 @@ from django.dispatch import receiver
 from django.db.models.signals import post_delete, pre_save
 
 import os
+from datetime import datetime
 
 
 '''
 Class represents user who can create publications
 '''
 class ArtistProfile(models.Model):
+	def avatar_upload_path(self, filename):
+		date = datetime.now()
+		return 'avatars/{}/{}/{}'.format(date.year, date.month, filename)
+
 	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
 	desc = models.TextField(default ='no desc')
-	avatar = models.ImageField(upload_to='avatars', blank=True)
+	avatar = models.ImageField(upload_to=avatar_upload_path, blank=True)
 	subscribers = models.ManyToManyField(User, related_name='subscriptions')
 
 	def __str__(self):
 		return self.user.username
+
+# Deletes avatar file after profile deleting
+@receiver(post_delete, sender=ArtistProfile)
+def on_instance_delete(sender, instance, **kwargs):
+	if instance.avatar:
+		if os.path.isfile(instance.avatar.path):
+			os.remove(instance.avatar.path)
 
 
 '''
@@ -38,8 +50,12 @@ class Publication(models.Model):
 Class represents artwork publication object
 '''
 class Artwork(Publication):
+	def upload_path(self, filename):
+		date = datetime.now()
+		return 'artworks/{}/{}/{}.{}'.format(date.year, date.month, str(self.pk), filename.split('.')[-1])
+
 	desc = models.TextField(default='no desc')
-	image = models.ImageField(upload_to='artworks/%Y/%m')
+	image = models.ImageField(upload_to=upload_path)
 
 	def as_html(self):
 		return render_to_string('main/includes/content item artwork.html', {'artwork': self})

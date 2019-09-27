@@ -1,6 +1,8 @@
 <div class="content_item_artwork content_block">
 
-	<a href="{% url 'artwork' pk=artwork.pk %}" class="artwork_item_image"><img src="{{artwork.image.url}}" class="center" alt="{{artwork.name}}" onload="onimageload(this)" /></a>
+	<a href="{% url 'artwork' pk=artwork.pk %}" class="artwork_item_image">
+		<img src="{{artwork.image.url}}" class="hor_center" alt="{{artwork.name}}" onload="on_content_image_load(this)" />
+	</a>
 
 	<div class="item_artwork_desc">
 

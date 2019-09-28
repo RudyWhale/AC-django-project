@@ -1,7 +1,9 @@
 div.content_collection {
-    float: left;
-    width: 100%;
-    background-color: white;
+  float: left;
+  width: 100%;
+  background-color: white;
+  overflow-wrap: break-word;
+	word-wrap: break-word;
 }
 
 div.content_collection>h1 {

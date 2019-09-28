@@ -1,3 +1,16 @@
+var comment_delete = function(btn){
+  if (confirm('Вы действительно хотите удалить комментарий? Это действие нельзя оменить')){
+    var url = btn.attr('data-url');
+    var comment = btn.parent().parent();
+    $.get(
+      url, {},
+      function(response){
+        comment.remove();
+      }
+    ).fail(function(response){ alert("При удалении комментария произошла ошибка"); });
+  }
+};
+
 $(function(){
   $('.comment_form>button').click(function(){
     var publpk = $(this).attr('data-pk');
@@ -13,16 +26,16 @@ $(function(){
     ).fail(function(response){alert(response);})}
   });
 
-  $('button.comment_delete').click(function(){
-    if (confirm('Вы действительно хотите удалить комментарий? Это действие нельзя оменить')){
-      var url = $(this).attr('data-url');
-      var comment = $(this).parent().parent();
-      $.get(
-        url, {},
-        function(response){
-          comment.remove();
-        }
-      ).fail(function(response){ alert("При удалении комментария произошла ошибка"); });
-    }
-  });
+  // $('button.comment_delete').click(function(){
+  //   if (confirm('Вы действительно хотите удалить комментарий? Это действие нельзя оменить')){
+  //     var url = $(this).attr('data-url');
+  //     var comment = $(this).parent().parent();
+  //     $.get(
+  //       url, {},
+  //       function(response){
+  //         comment.remove();
+  //       }
+  //     ).fail(function(response){ alert("При удалении комментария произошла ошибка"); });
+  //   }
+  // });
 })

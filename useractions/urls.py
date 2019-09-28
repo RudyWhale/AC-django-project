@@ -31,5 +31,10 @@ urlpatterns = [
 		'load_content_artist/<int:pk>',
 		views.load_content_artist,
 		name='load content artist'
+	),
+	path(
+		'delete_comment/<int:pk>',
+		views.delete_comment,
+		name='delete comment'
 	)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

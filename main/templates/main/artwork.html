@@ -14,7 +14,7 @@
 
 	<script src="{% static 'useractions/like_btn.js' %}" type="text/javascript"></script>
 	<script src="{% static 'useractions/subscription_btn.js' %}" type="text/javascript"></script>
-	<script src="{% static 'useractions/comment_btn.js' %}" type="text/javascript"></script>
+	<script src="{% static 'useractions/comment.js' %}" type="text/javascript"></script>
 	<script src="{% static 'main/scripts/publication_delete.js' %}" type="text/javascript"></script>
 {% endblock %}
 
@@ -37,8 +37,8 @@
 
 				<h3>{{artwork.name}}</h3>
 				<p class="artwork_date">{{artwork.datetime}}
-					{% if delete_link %}
-						<button href="{% url 'delete publication' pk=artwork.pk %}" class="publication_delete">Удалить публикацию</button>
+					{% if user == artwork.author.user %}
+						<button href="{% url 'delete publication' pk=artwork.pk %}" class="publication_delete">Удалить &#128465</button>
 					{% endif %}
 				</p>
 				<p>{{artwork.desc}}</p>
@@ -61,12 +61,8 @@
 					</div>
 
 					{% for comment in artwork.comment_set.all %}
-						<div class="comment_container">
-							<h6>{{comment.author}}:</h6>
-							<p>{{comment.text}}</p>
-						</div>
+						{% include "main/includes/artwork comment.html" %}
 					{% endfor %}
-
 				</div>
 
 			</div><!-- desc_text -->

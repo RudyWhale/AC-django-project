@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse, HttpResponse
 from django.db.models import Count
+from django.template.loader import render_to_string
 from datetime import datetime
 from main.models import Publication, Artwork, Tag, ArtistProfile, Comment
 from ArtChart.settings import CONTENT_ITEMS_LIMIT as LIMIT
@@ -71,17 +72,18 @@ def comment(request):
 
 		if publ_pk:
 			publication = Publication.objects.get(pk = publ_pk)
-			Comment.objects.create(
+			comment = Comment.objects.create(
 				publication = publication,
 				author = user,
 				date = datetime.now(),
 				text = text
 			)
 
-		return HttpResponse("")
+		result = render_to_string('main/includes/artwork comment.html', {'comment': comment, 'user': user})
+		return HttpResponse(result)
 
 	else:
-		return HttpResponse("Войдите на сайт, чтобы комментировать публикации")
+		return HttpResponse(content="Войдите на сайт, чтобы комментировать публикации", status=401)
 
 
 def load_content_publications(request):
@@ -134,3 +136,18 @@ def load_content_artist(request, pk):
     content = ''.join([obj.artwork.as_html() for obj in query])
     hide_btn = query.count() < LIMIT
     return JsonResponse({'content': content, 'hide_btn': hide_btn})
+
+
+def delete_comment(request, pk):
+	initiator = request.user
+
+	if request.user.is_authenticated:
+		comment = get_object_or_404(Comment, pk = pk)
+
+		if comment.author == initiator:
+			comment.delete()
+			return HttpResponse('')
+
+		else: return HttpResponse(status=401)
+
+	else: return HttpResponse(status=401)

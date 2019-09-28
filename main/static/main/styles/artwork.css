@@ -171,21 +171,58 @@ div.comment_form>button:hover {
 div.comment_container {
 	width: 100%;
 	float: left;
-	background-color: rgb(200,200,200);
-	padding: 0 5px;
-	margin: 2px 0;
+	padding: 0;
+	margin: 0;
 	box-sizing: border-box;
 }
 
-div.comment_container>h6 {
-	margin: 0px;
-	font-size: 16px;
-	font-weight: bold;
-	font-family: 'Roboto Slab', sans-serif;
+div.comment_data {
+	float: left;
+	width: 100%;
+	line-height: 24px;
 }
 
-div.comment_container>p {
+div.comment_data>h6 {
 	margin: 0px;
+	font-size: 18px;
+	font-weight: bold;
+	font-family: 'Roboto Slab', sans-serif;
+	float: left;
+}
+
+button.comment_delete {
+	margin: 0px 0px 0px 5px;
+	padding: 0px;
+	float: right;
+	border: none;
+	outline: none;
+	background-color: inherit;
+	font-size: 12px;
+	font-family: 'Roboto Slab', sans-serif;
+	text-decoration: underline;
+	line-height: 24px;
+	color: rgb(80,80,80);
+	cursor: pointer;
+}
+
+p.comment_text {
+	margin: 0px;
+	font-size: 17px;
+	line-height: 20px;
+	float: left;
+	width: 100%;
+	padding: 5px;
+	background-color: rgb(200,200,200);
+	box-sizing: border-box;
+	font-family: 'Roboto', sans-serif;
+}
+
+p.comment_datetime {
+	margin: 0px;
+	font-size: 14px;
+	float: left;
+	color: rgb(120,120,120);
+	line-height: 16px;
 }
 
 /*===============================================*/

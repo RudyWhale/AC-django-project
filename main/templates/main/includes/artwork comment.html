@@ -1,0 +1,10 @@
+<div class="comment_container">
+  <div class="comment_data">
+    <h6>{{comment.author}}:</h6>
+    {% if user == comment.author %}
+      <button class="comment_delete" data-url="{% url 'delete comment' pk=comment.pk %}">Удалить</button>
+    {% endif %}
+  </div>
+  <p class="comment_text">{{comment.text}}</p>
+  <p class="comment_datetime">{{comment.date}}</p>
+</div>

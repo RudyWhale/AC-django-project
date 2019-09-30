@@ -11,7 +11,6 @@ def index(request):
 	infinite = publications.count() == (CONTENT_ITEMS_LIMIT - 1)
 	timestamp = datetime.now().timestamp()
 	args = {
-		'description': True,
 		'publications': publications,
 		'content_header': 'популярно:',
 		'infinite': infinite,

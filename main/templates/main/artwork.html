@@ -12,9 +12,8 @@
 {% block scripts %}
 	{% load static %}
 
-	<script src="{% static 'useractions/like_btn.js' %}" type="text/javascript"></script>
 	<script src="{% static 'useractions/subscription_btn.js' %}" type="text/javascript"></script>
-	<script src="{% static 'useractions/comment.js' %}" type="text/javascript"></script>
+	<script src="{% static 'useractions/like_comment.js' %}" type="text/javascript"></script>
 	<script src="{% static 'main/scripts/publication_delete.js' %}" type="text/javascript"></script>
 {% endblock %}
 
@@ -57,7 +56,14 @@
 					<h5 class="comments_header">Комментарии:</h5>
 					<div class="comment_form">
 						<textarea rows="2" cols="20"></textarea>
-						<button data-pk="{{artwork.pk}}" data-username="{{request.user.username}}">комментировать</button>
+						<button data-pk="{{artwork.pk}}" data-username="{{request.user.username}}"
+						{% if user.is_authenticated %}
+							onclick="comment_send($(this));"
+						{% else %}
+							onclick="not_auth_alert();"
+						{% endif %}>
+						комментировать
+						</button>
 					</div>
 
 					{% for comment in artwork.comment_set.all %}

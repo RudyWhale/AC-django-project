@@ -1,34 +1,38 @@
 div.header {
 	width: 100%;
 	float: left;
-	background-color: white;
+	background-color: rgb(40,40,40);
 }
 
 div.header_logo {
 	width: 75%;
+	height: 100px;
 	float: left;
-	height: 150px;
 	line-height: 150px;
-	font-size: 90px;
 	font-family: "Oswald", sans-serif;
-	color: rgb(40,40,40);
+	font-size: 40px;
+	color: white;
 }
 
 div.header_logo>a {
 	color: rgb(40,40,40);
 	text-decoration: none;
+	float: left;
 }
 
 h1.logo {
-	margin: 0px;
+	margin: 27px 0 0 0;
 	padding: 0px;
-	font-weight: bold;
+	color: white;
+	height: 73px;
+	line-height: 73px;
+	font-weight: normal;
 }
 
 div.header_user_info {
 	width: 25%;
-	height: 150px;
-	float: left;
+	height: 100px;
+	float: right;
 	text-align: right;
 	padding-right: 10px;
 	box-sizing: border-box;
@@ -53,52 +57,4 @@ a.user_info_href {
 	margin-bottom: 0px;
 	color: rgb(120,120,120);
 	margin-top: 0px;
-	display: block;
-	width: 100%;
-}
-
-/*===============================================*/
-/* MEDIA ----------------------------------------*/
-/*===============================================*/
-
-@media screen and (max-width: 800px){
-
-	div.header {
-		background-color: rgb(40,40,40);
-	}
-
-	div.header_logo {
-		height: 100px;
-		color: white;
-		font-size: 40px;
-	}
-
-	h1.logo {
-		color: white;
-		height: 73px;
-		line-height: 73px;
-		margin-top: 27px;
-		font-weight: normal;
-	}
-
-	div.header_user_info {
-		height: 100px;
-	}
-
-	p.user_info_label {
-		font-size: 12px;
-	}
-
-	p.user_info_name {
-		font-size: 14px;
-	}
-
-	a.user_info_logout {
-		font-size: 12px;
-	}
-
-	a.user_info_href {
-		font-size: 12px;
-	}
-
 }

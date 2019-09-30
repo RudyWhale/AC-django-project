@@ -1,6 +1,5 @@
-<div class="bounded_wrapper">
-
-	<div class="header">
+<div class="header">
+	<div class="bounded_wrapper">
 
 		<div class="header_logo">
 			<a href="{% url 'index' %}"><h1 class="logo">ArtChart</h1></a>
@@ -22,11 +21,11 @@
 			{% else %}
 
 				<p class="user_info_label">Вы не вошли на сайт</p>
+				<a href="{% url 'login' %}" class="user_info_href">войти</a>
 
 			{% endif %}
 
 		</div><!-- header_user_info -->
 
-	</div><!-- header -->
-
-</div><!-- bounded_wrapper -->
+	</div><!-- bounded_wrapper -->
+</div><!-- header -->

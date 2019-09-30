@@ -27,10 +27,10 @@ def like(request):
 				publ.likes.remove(user)
 			likes = publ.likes.count();
 
-		return JsonResponse({'count': likes, 'error_msg': ''})
+		return HttpResponse(likes)
 
 	else:
-		return JsonResponse({'count': 0, 'error_msg': 'Войдите на сайт, чтобы отмечать понравившиеся записи'})
+		return HttpResponse(status=401)
 
 
 def subscribe(request):
@@ -83,7 +83,7 @@ def comment(request):
 		return HttpResponse(result)
 
 	else:
-		return HttpResponse(content="Войдите на сайт, чтобы комментировать публикации", status=401)
+		return HttpResponse(status=401)
 
 
 def load_content_publications(request):

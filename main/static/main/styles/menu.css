@@ -17,16 +17,17 @@ div.menu>ul>li {
 
 a.menu_item {
 	display: inline-block;
-	width: 190px;
+	width: 260px;
 	height: 60px;
 	color: rgb(120,120,120);
 	text-decoration: none;
 	text-transform: uppercase;
 	font-size: 24px;
 	border: 2px solid rgb(120,120,120);
-	margin: 0px 10px;
+	margin: 0px 16px;
 	text-align: left;
-	padding-left: 5px;
+	padding: 18px 0 0 10px;
+	box-sizing: border-box;
 	font-family: 'Oswald', sans-serif;
 }
 
@@ -41,18 +42,10 @@ a.menu_item:hover {
 /* MEDIA ----------------------------------------*/
 /*===============================================*/
 
-@media screen and (max-width: 1200px){
-
-	a.menu_item {
-		width: 160px;
-	}
-}
-
 @media screen and (max-width: 1000px){
 
 	a.menu_item {
-		width: 130px;
-		margin: 0px 5px;
+		width: 220px;
 	}
 }
 
@@ -64,7 +57,6 @@ a.menu_item:hover {
 
 	a.menu_item {
 		width: 80%;
-		height: 50px;
 	}
 
 	a.menu_item:hover {

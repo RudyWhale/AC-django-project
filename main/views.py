@@ -4,7 +4,7 @@ from django.db.models import Count
 from django.urls import reverse
 from datetime import datetime
 from .models import Publication, Artwork, ArtistProfile, Tag
-from ArtChart.settings import CONTENT_ITEMS_LIMIT
+from ArtChart.settings import CONTENT_ITEMS_LIMIT, ARTIST_PROFILES_LIMIT
 
 def index(request):
 	publications = Publication.objects.annotate(likes_count=Count('likes')).order_by('-likes_count')[:CONTENT_ITEMS_LIMIT - 1]
@@ -30,7 +30,6 @@ def artist(request, pk):
 	args = {
 		'user': user,
 		'profile': profile,
-		'artist': user,
 		'publications': publications,
 		'create_publication': create_publication,
 		'infinite': infinite,
@@ -41,8 +40,16 @@ def artist(request, pk):
 
 
 def artists(request):
-	artists = ArtistProfile.objects.all()
-	return render(request, 'main/artists.html', {'artists': artists})
+	artists = ArtistProfile.objects.all().annotate(subs_count=Count('subscribers')).order_by('-subs_count')[:ARTIST_PROFILES_LIMIT]
+	infinite = artists.count() == ARTIST_PROFILES_LIMIT
+	timestamp = datetime.now().timestamp()
+	args = {
+		'artists': artists,
+		'infinite': infinite,
+		'timestamp': timestamp,
+		'load_content_url': reverse('load artist profiles')
+	}
+	return render(request, 'main/artists.html', args)
 
 
 def artworks(request):

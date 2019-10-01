@@ -25,6 +25,9 @@ class ArtistProfile(models.Model):
 	def __str__(self):
 		return self.user.username
 
+	def as_html(self, user):
+		return render_to_string('main/includes/artist overview.html', {'profile': self, 'user': user})
+
 # Deletes avatar file after profile deleting
 @receiver(post_delete, sender=ArtistProfile)
 def on_instance_delete(sender, instance, **kwargs):

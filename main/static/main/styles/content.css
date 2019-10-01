@@ -292,7 +292,6 @@ div.load_more>button {
   font-family: 'Oswald', sans-serif;
   font-size: 32px;
   background-color: inherit;
-  outline: none;
 }
 
 div.load_more>button:hover {

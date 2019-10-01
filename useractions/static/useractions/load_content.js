@@ -1,7 +1,8 @@
 $(function(){
   $('button.load_more_btn').click(function(){
     var url = $(this).attr('data-url');
-    var shown = $('div.content_item_artwork').length;
+    var count_selector = $(this).attr('data-cnt_selector')
+    var shown = $(count_selector).length;
 
     $.get(url, {from_tstamp: $(this).attr('data-timestamp'), shown: shown},
       function(result){

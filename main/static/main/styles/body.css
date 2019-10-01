@@ -8,3 +8,7 @@ div.bounded_wrapper {
 	max-width: 1200px;
 	margin: 0px auto;
 }
+
+button {
+	outline: none;
+}

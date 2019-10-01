@@ -83,7 +83,7 @@
 </div><!-- bounded_wrapper -->
 
 {% include "main/includes/strip gallery.html" with publications=related_pubs %}
-{% include "main/includes/artist overview.html" with profile=artwork.author artist=artwork.author.user %}
+{% include "main/includes/artist overview.html" with profile=artwork.author user=request.user %}
 {% include "main/includes/footer.html" %}
 
 {% endblock %}

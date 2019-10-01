@@ -39,7 +39,13 @@
 
 		{% if infinite and publications %}
 			<div class="load_more content_block">
-				<button class="load_more_btn" data-timestamp="{{timestamp}}" data-url="{{load_content_url}}">Показать больше</button>
+				<button
+					class="load_more_btn"
+					data-timestamp="{{timestamp}}"
+					data-url="{{load_content_url}}"
+					data-cnt_selector="div.content_item_artwork">
+					Показать больше
+				</button>
 			</div>
 		{% endif %}
 

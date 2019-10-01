@@ -4,12 +4,13 @@
 	{% load static %}
 
 	<link href="{% static 'main/styles/artist overview.css' %}" type="text/css" rel="stylesheet" />
-	<link href="{% static 'main/styles/content.css' %}" type="text/css" rel="stylesheet" />
 {% endblock %}
 
 {% block scripts %}
 	{% load static %}
+
 	<script src="{% static 'useractions/subscription_btn.js' %}" type="text/javascript"></script>
+	<script src="{% static 'useractions/load_content.js' %}" type="text/javascript"></script>
 {% endblock %}
 
 {% block content %}
@@ -20,8 +21,20 @@
 <div class="bounded_wrapper">
 
 	{% for profile in artists %}
-		{% include "main/includes/artist overview.html" with artist=profile.user profile=profile %}
+		{% include "main/includes/artist overview.html" with profile=profile user=request.user %}
 	{% endfor %}
+
+	{% if artists and infinite %}
+		<div class="load_more">
+			<button
+				class="load_more_btn"
+				data-timestamp="{{timestamp}}"
+				data-url="{{load_content_url}}"
+				data-cnt_selector="div.artist_overview">
+				Показать больше
+			</button>
+		</div>
+	{% endif %}
 
 </div><!-- bounded_wrapper -->
 

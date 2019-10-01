@@ -33,6 +33,11 @@ urlpatterns = [
 		name='load content artist'
 	),
 	path(
+		'load_artist_profiles',
+		views.load_artist_profiles,
+		name='load artist profiles'
+	),
+	path(
 		'delete_comment/<int:pk>',
 		views.delete_comment,
 		name='delete comment'

@@ -26,7 +26,7 @@
 {% include "main/includes/menu.html" %}
 
 {% if profile %}
-	{% include "main/includes/artist overview.html" %}
+	{% include "main/includes/artist overview.html" with profile=profile user=request.user %}
 {% endif %}
 
 {% include "main/includes/content collection.html" %}

@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse, HttpResponse
 from django.db.models import Count
 from django.template.loader import render_to_string
@@ -151,3 +151,31 @@ def delete_comment(request, pk):
 		else: return HttpResponse(status=401)
 
 	else: return HttpResponse(status=401)
+
+
+def delete_publication(request, pk):
+	initiator = request.user
+
+	if request.user.is_authenticated:
+		publication = get_object_or_404(Publication, pk = pk)
+		profile = publication.author
+
+		if profile.user == initiator:
+			publication.delete()
+			return redirect('artist', pk=profile.pk)
+
+		else:
+			args = {
+				'msg_header': 'Произошла ошибка',
+				'msg_text':  'Возможно, вы пытаетесь удалить чужую публикацию',
+				'from_page': request.META.get('HTTP_REFERER')
+			}
+			return render(request, 'main/info message.html', args)
+
+	else:
+		args = {
+			'msg_header': 'Произошла ошибка',
+			'msg_text':  'В данный момент вы не авторизованы. Если вы пытаетесь удалить вашу публикацию, войдите на сайт',
+			'from_page': request.META.get('HTTP_REFERER')
+		}
+		return render(request, 'main/info message.html', args)

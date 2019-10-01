@@ -36,5 +36,10 @@ urlpatterns = [
 		'delete_comment/<int:pk>',
 		views.delete_comment,
 		name='delete comment'
+	),
+	path(
+		'delete publication/<int:pk>',
+		views.delete_publication,
+		name='delete publication'
 	)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

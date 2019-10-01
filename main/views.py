@@ -125,31 +125,3 @@ def tag(request, pk):
 		'load_content_url': reverse('load content tag', args=(tag.pk,))
 	}
 	return render(request, 'main/publications.html', args)
-
-
-def delete_publication(request, pk):
-	initiator = request.user
-
-	if request.user.is_authenticated:
-		publication = get_object_or_404(Publication, pk = pk)
-		profile = publication.author
-
-		if profile.user == initiator:
-			publication.delete()
-			return redirect('artist', pk=profile.pk)
-
-		else:
-			args = {
-				'msg_header': 'Произошла ошибка',
-				'msg_text':  'Возможно, вы пытаетесь удалить чужую публикацию',
-				'from_page': request.META.get('HTTP_REFERER')
-			}
-			return render(request, 'main/info message.html', args)
-
-	else:
-		args = {
-			'msg_header': 'Произошла ошибка',
-			'msg_text':  'В данный момент вы не авторизованы. Если вы пытаетесь удалить вашу публикацию, войдите на сайт',
-			'from_page': request.META.get('HTTP_REFERER')
-		}
-		return render(request, 'main/info message.html', args)

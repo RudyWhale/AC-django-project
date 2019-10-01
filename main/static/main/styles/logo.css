@@ -5,7 +5,7 @@ div.header {
 }
 
 div.header_logo {
-	width: 75%;
+	width: calc(100% - 150px);
 	height: 100px;
 	float: left;
 	line-height: 150px;
@@ -30,11 +30,11 @@ h1.logo {
 }
 
 div.header_user_info {
-	width: 25%;
+	width: 150px;
 	height: 100px;
 	float: right;
 	text-align: right;
-	padding-right: 10px;
+	padding: 6px 10px 0 0;
 	box-sizing: border-box;
 	color: rgb(120,120,120);
 }
@@ -42,7 +42,7 @@ div.header_user_info {
 p.user_info_label {
 	font-family: "Roboto Slab", sans-serif;
 	font-size: 14px;
-	margin-bottom: 0px;
+	margin: 0px;
 }
 
 p.user_info_name {
@@ -57,4 +57,35 @@ a.user_info_href {
 	margin-bottom: 0px;
 	color: rgb(120,120,120);
 	margin-top: 0px;
+}
+
+/*===============================================*/
+/* MEDIA ----------------------------------------*/
+/*===============================================*/
+
+@media screen and (max-width: 800px){
+	div.header_logo {
+		width: calc(100% - 130px);
+	}
+
+	div.header_user_info {
+		width: 130px;
+	}
+
+	p.user_info_label {
+		font-size: 12px;
+	}
+
+	p.user_info_name {
+		font-size: 14px;
+	}
+
+	a.user_info_logout {
+		font-size: 12px;
+	}
+
+	a.user_info_href {
+		font-size: 12px;
+	}
+
 }

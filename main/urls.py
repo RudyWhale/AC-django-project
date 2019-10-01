@@ -31,11 +31,6 @@ urlpatterns = [
 		name='artwork'
 	),
 	path(
-		'delete publication/<int:pk>',
-		views.delete_publication,
-		name='delete publication'
-	),
-	path(
 		'tag/<int:pk>',
 		views.tag,
 		name='tag'

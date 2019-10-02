@@ -19,15 +19,16 @@ var comment_send = function(btn){
     $.get('../action/comment', {publication_pk: publpk, text: text},
       function(response){
         $('.comment_form').after(response);
+        $('div.comment_container').hover(
+          function() { on_comment_hover_in($(this)); },
+          function() { on_comment_hover_out($(this)); }
+        );
         $('.comment_form>textarea').val("");
         $('.no_comments_label').remove();
       }
     ).fail(function(){alert("Произошла ошибка");});}
 };
 
-var not_auth_alert = function(){
-  alert('Войдите на сайт для того, чтобы иметь возможность отмечать понравившиеся работы и оставлять комментарии');
-}
 
 var like_send = function(btn){
   var publpk = btn.attr('data-pk');
@@ -37,4 +38,21 @@ var like_send = function(btn){
       $('.publication_likes_btn').text($('.publication_likes_btn').text() == 'нравится' ? "не нравится" : "нравится");
     }
   ).fail(function(){alert("Произошла ошибка");});
-}
+};
+
+var submit_send = function(btn){
+  var profilepk = btn.attr('data-pk');
+  $.get('../action/subscribe', {profile_pk: profilepk},
+    function(count){
+      $('#subs_count_' + profilepk).text(count);
+      var btnselector = '#subs_btn_' + profilepk;
+      $(btnselector).text($(btnselector).text() == 'подписаться' ? 'отписаться' : 'подписаться');
+    }
+  ).fail(function(){ alert('Произошла ошибка'); });
+};
+
+var not_auth_alert = function(){
+  alert('Войдите на сайт для того, чтобы иметь возможность отмечать понравившиеся работы, оставлять комментарии и подписываться на любимых художников');
+};
+
+var self_sub_alert = function(){ alert('Вы не можете подписаться на собственный аккаунт'); }

@@ -9,6 +9,6 @@ div.bounded_wrapper {
 	margin: 0px auto;
 }
 
-button {
+button, input {
 	outline: none;
 }

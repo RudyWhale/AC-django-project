@@ -9,7 +9,7 @@
 {% block scripts %}
 	{% load static %}
 
-	<script src="{% static 'useractions/subscription_btn.js' %}" type="text/javascript"></script>
+	<script src="{% static 'useractions/like_comment_subscribe_btn.js' %}" type="text/javascript"></script>
 	<script src="{% static 'useractions/load_content.js' %}" type="text/javascript"></script>
 {% endblock %}
 
@@ -18,12 +18,11 @@
 {% include "main/includes/header.html" %}
 {% include "main/includes/menu.html" %}
 
+{% for profile in artists %}
+	{% include "main/includes/artist overview.html" with profile=profile user=request.user %}
+{% endfor %}
+
 <div class="bounded_wrapper">
-
-	{% for profile in artists %}
-		{% include "main/includes/artist overview.html" with profile=profile user=request.user %}
-	{% endfor %}
-
 	{% if artists and infinite %}
 		<div class="load_more">
 			<button
@@ -35,7 +34,6 @@
 			</button>
 		</div>
 	{% endif %}
-
 </div><!-- bounded_wrapper -->
 
 {% include "main/includes/footer.html" %}

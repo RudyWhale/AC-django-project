@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.http import JsonResponse, HttpResponse
 from django.db.models import Count
 from django.template.loader import render_to_string
@@ -47,17 +47,16 @@ def subscribe(request):
 			profile = ArtistProfile.objects.get(pk = profile_pk)
 
 			if profile.user == user:
-				return JsonResponse({'count': subs, 'error_msg': 'Вы не можете подписаться на собственный аккаунт'})
+				return HttpResponse(status = 403)
 			if user not in profile.subscribers.all():
 				profile.subscribers.add(user)
 			else:
 				profile.subscribers.remove(user)
 			subs = profile.subscribers.count();
 
-		return JsonResponse({'count': subs, 'error_msg': ''})
+		return HttpResponse(subs)
 
-	else:
-		return JsonResponse({'count': 0, 'error_msg': 'Войдите на сайт, чтобы следить за деятельностью любимых авторов'})
+	else: return HttpResponse(status = 401)
 
 
 def comment(request):
@@ -157,7 +156,7 @@ def delete_comment(request, pk):
 			comment.delete()
 			return HttpResponse('')
 
-		else: return HttpResponse(status=401)
+		else: return HttpResponse(status=403)
 
 	else: return HttpResponse(status=401)
 
@@ -173,18 +172,6 @@ def delete_publication(request, pk):
 			publication.delete()
 			return redirect('artist', pk=profile.pk)
 
-		else:
-			args = {
-				'msg_header': 'Произошла ошибка',
-				'msg_text':  'Возможно, вы пытаетесь удалить чужую публикацию',
-				'from_page': request.META.get('HTTP_REFERER')
-			}
-			return render(request, 'main/info message.html', args)
+		else: return HttpResponse(status=403)
 
-	else:
-		args = {
-			'msg_header': 'Произошла ошибка',
-			'msg_text':  'В данный момент вы не авторизованы. Если вы пытаетесь удалить вашу публикацию, войдите на сайт',
-			'from_page': request.META.get('HTTP_REFERER')
-		}
-		return render(request, 'main/info message.html', args)
+	else: return HttpResponse(status=401)

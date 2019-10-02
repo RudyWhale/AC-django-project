@@ -1,3 +1,7 @@
+button, input {
+	outline: none;
+}
+
 div.page {
 	text-align: center;
 	line-height: 100vh;
@@ -41,7 +45,6 @@ td.login_input>input {
 	font-size: 16px;
 	border: none;
 	border-bottom: 1px solid black;
-	outline: none;
 	box-sizing: border-box;
 	padding-left: 2px;
 	background-color: inherit;
@@ -57,7 +60,6 @@ td.login_input>textarea {
 	font-family:'Roboto', sans-serif;
 	font-size: 16px;
 	border: 1px solid black;
-	outline: none;
 	box-sizing: border-box;
 	width: 100%;
 	resize: vertical;
@@ -81,13 +83,11 @@ input.submit_btn {
 	background-color: inherit;
 	cursor: pointer;
 	margin: 20px auto;
-	outline: none;
 }
 
 input.submit_btn:hover {
 	background-color: rgb(200,200,200);
 	box-shadow: -4px 4px 0 0 rgb(200,200,200), inset -3px 3px 0 0 white;
-	outline: none;
 }
 
 a.help_link {

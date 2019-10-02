@@ -1,23 +1,37 @@
-<div class="artist_overview">
+<div class="bounded_wrapper">
+	<div class="artist_overview">
 
-	<div class="artist_avatar">
-		<a href="{% url 'artist' pk=profile.pk %}">
-			<img src="{{profile.avatar.url}}" alt="{{profile.user.username}}" onload="on_avatar_load(this);" />
-		</a>
-	</div><!-- artist_avatar -->
+		<div class="artist_avatar">
+			<a href="{% url 'artist' pk=profile.pk %}">
+				<img src="{{profile.avatar.url}}" alt="{{profile.user.username}}" onload="on_avatar_load(this);" />
+			</a>
+		</div><!-- artist_avatar -->
 
-	<div class="artist_desc">
+		<div class="artist_desc">
 
-		<a href="{% url 'artist' pk=profile.pk %}"><h3>{{profile.user.username}}</h3></a>
+			<a href="{% url 'artist' pk=profile.pk %}"><h3>{{profile.user.username}}</h3></a>
 
-		<div class="artist_overview_subscribe">
-			<p class="subscribe_count" id="subs_count_{{profile.pk}}">{{profile.subscribers.count}}</p>
-			{% load main_tags %}
-			<button class="subscribe_btn" id="subs_btn_{{profile.pk}}" data-pk={{profile.pk}}>{{profile|subscribe_btn_text:user}}</button>
-		</div>
+			<div class="artist_overview_subscribe">
+				<p class="subscribe_count" id="subs_count_{{profile.pk}}">{{profile.subscribers.count}}</p>
+				{% load main_tags %}
+				<button
+					class="subscribe_btn"
+					id="subs_btn_{{profile.pk}}"
+					data-pk={{profile.pk}}
+					{% if not user.is_authenticated %}
+						onclick="not_auth_alert($(this));"
+					{% elif user == profile.user %}
+						onclick="self_sub_alert($(this));"
+					{% else %}
+						onclick="submit_send($(this));"
+					{% endif %}>
+					{{profile|subscribe_btn_text:user}}
+				</button>
+			</div>
 
-		<p>{{profile.desc}}</p>
+			<p>{{profile.desc}}</p>
 
-	</div><!-- artist_desc -->
+		</div><!-- artist_desc -->
 
-</div><!-- artist_overview -->
+	</div><!-- artist_overview -->
+</div><!-- bounded_wrapper -->

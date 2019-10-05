@@ -9,7 +9,7 @@ from django.urls import reverse
 from main.models import ArtistProfile
 from ArtChart.settings import EMAIL_HOST_USER
 from .forms import ArtistCreationForm, RegistrationForm, ACPasswordResetForm, ACSetPasswordForm
-from .tokens import get_hash
+from .snippets import get_hash
 
 
 def register(request):

@@ -134,35 +134,50 @@ h5.comments_header {
 }
 
 div.comment_form {
-	margin: 10px 0px;
+	margin-top: 10px;
 	width: 100%;
 	float: left;
 }
 
 div.comment_form>textarea {
-	width: 100%;
-	height: 40px;
+	width: calc(100% - 58px);
+	height: 60px;
 	box-sizing: border-box;
 	border: 1px solid black;
 	outline: none;
 	font-family: 'Roboto', sans-serif;
 	font-size: 16px;
 	resize: none;
+	float: left;
 }
 
 div.comment_form>button {
-	width: 150px;
-	height: 30px;
+	width: 50px;
+	height: 60px;
 	line-height: 0px;
-	padding-bottom: 5px;
 	background-color: inherit;
-	color: black;
 	border: 1px solid black;
-	font-family: 'Oswald', sans-serif;
-	font-size: 18px;
 	cursor: pointer;
-	float: right;
 	outline: none;
+	float: left;
+	margin-left: 8px;
+}
+
+div.comment_form>button>img {
+	width: 30px;
+	height: 30px;
+}
+
+p.comment_length_label {
+	margin: 0;
+	font-family: 'Roboto Slab', sans-serif;
+	font-size: 14px;
+	color: rgb(120,120,120);
+	float: left;
+	width: 100%;
+	line-height: 16px;
+	transition: opacity 0.5s;
+	opacity: 0;
 }
 
 div.comment_form>button:hover {

@@ -4,7 +4,7 @@ from django.db.models import Count
 from django.urls import reverse
 from datetime import datetime
 from .models import Publication, Artwork, ArtistProfile, Tag
-from ArtChart.settings import CONTENT_ITEMS_LIMIT, ARTIST_PROFILES_LIMIT
+from ArtChart.settings import CONTENT_ITEMS_LIMIT, ARTIST_PROFILES_LIMIT, COMMENT_MAX_LENGTH
 
 def index(request):
 	publications = Publication.objects.annotate(likes_count=Count('likes')).order_by('-likes_count')[:CONTENT_ITEMS_LIMIT - 1]
@@ -70,7 +70,13 @@ def artwork(request, pk):
 	artwork = get_object_or_404(Artwork, pk = pk)
 	related_pubs = Artwork.objects.exclude(pk = pk)[:4]
 	show_delete_link = request.user == artwork.author.user
-	return render(request, 'main/artwork.html', {'artwork': artwork, 'related_pubs': related_pubs, 'delete_link': show_delete_link})
+	args = {
+		'artwork': artwork,
+		'related_pubs': related_pubs,
+		'delete_link': show_delete_link,
+		'max_comment_length': COMMENT_MAX_LENGTH
+	}
+	return render(request, 'main/artwork.html', args)
 
 
 def feed(request):

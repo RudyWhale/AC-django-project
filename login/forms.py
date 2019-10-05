@@ -11,7 +11,7 @@ from io import BytesIO
 from datetime import datetime
 import sys
 from main.models import ArtistProfile
-from .tokens import get_hash
+from .snippets import get_hash
 from ArtChart.settings import EMAIL_HOST_USER, PROFILE_AVATAR_MAX_SIZE as MAX_AVATAR_SIZE
 
 

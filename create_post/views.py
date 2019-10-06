@@ -11,12 +11,7 @@ def new_artwork(request):
 
     try:
         profile = user.profile
-    except AttributeError as e:
-        args = {
-            'msg_header': "Ошибка доступа",
-            'msg_text' : "Произошла ошибка. Возможно, вы вышли из своего аккаунта"
-        }
-        return render(request, 'main/info message.html', args)
+    except AttributeError as e: return HttpResponse(status=403)
 
     if request.method == 'POST':
         form = ArtworkCreationForm(request.POST, request.FILES)
@@ -25,12 +20,7 @@ def new_artwork(request):
             form.save(profile = profile)
             return redirect('artist', pk = profile.pk)
 
-        else:
-            args = {
-                'msg_header': 'Ошибка',
-                'msg_text': 'К сожалению, во время создания публикации прозошла ошибка. При повторении ошибки обратитесь к администрации сайта'
-            }
-            return render(request, 'main/info message.html', args)
+        else: return HttpResponse(status=400)
 
     else:
         form = ArtworkCreationForm()

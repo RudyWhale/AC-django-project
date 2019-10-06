@@ -32,9 +32,7 @@ def register(request):
 			message = 'Мы отправили на указанную вами почту дальнейшие инструкции'
 			return render(request, 'login/message.html', {'message': message})
 
-		else:
-			message = 'Во время регистрации произошла ошибка. Проверьте правильность введенных данных '
-			return render(request, 'login/message.html', {'message': message})
+		else: return HttpResponse(status=400)
 
 	else:
 		form = RegistrationForm()
@@ -66,21 +64,17 @@ def register_as_artist(request):
 			message = 'Профиль художника был успешно создан. Теперь вы можете создавать публикации, которые будут видны другим пользователям'
 			return render(request, 'login/message.html', {'message': message})
 
-		else:
-			message = 'Во время создания профиля художника произошла ошибка. Пожалуйста, свяжитесь с администрацией сайта'
-			return render(request, 'login/message.html', {'message': message})
+		else: return HttpResponse(status=400)
 
 	else:
 		if (request.user.has_perm('main.add_artistprofile')):
 			form = ArtistCreationForm()
 			return render(request, 'login/register as artist.html', {'form': form, 'max_desc_length': PROFILE_DESC_MAX_LENGTH})
-		else:
-			return redirect('become artist')
+
+		else: return redirect('become artist')
 
 
 def activate(request, pk, hash):
-	message = 'Произошла ошибка'
-
 	try:
 		user = User.objects.get(pk = pk)
 
@@ -88,11 +82,11 @@ def activate(request, pk, hash):
 			user.is_active = True
 			user.save()
 			message = 'Ваш аккаунт успешно активирован. Добро пожаловать на ArtChart'
+			return render(request, 'login/message.html', {'message': message})
 
-	except User.DoesNotExist:
-		pass
+		else: return HttpResponse(status=400)
 
-	return render(request, 'login/message.html', {'message': message})
+	except User.DoesNotExist: return HttpResponse(status=400)
 
 
 def password_reset(request):
@@ -108,10 +102,10 @@ def password_reset(request):
 				[email]
 			)
 			message = 'Мы направили на ваш эл. адрес инструкции по смене пароля'
-		except User.DoesNotExist:
-			message = 'Произошла ошибка'
+			return render(request, 'login/message.html', {'message': message})
 
-		return render(request, 'login/message.html', {'message': message})
+		except User.DoesNotExist:
+			return HttpResponse(status=400)
 
 	else:
 		form = ACPasswordResetForm()
@@ -123,8 +117,7 @@ def password_change(request, pk, hash):
 		user = User.objects.get(pk = pk)
 
 		if get_hash(user) != hash:
-			message = 'Произошла ошибка. Возможно, ссылка для восстановления пароля устарела'
-			return render(request, 'login/message.html', {'message': message})
+			return HttpResponse(status=400)
 
 		if request.method == 'POST':
 			form = ACSetPasswordForm(user, request.POST)
@@ -132,16 +125,12 @@ def password_change(request, pk, hash):
 			if form.is_valid():
 				form.save()
 				message = 'Пароль был успешно изменен'
+				return render(request, 'login/message.html', {'message': message})
 
-			else:
-				message = 'Произошла ошибка'
-
-			return render(request, 'login/message.html', {'message': message})
+			else: return HttpResponse(status=400)
 
 		else:
 			form = ACSetPasswordForm(user)
 			return render(request, 'login/password change.html', {'form': form, 'hash': hash})
 
-	except User.DoesNotExist:
-		message = 'Произошла ошибка'
-		return render(request, 'login/message.html', {'message': message})
+	except User.DoesNotExist: return HttpResponse(status=400)

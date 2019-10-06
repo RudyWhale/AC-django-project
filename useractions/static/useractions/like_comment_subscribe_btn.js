@@ -34,9 +34,10 @@ var like_send = function(btn){
   var publpk = btn.attr('data-pk');
   $.get('../action/like', {publication_pk: publpk},
     function(response){
-      $('.publication_likes_count').text(response);
-      $('.publication_likes_btn').text($('.publication_likes_btn').text() == 'нравится' ? "не нравится" : "нравится");
-    }
+      $('.publication_likes_count').text(response.count);
+      $('.publication_likes_btn').text(response.btn_text);
+    },
+    'json'
   ).fail(function(){alert("Произошла ошибка");});
 };
 

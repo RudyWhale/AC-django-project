@@ -3,6 +3,7 @@ from django.forms import ModelForm
 from PIL import Image
 from datetime import datetime
 from main.models import Artwork, Tag
+from ArtChart.settings import ARTWORK_DESC_MAX_LENGTH
 
 
 class AbstractPostCreationForm(ModelForm):
@@ -32,8 +33,12 @@ class AbstractPostCreationForm(ModelForm):
 
 
 class ArtworkCreationForm(AbstractPostCreationForm):
-    desc = forms.CharField(required = True,
-                widget=forms.widgets.Textarea(attrs={'placeholder': 'Напишите здесь о работе'}))
+    desc_textarea_attrs = {
+        'placeholder': 'Напишите здесь о работе',
+        'maxlength': ARTWORK_DESC_MAX_LENGTH,
+        'class': 'limited_length'
+    }
+    desc = forms.CharField(required = True, widget=forms.widgets.Textarea(attrs=desc_textarea_attrs))
 
     name = forms.CharField(required=True,
                 widget=forms.TextInput(attrs={'placeholder': 'Придумайте название для работы'}))

@@ -9,7 +9,7 @@
 {% block scripts %}
 	{% load static %}
 
-	<link href="{% static 'create_post/scripts/create form.css' %}" type="text/css" rel="stylesheet" />
+	<script src="{% static 'main/scripts/textarea_limited_length.js' %}" type="text/javascript"></script>
 {% endblock %}
 
 {% block content %}
@@ -38,6 +38,7 @@
 				</div>
 				<div class="creating_form_input">
 					{{form.desc}}
+					<p class="symbols_left_label">осталось символов: {{max_desc_length}}</p>
 				</div>
 			</div>
 

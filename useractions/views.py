@@ -20,11 +20,13 @@ def like(request):
 
 		if user not in publ.likes.all():
 			publ.likes.add(user)
+			label = "не нравится"
 		else:
 			publ.likes.remove(user)
+			label = "нравится"
 
 		likes = publ.likes.count();
-		return HttpResponse(likes)
+		return JsonResponse({'count': likes, 'btn_text': label})
 
 	else: return HttpResponse(status=401)
 

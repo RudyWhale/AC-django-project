@@ -12,7 +12,7 @@ from datetime import datetime
 import sys
 from main.models import ArtistProfile
 from .snippets import get_hash
-from ArtChart.settings import EMAIL_HOST_USER, PROFILE_AVATAR_MAX_SIZE as MAX_AVATAR_SIZE
+from ArtChart.settings import EMAIL_HOST_USER, PROFILE_AVATAR_MAX_SIZE as MAX_AVATAR_SIZE, PROFILE_DESC_MAX_LENGTH
 
 
 '''
@@ -70,11 +70,14 @@ class RegistrationForm(UserCreationForm):
 Form for artist registration
 '''
 class ArtistCreationForm(forms.ModelForm):
-	desc = forms.CharField(
-		required = True,
-		widget = forms.widgets.Textarea(attrs={'cols': '38', 'rows': '7',
-												'placeholder': 'Напишите о себе. Эта информация будет отображаться в вашем профиле'})
-		)
+	desc_attrs = {
+		'cols': '38',
+		'rows': '7',
+		'placeholder': 'Напишите о себе. Эта информация будет отображаться в вашем профиле',
+		'maxlength': PROFILE_DESC_MAX_LENGTH,
+		'class': 'limited_length'
+	}
+	desc = forms.CharField(required=True,widget=forms.widgets.Textarea(attrs=desc_attrs))
 	avatar = forms.ImageField(required=True, widget=forms.widgets.FileInput(attrs={'class': 'avatar_inp'}))
 
 	class Meta:
@@ -88,6 +91,14 @@ class ArtistCreationForm(forms.ModelForm):
 			raise forms.ValidationError('Avatar is too big')
 
 		return file
+
+	def clean_desc(self):
+		text = self.cleaned_data['desc']
+
+		if len(text) > PROFILE_DESC_MAX_LENGTH:
+			raise forms.ValidationError('Desc text is too long')
+
+		return text
 
 	def save(self, user, commit=True):
 		profile = super().save(commit=False)

@@ -7,6 +7,6 @@
   {% else %}
     onclick="not_auth_alert();"
   {% endif %}>
-  {{artwork|like_btn_text:request.user}}
+  {{artwork|like_btn_text:user}}
   </button>
 </div><!-- publication_likes -->

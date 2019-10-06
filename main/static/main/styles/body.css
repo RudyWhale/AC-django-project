@@ -12,3 +12,18 @@ div.bounded_wrapper {
 button, input {
 	outline: none;
 }
+
+p.symbols_left_label {
+	margin: 0;
+	font-family: 'Roboto Slab', sans-serif;
+	font-size: 14px;
+	color: rgb(120,120,120);
+	float: left;
+	width: 100%;
+	line-height: 16px;
+	transition: opacity 0.5s;
+}
+
+.hide {
+	opacity: 0;
+}

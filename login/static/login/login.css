@@ -112,6 +112,20 @@ p.login_warning {
 	box-sizing: border-box;
 }
 
+p.symbols_left_label {
+	margin: 0;
+	font-family: 'Roboto Slab', sans-serif;
+	font-size: 14px;
+	color: rgb(120,120,120);
+	float: left;
+	width: 100%;
+	line-height: 16px;
+}
+
+textarea, input {
+	outline: none;
+}
+
 /*===============================================*/
 /* MEDIA ----------------------------------------*/
 /*===============================================*/

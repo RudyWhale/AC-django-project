@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from .forms import ArtworkCreationForm
-from datetime import datetime
-from main.models import Artwork
 from django.shortcuts import redirect
+from .forms import ArtworkCreationForm
+from main.models import Artwork
+from ArtChart.settings import ARTWORK_DESC_MAX_LENGTH
+from datetime import datetime
 
 
 def new_artwork(request):
@@ -33,4 +34,4 @@ def new_artwork(request):
 
     else:
         form = ArtworkCreationForm()
-        return render(request, 'create_post/artwork create.html', {'form': form})
+        return render(request, 'create_post/artwork create.html', {'form': form, 'max_desc_length': ARTWORK_DESC_MAX_LENGTH})

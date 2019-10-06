@@ -168,18 +168,6 @@ div.comment_form>button>img {
 	height: 30px;
 }
 
-p.comment_length_label {
-	margin: 0;
-	font-family: 'Roboto Slab', sans-serif;
-	font-size: 14px;
-	color: rgb(120,120,120);
-	float: left;
-	width: 100%;
-	line-height: 16px;
-	transition: opacity 0.5s;
-	opacity: 0;
-}
-
 div.comment_form>button:hover {
 	background-color: rgb(200,200,200);
 	box-shadow: -4px 4px 0 0 rgb(200,200,200), inset -3px 3px 0 0 white;

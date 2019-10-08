@@ -2,9 +2,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from django.db.models import Count
 from django.urls import reverse
+from django.core.mail import send_mail
 from datetime import datetime
 from .models import Publication, Artwork, ArtistProfile, Tag
-from ArtChart.settings import CONTENT_ITEMS_LIMIT, ARTIST_PROFILES_LIMIT, COMMENT_MAX_LENGTH
+from ArtChart.settings import CONTENT_ITEMS_LIMIT, ARTIST_PROFILES_LIMIT, COMMENT_MAX_LENGTH, ADMIN_EMAIL_ADRESS, EMAIL_HOST_USER
 
 def index(request):
 	publications = Publication.objects.annotate(likes_count=Count('likes')).order_by('-likes_count')[:CONTENT_ITEMS_LIMIT - 1]
@@ -138,3 +139,27 @@ def tag(request, pk):
 		'load_content_url': reverse('load content tag', args=(tag.pk,))
 	}
 	return render(request, 'main/publications.html', args)
+
+
+def feedback(request):
+	if request.method == 'POST':
+		message = request.POST['message']
+		theme = 'ArtChart: сообщение от пользователя'
+
+		if request.user.is_authenticated:
+			theme += ' ' + request.user.username
+
+		send_mail(
+			theme,
+			message,
+			EMAIL_HOST_USER,
+			[ADMIN_EMAIL_ADRESS,]
+		)
+
+		args = {
+			'msg_header': "Ваше сообщение было отправлено",
+			'msg_text':  "Спасибо за обратную связь! Нам важно ваше мнение о проекте, ведь вы можете помочь сделать его лучше",
+		}
+		return render(request, 'main/info message.html', args)
+
+	else: return render(request, 'main/feedback.html')

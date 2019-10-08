@@ -44,5 +44,10 @@ urlpatterns = [
 		'feed',
 		views.feed,
 		name='feed'
+	),
+	path(
+		'feedback',
+		views.feedback,
+		name='feedback'
 	)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

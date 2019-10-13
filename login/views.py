@@ -6,6 +6,7 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.urls import reverse
+from django.http import HttpResponse
 from main.models import ArtistProfile
 from ArtChart.settings import EMAIL_HOST_USER, PROFILE_DESC_MAX_LENGTH
 from .forms import ArtistCreationForm, RegistrationForm, ACPasswordResetForm, ACSetPasswordForm

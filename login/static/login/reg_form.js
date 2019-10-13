@@ -8,6 +8,17 @@ $(function(){
   $('input.inp_name').focusout(function(){
     var text = $(this).val();
     if (text.trim()){
+      $('.space_in_username').remove();
+      if (text.indexOf(' ') >= 0){
+        var message = "Имя профиля не может содержать пробел";
+        ($('<p class="login_warning space_in_username"></p>').text(message)).prependTo($('.login_form'));
+        $('.inp_name').css('border-bottom', '1px solid red');
+      }
+      else {
+        $('.inp_name').css('border-bottom', '1px solid black');
+        removeErrorsMessage();
+      }
+
       $.get(
         './check_nickname',
         {name: text},

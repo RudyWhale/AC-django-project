@@ -8,7 +8,7 @@ from django.core.mail import send_mail
 from django.urls import reverse
 from django.http import HttpResponse
 from main.models import ArtistProfile
-from ArtChart.settings import EMAIL_HOST_USER, PROFILE_DESC_MAX_LENGTH
+from ArtChart.settings import EMAIL_HOST_USER, PROFILE_DESC_MAX_LENGTH, PROFILE_AVATAR_MAX_SIZE
 from .forms import ArtistCreationForm, RegistrationForm, ACPasswordResetForm, ACSetPasswordForm
 from .snippets import get_hash
 
@@ -70,7 +70,11 @@ def register_as_artist(request):
 	else:
 		if (request.user.has_perm('main.add_artistprofile')):
 			form = ArtistCreationForm()
-			return render(request, 'login/register as artist.html', {'form': form, 'max_desc_length': PROFILE_DESC_MAX_LENGTH})
+			args = {
+				'form': form,
+				'max_desc_length': PROFILE_DESC_MAX_LENGTH
+			}
+			return render(request, 'login/register as artist.html', args)
 
 		else: return redirect('become artist')
 

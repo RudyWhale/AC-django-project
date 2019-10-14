@@ -113,12 +113,14 @@ $(function(){
 
   $('input.avatar_inp').change(function(){
     var file = ($(this))[0].files[0];
+    var max_file_size = $(this).attr('data-max_size');
 
-    if (file.size > 1048576){
-      $(this).value = '';
+    if (file.size > max_file_size){
+      ($(this))[0].value = '';
 
       if (!$('.too_big_avatar').length){
-        var message = "Размер аватара не должен превышать 1Мбайт";
+        var mbytes = max_file_size / 1048576;
+        var message = `Размер аватара не должен превышать ${mbytes}Мбайт`;
         ($('<p class="login_warning too_big_avatar"></p>').text(message)).prependTo($('.login_form'));
         $(this).css('border-bottom', '1px solid red');
       }

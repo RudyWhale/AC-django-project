@@ -3,7 +3,7 @@ from django.forms import ModelForm
 from PIL import Image
 from datetime import datetime
 from main.models import Artwork, Tag
-from ArtChart.settings import ARTWORK_DESC_MAX_LENGTH
+from ArtChart.settings import ARTWORK_DESC_MAX_LENGTH, ARTWORK_IMAGE_MAX_SIZE
 
 
 class AbstractPostCreationForm(ModelForm):
@@ -39,10 +39,18 @@ class ArtworkCreationForm(AbstractPostCreationForm):
         'class': 'limited_length'
     }
     desc = forms.CharField(required = True, widget=forms.widgets.Textarea(attrs=desc_textarea_attrs))
-
+    image = forms.ImageField(required=True, widget=forms.widgets.FileInput(attrs={'class': 'image_inp', 'data-max_size': ARTWORK_IMAGE_MAX_SIZE}))
     name = forms.CharField(required=True,
                 widget=forms.TextInput(attrs={'placeholder': 'Придумайте название для работы'}))
 
     class Meta:
         model = Artwork
         fields = ['name', 'desc', 'image']
+
+    def clean_image(self):
+        file = self.cleaned_data['image']
+
+        if file.size > ARTWORK_IMAGE_MAX_SIZE:
+            raise forms.ValidationError('Artwork image is too big')
+
+        return file

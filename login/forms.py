@@ -78,7 +78,7 @@ class ArtistCreationForm(forms.ModelForm):
 		'class': 'limited_length'
 	}
 	desc = forms.CharField(required=True,widget=forms.widgets.Textarea(attrs=desc_attrs))
-	avatar = forms.ImageField(required=True, widget=forms.widgets.FileInput(attrs={'class': 'avatar_inp'}))
+	avatar = forms.ImageField(required=True, widget=forms.widgets.FileInput(attrs={'class': 'avatar_inp', 'data-max_size': MAX_AVATAR_SIZE}))
 
 	class Meta:
 		model = ArtistProfile

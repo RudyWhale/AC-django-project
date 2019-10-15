@@ -34,6 +34,7 @@ div.artist_desc>a>h3 {
 	float: left;
 	margin: 20px 0px 0px 0px;
 	font-size: 50px;
+	font-weight: 600;
 	color: black;
 }
 
@@ -107,7 +108,7 @@ button.load_more_btn {
 	border: 2px solid black;
 	font-family: 'Oswald', sans-serif;
 	font-size: 20px;
-	cursor: pointer; 
+	cursor: pointer;
 }
 
 button.load_more_btn:hover {

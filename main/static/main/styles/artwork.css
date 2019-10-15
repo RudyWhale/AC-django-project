@@ -50,6 +50,7 @@ div.artwork_desc_text>h3 {
 	width: 100%;
 	line-height: 40px;
 	box-sizing: border-box;
+	font-weight: 600;
 }
 
 p.artwork_desc_text {

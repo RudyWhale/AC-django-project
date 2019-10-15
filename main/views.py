@@ -31,6 +31,7 @@ def artist(request, pk):
 	args = {
 		'user': user,
 		'profile': profile,
+		'content_header': 'Блог автора:',
 		'publications': publications,
 		'create_publication': create_publication,
 		'infinite': infinite,

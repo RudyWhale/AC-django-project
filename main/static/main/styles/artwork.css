@@ -261,7 +261,7 @@ p.comment_datetime {
 @media screen and (max-width: 800px){
 
 	div.artwork_repr {
-		height: 670px;
+		height: auto;
 	}
 
 	div.artwork_img {
@@ -271,7 +271,7 @@ p.comment_datetime {
 
 	div.artwork_desc {
 		width: 100%;
-		height: 280px;
+		height: auto;
 	}
 
 	div.painting_name {
@@ -280,16 +280,12 @@ p.comment_datetime {
 	}
 
 	div.artwork_desc_text {
-		height: 220px;
+		height: auto;
 		margin-right: 0px;
 	}
 }
 
 @media screen and (max-width: 600px){
-
-	div.artwork_repr {
-		height: 570px;
-	}
 
 	div.artwork_img {
 		height: 300px;

@@ -10,6 +10,7 @@ function set_artwork(img) {
   }
   else {
     $(img).css({
+      'height': container.height(),
       'left': function(){ return (container.width() - $(this).width()) / 2; },
       'top': 0
     })

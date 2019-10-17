@@ -283,6 +283,7 @@ p.comment_datetime {
 	div.artwork_desc_text {
 		height: auto;
 		margin-right: 0px;
+		overflow-y: hidden;
 	}
 }
 

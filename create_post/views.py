@@ -25,8 +25,6 @@ def new_artwork(request):
     else:
         form = ArtworkCreationForm()
         args = {
-			'meta_title': 'Новая запись',
-			'meta_description': '',
             'form': form,
             'max_desc_length': ARTWORK_DESC_MAX_LENGTH
         }

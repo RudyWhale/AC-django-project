@@ -12,6 +12,10 @@ def index(request):
 	infinite = publications.count() == (CONTENT_ITEMS_LIMIT - 1)
 	timestamp = datetime.now().timestamp()
 	args = {
+		'meta_title': 'ArtChart',
+		'meta_description': 'ArtChart - портал для художников, дизайнеров и людей, интересующихся искусством и творчеством. ' \
+							'Здесь художники рассказывают о своих работах. Зарегистрировавшись, вы сможете отмечать понравившиеся работы, ' \
+							'подписываться на любимых авторов и следить за их деятельностью на портале',
 		'publications': publications,
 		'content_header': 'популярно:',
 		'infinite': infinite,
@@ -29,6 +33,8 @@ def artist(request, pk):
 	user = profile.user
 	create_publication = True if profile.user == request.user else False
 	args = {
+		'meta_title': f'{user.username}',
+		'meta_description': f'Блог пользователя {user.username} на ArtChart. {profile.desc}',
 		'user': user,
 		'profile': profile,
 		'content_header': 'Блог автора:',
@@ -46,6 +52,8 @@ def artists(request):
 	infinite = artists.count() == ARTIST_PROFILES_LIMIT
 	timestamp = datetime.now().timestamp()
 	args = {
+		'meta_title': 'Блоги на ArtChart',
+		'meta_description': 'Посмотреть блоги художников, зарегистрированных на ArtChart',
 		'artists': artists,
 		'infinite': infinite,
 		'timestamp': timestamp,
@@ -59,6 +67,8 @@ def artworks(request):
 	infinite = publications.count() == (CONTENT_ITEMS_LIMIT - 1)
 	timestamp = datetime.now().timestamp()
 	args = {
+		'meta_title': 'Работы на ArtChart',
+		'meta_description': 'Посмотреть работы художников, зарегистрированных на ArtChart',
 		'publications': publications,
 		'content_header': 'картины',
 		'infinite': infinite,
@@ -70,9 +80,12 @@ def artworks(request):
 
 def artwork(request, pk):
 	artwork = get_object_or_404(Artwork, pk = pk)
+	author = artwork.author.user
 	related_pubs = Artwork.objects.exclude(pk = pk)[:4]
-	show_delete_link = request.user == artwork.author.user
+	show_delete_link = request.user == author
 	args = {
+		'meta_title': f'{artwork.name}',
+		'meta_description': f'Работа художника {author.username} "{artwork.name}". {artwork.desc}',
 		'artwork': artwork,
 		'related_pubs': related_pubs,
 		'delete_link': show_delete_link,
@@ -89,6 +102,8 @@ def feed(request):
 		infinite = publications.count() == (CONTENT_ITEMS_LIMIT - 1)
 		timestamp = datetime.now().timestamp()
 		args = {
+			'meta_title': 'Лента',
+			'meta_description': '',
 			'publications': publications,
 			'content_header': 'ваша лента:',
 			'infinite': infinite,
@@ -99,6 +114,8 @@ def feed(request):
 
 	else:
 		args = {
+			'meta_title': 'Карамба!',
+			'meta_description': '',
 			'msg_header': "Этот раздел досутен только авторизованным пользователям",
 			'msg_text':  "Войдите на сайт для того, чтобы подписываться на блоги художников и видеть вашу персональную ленту",
 			'from_page': request.META.get('HTTP_REFERER')
@@ -112,16 +129,21 @@ def become_artist(request):
 			return redirect('register as artist')
 		else:
 			args = {
-				'msg_header': 'Вы не можете сейчас стать художником',
-				'msg_text':  'На данный момент вы не можете создать аккаунт художника. Если хотите сотрудничать, свяжитесь с нами',
+				'meta_title': 'Карамба!',
+				'meta_description': '',
+				'msg_header': 'У вас нет приглашения',
+				'msg_text': 'К сожалению, в текущий момент мы не принимаем в наши ряды случайных прохожих. ' \
+							'Для того, чтобы создать профиль художника, вам необходимо получить приглашение от администрации',
 				'from_page': request.META.get('HTTP_REFERER')
 			}
 			return render(request, 'main/info message.html', args)
 
 	else:
 		args = {
+			'meta_title': 'Карамба!',
+			'meta_description': '',
 			'msg_header': 'Войдите на сайт',
-			'msg_text':  'Вы приходите к нам и говорите, что хотите стать автором, но вы даже не называете своего имени. Авторизуйтесь, чтобы выполнить это действие с уважением',
+			'msg_text':  'Простите, но мы хотим знать, с кем имеем дело. Пожалуйста, авторизуйтесь, если хотите создать аккаунт художника на ArtChart',
 			'from_page': request.META.get('HTTP_REFERER')
 		}
 		return render(request, 'main/info message.html', args)
@@ -133,6 +155,8 @@ def tag(request, pk):
 	infinite = publications.count() == (CONTENT_ITEMS_LIMIT - 1)
 	timestamp = datetime.now().timestamp()
 	args = {
+		'meta_title': f'Тег {tag.name}',
+		'meta_description': f'Поиск публикаций по тегу {tag.name} на ArtChart',
 		'publications': publications,
 		'content_header': 'Поиск по тегу ' + tag.name + ':',
 		'infinite': infinite,
@@ -158,9 +182,16 @@ def feedback(request):
 		)
 
 		args = {
+			'meta_title': 'Спасибо!',
+			'meta_description': '',
 			'msg_header': "Ваше сообщение было отправлено",
 			'msg_text':  "Спасибо за обратную связь! Нам важно ваше мнение о проекте, ведь вы можете помочь сделать его лучше",
 		}
 		return render(request, 'main/info message.html', args)
 
-	else: return render(request, 'main/feedback.html')
+	else:
+		args = {
+			'meta_title': 'Напишите нам',
+			'meta_description': '',
+		}
+		return render(request, 'main/feedback.html', args)

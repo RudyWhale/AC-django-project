@@ -24,4 +24,10 @@ def new_artwork(request):
 
     else:
         form = ArtworkCreationForm()
-        return render(request, 'create_post/artwork create.html', {'form': form, 'max_desc_length': ARTWORK_DESC_MAX_LENGTH})
+        args = {
+			'meta_title': 'Новая запись',
+			'meta_description': '',
+            'form': form,
+            'max_desc_length': ARTWORK_DESC_MAX_LENGTH
+        }
+        return render(request, 'create_post/artwork create.html', args)

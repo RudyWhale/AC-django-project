@@ -1,0 +1,8 @@
+User-agent: Yandex
+Disallow: /admin/
+Disallow: /action/
+Disallow: /auth/
+Disallow: /become_artist
+Disallow: /create/
+Disallow: /media/
+

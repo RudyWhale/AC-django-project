@@ -195,3 +195,7 @@ def feedback(request):
 			'meta_description': '',
 		}
 		return render(request, 'main/feedback.html', args)
+
+
+def robots(request):
+	return redirect('static/robots.txt')

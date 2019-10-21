@@ -1,5 +1,7 @@
 from django.urls import path, re_path, include
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
+from django.shortcuts import redirect
 from . import views
 from ArtChart import settings
 
@@ -49,5 +51,10 @@ urlpatterns = [
 		'feedback',
 		views.feedback,
 		name='feedback'
+	),
+	path(
+		'robots.txt',
+		views.robots,
+		name ='robots'
 	)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, render_to_response
 from django.contrib.auth.models import User
 from django.db.models import Count
 from django.urls import reverse
@@ -198,4 +198,4 @@ def feedback(request):
 
 
 def robots(request):
-	return redirect('static/robots.txt')
+	return render(request, 'robots.txt', content_type="text/plain")

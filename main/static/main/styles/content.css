@@ -94,7 +94,7 @@ div.item_artwork_desc {
 	font-family: 'Roboto', sans-serif;
 }
 
-div.item_artwork_desc>h3 {
+div.item_artwork_desc>a>h3 {
 	display: block;
 	float: left;
 	width: 100%;
@@ -104,6 +104,7 @@ div.item_artwork_desc>h3 {
 	margin: 0px;
 	padding: 5px;
 	box-sizing: border-box;
+  color: black;
 }
 
 a.item_artwork_author_href {

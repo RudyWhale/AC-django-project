@@ -6,8 +6,7 @@
 
 	<div class="item_artwork_desc">
 
-		<h3>{{artwork.name}}</h3>
-
+		<a href="{% url 'artwork' pk=artwork.pk %}" class=""><h3>{{artwork.name}}</h3></a>
 		<a class="item_artwork_author_href" href="{% url 'artist' pk=artwork.author.pk %}">{{artwork.author.user.username}}</a>
 
 		<p>{{artwork.desc}}</p>

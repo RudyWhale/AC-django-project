@@ -74,14 +74,14 @@ def on_instance_delete(sender, instance, **kwargs):
 class Comment(models.Model):
 	publication = models.ForeignKey(Publication, on_delete=models.CASCADE)
 	author = models.ForeignKey(User, on_delete=models.CASCADE)
-	date = models.DateTimeField()
+	datetime = models.DateTimeField()
 	text = models.TextField()
 
 	def __str__(self):
 		return self.author.username + ' on publication ' + str(self.publication.pk) + ': ' + self.text
 
 	class Meta:
-		ordering = ['-date']
+		ordering = ['-datetime']
 
 
 class Tag(models.Model):

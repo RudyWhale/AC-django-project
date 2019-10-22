@@ -71,7 +71,7 @@ def comment(request):
 		comment = Comment.objects.create(
 			publication = publication,
 			author = user,
-			date = datetime.now(),
+			datetime = datetime.now(),
 			text = text
 		)
 		result = render_to_string('main/includes/artwork comment.html', {'comment': comment, 'user': user})

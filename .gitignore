@@ -3,3 +3,4 @@ ArtChart/settings.py
 __pycache__
 media/
 static/
+migrations/

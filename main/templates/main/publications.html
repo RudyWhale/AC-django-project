@@ -19,11 +19,11 @@
 
 {% include "main/includes/header.html" %}
 
-{% if description %}
+{% include "main/includes/menu.html" %}
+
+{% if site_description %}
 	{% include "main/includes/site desc.html" %}
 {% endif %}
-
-{% include "main/includes/menu.html" %}
 
 {% if profile %}
 	{% include "main/includes/artist overview.html" with profile=profile user=request.user %}

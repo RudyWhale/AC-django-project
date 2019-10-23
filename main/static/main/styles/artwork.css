@@ -12,6 +12,7 @@ div.artwork_img {
 	width: calc(100% - 350px);
 	background-color: rgb(80,80,80);
 	overflow: hidden;
+	position: relative; /* for image loading label positioning */
 }
 
 div.artwork_img>img {

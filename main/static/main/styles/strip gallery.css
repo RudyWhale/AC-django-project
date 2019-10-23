@@ -75,6 +75,7 @@ div.strip_gallery_item_artwork>a {
 	float: left;
 	overflow: hidden;
 	background-color: rgb(80,80,80);
+	position: relative; /* for image loading label positioning */
 }
 
 div.strip_gallery_item_artwork>a>img {

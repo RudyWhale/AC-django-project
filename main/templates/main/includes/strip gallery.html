@@ -8,6 +8,7 @@
 			<div class="strip_gallery_item_artwork">
 
 				<a href="{% url 'artwork' pk=publication.artwork.pk %}">
+					<p class="image_loading_label">Загружаю картинку, подождите...</p>
 					<img class="hor_center" src="{{publication.artwork.image.url}}" alt="Картина" onload="on_content_image_load(this)" />
 				</a>
 

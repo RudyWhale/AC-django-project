@@ -19,11 +19,13 @@ function set_artwork(img) {
 
 function on_content_image_load(img){
   $(img).css('left', function(){ return ($(this).parent().width() - $(this).width()) / 2; });
+  $(img).siblings('p.image_loading_label').css('opacity', '0');
   $(img).css('opacity', '1');
 }
 
 function on_artwork_load(img){
   set_artwork(img);
+  $(img).siblings('p.image_loading_label').css('opacity', '0');
   $(img).css('opacity', '1');
 }
 

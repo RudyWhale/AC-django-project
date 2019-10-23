@@ -6,11 +6,8 @@ div.header {
 
 div.header_logo {
 	width: calc(100% - 150px);
-	height: 100px;
 	float: left;
-	line-height: 150px;
 	font-family: "Oswald", sans-serif;
-	font-size: 40px;
 	color: white;
 }
 
@@ -27,6 +24,7 @@ h1.logo {
 	height: 73px;
 	line-height: 73px;
 	font-weight: normal;
+	font-size: 80px;
 }
 
 div.header_user_info {
@@ -87,5 +85,14 @@ a.user_info_href {
 	a.user_info_href {
 		font-size: 12px;
 	}
+}
 
+
+@media screen and (max-width: 600px){
+	h1.logo {
+		margin: 47px 0 0 0;
+		font-size: 60px;
+		height: 50px;
+		line-height: 50px;
+	}
 }

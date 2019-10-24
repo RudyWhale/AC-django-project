@@ -20,8 +20,8 @@
 
 {% block content %}
 
-{% include "main/includes/header.html" %}
-{% include "main/includes/menu.html" %}
+{% include "main/page_blocks/header.html" %}
+{% include "main/page_blocks/menu.html" %}
 
 <div class="bounded_wrapper">
 
@@ -84,8 +84,8 @@
 
 </div><!-- bounded_wrapper -->
 
-{% include "main/includes/strip gallery.html" with publications=related_pubs %}
-{% include "main/includes/artist overview.html" with profile=artwork.author user=request.user %}
-{% include "main/includes/footer.html" %}
+{% include "main/page_blocks/strip gallery.html" with publications=related_pubs %}
+{% include "main/page_blocks/artist overview.html" with profile=artwork.author user=request.user %}
+{% include "main/page_blocks/footer.html" %}
 
 {% endblock %}

@@ -1,0 +1,52 @@
+{% extends "main/wrapper.html" %}
+
+{% block styles %}
+	{% load static %}
+
+	<link href="{% static 'main/styles/form.css' %}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block scripts %}
+	{% load static %}
+
+	<script src="{% static 'main/scripts/form.js' %}" type="text/javascript"></script>
+{% endblock %}
+
+{% block content %}
+
+{% include "main/page_blocks/header.html" %}
+{% include "main/page_blocks/menu.html" %}
+
+<div class="bounded_wrapper">
+
+	<div class="form">
+		<form method="post" action="{% url 'new-artwork' %}" enctype="multipart/form-data">
+			{% csrf_token %}
+
+			{% if header %}
+				<h2 class="form_header">{{header}}</h2>
+			{% endif %}
+
+      {% for field in form %}
+				<div class="form_field">
+					<div class="form_label">
+						<h3>{{field.label}}</h3>
+					</div>
+					<div class="form_input">
+						{{field}}
+					</div>
+				</div>
+      {% endfor %}
+
+			<div class="form_field">
+					<input type="submit" value="{{submit_text}}" class="form_submit_btn" />
+			</div>
+
+		</form>
+	</div><!-- form -->
+
+</div><!-- bounded wrapper -->
+
+{% include "main/page_blocks/footer.html" %}
+
+{% endblock %}

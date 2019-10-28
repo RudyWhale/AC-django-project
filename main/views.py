@@ -5,7 +5,8 @@ from django.urls import reverse
 from django.core.mail import send_mail
 from datetime import datetime
 from .models import Publication, Artwork, ArtistProfile, Tag
-from ArtChart.settings import CONTENT_ITEMS_LIMIT, ARTIST_PROFILES_LIMIT, COMMENT_MAX_LENGTH, ADMIN_EMAIL_ADRESS, EMAIL_HOST_USER
+from .forms import ArtworkCreationForm
+from ArtChart.settings import CONTENT_ITEMS_LIMIT, ARTIST_PROFILES_LIMIT, COMMENT_MAX_LENGTH, ADMIN_EMAIL_ADRESS, EMAIL_HOST_USER, ARTWORK_DESC_MAX_LENGTH
 
 def index(request):
 	publications = Publication.objects.annotate(likes_count=Count('likes')).order_by('-likes_count')[:CONTENT_ITEMS_LIMIT - 1]
@@ -200,3 +201,37 @@ def feedback(request):
 
 def robots(request):
 	return render(request, 'robots.txt', content_type="text/plain")
+
+
+def profile_settings(request):
+	args = {
+		'meta_title': 'Спасибо!',
+		'meta_description': '',
+	}
+	return render(request, 'main/profile settings.html', args);
+
+
+def new_artwork(request):
+    user = request.user
+
+    try:
+        profile = user.profile
+    except AttributeError as e: return HttpResponse(status=403)
+
+    if request.method == 'POST':
+        form = ArtworkCreationForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            form.save(profile = profile)
+            return redirect('artist', pk = profile.pk)
+
+        else: return HttpResponse(status=400)
+
+    else:
+        form = ArtworkCreationForm()
+        args = {
+            'form': form,
+            'submit_text': 'Создать работу',
+            'max_desc_length': ARTWORK_DESC_MAX_LENGTH
+        }
+        return render(request, 'main/form.html', args)

@@ -1,16 +1,14 @@
 from django import forms
-from django.utils.html import strip_tags
 from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, SetPasswordForm
 from django.contrib.auth.models import User
 from django.core.validators import validate_email
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from django.utils.translation import ugettext, ugettext_lazy as _
 from django.urls import reverse
 from PIL import Image
 from io import BytesIO
 from datetime import datetime
-import sys
 from main.models import ArtistProfile
+from main.widgets import LimitedLengthTextarea
 from .snippets import get_hash
 from ArtChart.settings import EMAIL_HOST_USER, PROFILE_AVATAR_MAX_SIZE as MAX_AVATAR_SIZE, PROFILE_DESC_MAX_LENGTH
 
@@ -20,17 +18,17 @@ Form for ordinary user registration
 '''
 class RegistrationForm(UserCreationForm):
 	password1 = forms.CharField(
-			required = True,
-			widget = forms.widgets.PasswordInput(attrs={'placeholder': 'Придумайте пароль', 'class': 'pass1'})
-		)
+		required = True,
+		widget = forms.widgets.PasswordInput(attrs={'placeholder': 'Придумайте пароль', 'class': 'pass1'})
+	)
 	password2 = forms.CharField(
-			required = True,
-			widget = forms.widgets.PasswordInput(attrs={'placeholder': 'Повторите пароль', 'class': 'pass2'})
-		)
+		required = True,
+		widget = forms.widgets.PasswordInput(attrs={'placeholder': 'Повторите пароль', 'class': 'pass2'})
+	)
 	email = forms.CharField(
-			required = True,
-			widget = forms.widgets.EmailInput(attrs={'placeholder': 'Ваша действующая эл. почта', 'class': 'inp_email'})
-		)
+		required = True,
+		widget = forms.widgets.EmailInput(attrs={'placeholder': 'Ваша действующая эл. почта', 'class': 'inp_email'})
+	)
 
 	class Meta:
 		model = User
@@ -77,8 +75,14 @@ class ArtistCreationForm(forms.ModelForm):
 		'maxlength': PROFILE_DESC_MAX_LENGTH,
 		'class': 'limited_length'
 	}
-	desc = forms.CharField(required=True,widget=forms.widgets.Textarea(attrs=desc_attrs))
-	avatar = forms.ImageField(required=True, widget=forms.widgets.FileInput(attrs={'class': 'avatar_inp', 'data-max_size': MAX_AVATAR_SIZE}))
+	desc = forms.CharField(
+		required=True,
+		widget=LimitedLengthTextarea(attrs=desc_attrs)
+	)
+	avatar = forms.ImageField(
+		required=True,
+		widget=forms.widgets.FileInput(attrs={'class': 'avatar_inp', 'data-max_size': MAX_AVATAR_SIZE})
+	)
 
 	class Meta:
 		model = ArtistProfile
@@ -112,12 +116,12 @@ class ArtistCreationForm(forms.ModelForm):
 
 
 class ACPasswordResetForm(PasswordResetForm):
-	email = forms.EmailField(label=_("Email"), max_length=254,
-							widget=forms.widgets.EmailInput(attrs={'placeholder': 'Введите ваш email'}))
+	email = forms.EmailField(
+		max_length=254,
+		widget=forms.widgets.EmailInput(attrs={'placeholder': 'Введите ваш email'})
+	)
 
 
 class ACSetPasswordForm(SetPasswordForm):
-	new_password1 = forms.CharField(label=_("New password"),
-									widget=forms.PasswordInput(attrs={'placeholder': 'Введите новый пароль'}))
-	new_password2 = forms.CharField(label=_("New password confirmation"),
-									widget=forms.PasswordInput(attrs={'placeholder': 'Повторите новый пароль'}))
+	new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Введите новый пароль'}))
+	new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Повторите новый пароль'}))

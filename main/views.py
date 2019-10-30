@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.core.mail import send_mail
 from datetime import datetime
 from .models import Publication, Artwork, ArtistProfile, Tag
-from .forms import ArtworkCreationForm
+from .forms import ArtworkCreationForm, FeedbackForm
 from ArtChart.settings import CONTENT_ITEMS_LIMIT, ARTIST_PROFILES_LIMIT, COMMENT_MAX_LENGTH, ADMIN_EMAIL_ADRESS, EMAIL_HOST_USER, ARTWORK_DESC_MAX_LENGTH
 
 def index(request):
@@ -145,7 +145,8 @@ def become_artist(request):
 			'meta_title': 'Карамба!',
 			'meta_description': '',
 			'msg_header': 'Войдите на сайт',
-			'msg_text':  'Простите, но мы хотим знать, с кем имеем дело. Пожалуйста, авторизуйтесь, если хотите создать аккаунт художника на ArtChart',
+			'msg_text':  'Простите, но мы хотим знать, с кем имеем дело.' \
+						' Пожалуйста, авторизуйтесь, если хотите создать аккаунт художника на ArtChart',
 			'from_page': request.META.get('HTTP_REFERER')
 		}
 		return render(request, 'main/info message.html', args)
@@ -187,7 +188,7 @@ def feedback(request):
 			'meta_title': 'Спасибо!',
 			'meta_description': '',
 			'msg_header': "Ваше сообщение было отправлено",
-			'msg_text':  "Спасибо за обратную связь! Нам важно ваше мнение о проекте, ведь вы можете помочь сделать его лучше",
+			'msg_text':  "Спасибо за обратную связь! Нам важно ваше мнение о проекте, ведь вы можете помочь сделать его лучше"
 		}
 		return render(request, 'main/info message.html', args)
 
@@ -195,8 +196,11 @@ def feedback(request):
 		args = {
 			'meta_title': 'Напишите нам',
 			'meta_description': '',
+			'header': 'Обратная связь',
+			'form': FeedbackForm(),
+			'submit_text': 'Отправить сообшение'
 		}
-		return render(request, 'main/feedback.html', args)
+		return render(request, 'main/form.html', args)
 
 
 def robots(request):
@@ -228,10 +232,9 @@ def new_artwork(request):
         else: return HttpResponse(status=400)
 
     else:
-        form = ArtworkCreationForm()
         args = {
-            'form': form,
+			'header': 'Новая работа',
+            'form': ArtworkCreationForm(),
             'submit_text': 'Создать работу',
-            'max_desc_length': ARTWORK_DESC_MAX_LENGTH
         }
         return render(request, 'main/form.html', args)

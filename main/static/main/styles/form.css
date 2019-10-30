@@ -11,6 +11,20 @@ div.form>form {
   margin: 0px auto;
 }
 
+div.form_header {
+  margin-top: 10px;
+  width: 100%;
+  float: left;
+  border-bottom: 4px solid rgb(120,120,120);
+}
+
+div.form_header>h2 {
+  font-size: 48px;
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  color: rgb(120,120,120);
+}
+
 div.form_field {
   width: 100%;
   float: left;

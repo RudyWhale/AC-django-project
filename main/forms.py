@@ -9,7 +9,7 @@ from ArtChart.settings import ARTWORK_DESC_MAX_LENGTH, ARTWORK_IMAGE_MAX_SIZE
 
 class AbstractPostCreationForm(ModelForm):
     tag_set = forms.CharField(
-        max_length = 50,
+        max_length = 100,
         widget = forms.TextInput(attrs={'placeholder': 'Впишите, теги, соответствующие, работе, разделив, их, запятой'}),
         label = 'Теги через запятую'
     )
@@ -66,3 +66,16 @@ class ArtworkCreationForm(AbstractPostCreationForm):
             raise forms.ValidationError('Artwork image is too big')
 
         return file
+
+
+class FeedbackForm(forms.Form):
+    message_textarea_attrs = {
+        'placeholder': 'Напишите ваше сообщение для администрации портала. Если нужно, укажите электронную почту для связи',
+        'maxlength': '1000',
+        'class': 'limited_length',
+    }
+    message = forms.CharField(
+        required = True,
+        widget = LimitedLengthTextarea(attrs=message_textarea_attrs),
+        label = 'Ваше сообщение'
+    )

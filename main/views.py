@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.core.mail import send_mail
 from django.http import HttpResponse
 from datetime import datetime
-from .models import Publication, Artwork, ArtistProfile, Tag, UserSettings
+from .models import Publication, Artwork, ArtistProfile, Tag, UserSettings, ProfileSettings
 from .forms import *
 from ArtChart.settings import *
 
@@ -208,14 +208,6 @@ def robots(request):
 	return render(request, 'robots.txt', content_type="text/plain")
 
 
-def profile_settings(request):
-	args = {
-		'meta_title': 'Спасибо!',
-		'meta_description': '',
-	}
-	return render(request, 'main/profile settings.html', args);
-
-
 def new_artwork(request):
     user = request.user
 
@@ -249,9 +241,21 @@ def settings(request):
 
 	user_settings = UserSettings.objects.get_or_create(user=user)[0]
 
+	try:
+		profile_settings = ProfileSettings.objects.get_or_create(profile = user.profile)[0]
+	except ArtistProfile.DoesNotExist:
+		profile_settings = None
+
 	if request.method == 'POST':
-		user_settings.feed_update_notifications = 'feed_updates' in request.POST.getlist('email_settings')
+		email_choices = request.POST.getlist('email_settings')
+		user_settings.feed_update_notifications = 'feed_update_notifications' in email_choices
 		user_settings.save()
+
+		if profile_settings:
+			profile_settings.subscribers_update_notifications = 'subscribers_update_notifications' in email_choices
+			profile_settings.publication_comments_update_notifications = 'publication_comments_update_notifications' in email_choices
+			profile_settings.save()
+
 		args = {
 			'meta_title': 'Настройки изменены',
 			'meta_description': '',
@@ -263,7 +267,7 @@ def settings(request):
 	else:
 		args = {
 			'header': 'Настройки пользователя',
-			'form': UserSettingsForm(),
+			'form': UserSettingsForm(user_settings, profile_settings),
 			'submit_text': 'Сохранить настройки'
 		}
 		return render(request, 'main/form.html', args)

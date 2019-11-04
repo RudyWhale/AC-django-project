@@ -3,12 +3,12 @@ div.menu {
 	width: 100%;
 	float: left;
 	text-align: center;
-	vertical-align: middle;
 }
 
 div.menu>ul {
 	padding: 0px;
 	display: block;
+	margin: 12px 0;
 }
 
 div.menu>ul>li {
@@ -23,7 +23,7 @@ a.menu_item {
 	text-decoration: none;
 	text-transform: uppercase;
 	font-size: 24px;
-	border: 2px solid rgb(120,120,120);
+	border: 1px solid rgb(120,120,120);
 	margin: 0px 16px;
 	text-align: left;
 	padding: 18px 0 0 10px;
@@ -32,9 +32,9 @@ a.menu_item {
 }
 
 a.menu_item:hover {
-	border: 2px solid white;
+	border: 1px solid white;
 	color: white;
-	box-shadow: -2px 2px 0px 0px black, inset -2px 2px 0px 0px black, -4px 4px 0px 0px rgb(80,80,80), inset -4px 4px 0px 0px rgb(80,80,80);
+	box-shadow: -3px 3px 0px 0px black, inset -3px 3px 0px 0px black, -4px 4px 0px 0px rgb(80,80,80), inset -4px 4px 0px 0px rgb(80,80,80);
 	text-shadow: -4px 4px 0px rgb(80,80,80);
 }
 

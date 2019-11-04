@@ -44,7 +44,7 @@ def on_instance_delete(sender, instance, **kwargs):
 class ProfileSettings(models.Model):
 	profile = models.OneToOneField(ArtistProfile, on_delete=models.CASCADE)
 	subscribers_update_notifications = models.BooleanField(default=True)
-	artwork_comments_update_notifications = models.BooleanField(default=True)
+	publication_comments_update_notifications = models.BooleanField(default=True)
 
 
 '''

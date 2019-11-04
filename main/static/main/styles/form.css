@@ -2,7 +2,8 @@ div.form {
   background-color: white;
   float: left;
   width: 100%;
-  padding-bottom: 10px;
+  padding: 12px 5px;
+  box-sizing: border-box;
 }
 
 div.form>form {
@@ -12,22 +13,44 @@ div.form>form {
 }
 
 div.form_header {
-  margin-top: 10px;
   width: 100%;
   float: left;
-  border-bottom: 4px solid rgb(120,120,120);
+  border-bottom: 4px solid rgb(140,140,140);
 }
 
 div.form_header>h2 {
   font-size: 48px;
   font-family: 'Roboto', sans-serif;
   margin: 0;
-  color: rgb(120,120,120);
+  color: rgb(140,140,140);
 }
 
 div.form_field {
   width: 100%;
   float: left;
+}
+
+div.form_label {
+  width: 100%;
+  float: left;
+  margin: 6px 0;
+}
+
+div.form_label>h3 {
+  margin: 0px;
+  font-size: 34px;
+  box-sizing: border-box;
+  color: black;
+  font-weight: normal;
+  line-height: 40px;
+  font-family: 'Oswald', sans-serif;
+}
+
+div.form_label>p {
+  margin: 4px 0 0 0;
+  color: rgb(120,120,120);
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
 }
 
 div.form_input {
@@ -71,19 +94,14 @@ div.form_input>textarea:focus {
   border: 1px solid black;
 }
 
-div.form_label {
-  width: 100%;
-  float: left;
-  font-family: 'Oswald', sans-serif;
-  color: rgb(80,80,80);
+div.form_input>ul {
+  list-style: none;
+  padding-left: 0;
 }
 
-div.form_label>h3 {
-  margin: 0px;
-  font-size: 34px;
-  box-sizing: border-box;
-  color: black;
-  font-weight: normal;
+div.form_input>ul>li {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
 }
 
 input.form_submit_btn {
@@ -102,35 +120,4 @@ input.form_submit_btn:hover {
   background-color: rgb(200,200,200);
 	box-shadow: -4px 4px 0 0 rgb(200,200,200), inset -3px 3px 0 0 white;
 	outline: none;
-}
-
-/*===============================================*/
-/* MEDIA ----------------------------------------*/
-/*===============================================*/
-
-@media screen and (max-width: 800px) {
-
-  div.form {
-    padding: 5px;
-    box-sizing: border-box;
-  }
-
-  div.form_input {
-    width: 100%;
-  }
-
-  div.form_label {
-    width: 100%;
-    text-align: left;
-  }
-
-  div.form>form {
-    width: 100%;
-  }
-
-  input.form_submit_btn {
-    margin-left: 0px;
-    width: 100%;
-  }
-
 }

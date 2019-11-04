@@ -1,5 +1,19 @@
 from django.contrib import admin
-from .models import Artwork, ArtistProfile, Comment, Tag, Publication
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
+from .models import Artwork, ArtistProfile, Comment, Tag, Publication, UserSettings
+
+
+class UserSettingsInline(admin.StackedInline):
+    model = UserSettings
+
+
+class ACUserAdmin(UserAdmin):
+    inlines = [UserSettingsInline,]
+
+
+admin.site.unregister(User)
+admin.site.register(User, ACUserAdmin)
 
 admin.site.register(Artwork)
 admin.site.register(ArtistProfile)

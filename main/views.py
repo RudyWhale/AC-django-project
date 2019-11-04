@@ -3,10 +3,11 @@ from django.contrib.auth.models import User
 from django.db.models import Count
 from django.urls import reverse
 from django.core.mail import send_mail
+from django.http import HttpResponse
 from datetime import datetime
-from .models import Publication, Artwork, ArtistProfile, Tag
-from .forms import ArtworkCreationForm, FeedbackForm
-from ArtChart.settings import CONTENT_ITEMS_LIMIT, ARTIST_PROFILES_LIMIT, COMMENT_MAX_LENGTH, ADMIN_EMAIL_ADRESS, EMAIL_HOST_USER, ARTWORK_DESC_MAX_LENGTH
+from .models import Publication, Artwork, ArtistProfile, Tag, UserSettings
+from .forms import *
+from ArtChart.settings import *
 
 def index(request):
 	publications = Publication.objects.annotate(likes_count=Count('likes')).order_by('-likes_count')[:CONTENT_ITEMS_LIMIT - 1]
@@ -238,3 +239,31 @@ def new_artwork(request):
             'submit_text': 'Создать работу',
         }
         return render(request, 'main/form.html', args)
+
+
+def settings(request):
+	user = request.user
+
+	if not user.is_authenticated:
+		return HttpResponse(status=401)
+
+	user_settings = UserSettings.objects.get_or_create(user=user)[0]
+
+	if request.method == 'POST':
+		user_settings.feed_update_notifications = 'feed_updates' in request.POST.getlist('email_settings')
+		user_settings.save()
+		args = {
+			'meta_title': 'Настройки изменены',
+			'meta_description': '',
+			'msg_header': "Настройки были изменены",
+			'msg_text':  "Мы сохранили все изменения вашего профиля"
+		}
+		return render(request, 'main/info message.html', args)
+
+	else:
+		args = {
+			'header': 'Настройки пользователя',
+			'form': UserSettingsForm(),
+			'submit_text': 'Сохранить настройки'
+		}
+		return render(request, 'main/form.html', args)

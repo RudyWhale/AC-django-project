@@ -9,6 +9,11 @@ import os
 from datetime import datetime
 
 
+class UserSettings(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
+	feed_update_notifications = models.BooleanField(default=True)
+
+
 '''
 Class represents user who can create publications
 '''
@@ -34,6 +39,12 @@ def on_instance_delete(sender, instance, **kwargs):
 	if instance.avatar:
 		if os.path.isfile(instance.avatar.path):
 			os.remove(instance.avatar.path)
+
+
+class ProfileSettings(models.Model):
+	profile = models.OneToOneField(ArtistProfile, on_delete=models.CASCADE)
+	subscribers_update_notifications = models.BooleanField(default=True)
+	artwork_comments_update_notifications = models.BooleanField(default=True)
 
 
 '''

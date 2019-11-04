@@ -20,7 +20,7 @@
 <div class="bounded_wrapper">
 
 	<div class="form">
-		<form method="post" action="{% url 'new-artwork' %}" enctype="multipart/form-data">
+		<form method="post" action="{{request.path}}" enctype="multipart/form-data">
 			{% csrf_token %}
 
 			{% if header %}
@@ -33,6 +33,10 @@
 				<div class="form_field">
 					<div class="form_label">
 						<h3>{{field.label}}</h3>
+
+						{% if field.help_text %}
+							<p>{{field.help_text}}</p>
+						{% endif %}
 					</div>
 					<div class="form_input">
 						{{field}}
@@ -41,7 +45,7 @@
       {% endfor %}
 
 			<div class="form_field">
-					<input type="submit" value="{{submit_text}}" class="form_submit_btn" />
+				<input type="submit" value="{{submit_text}}" class="form_submit_btn" />
 			</div>
 
 		</form>

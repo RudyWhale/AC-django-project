@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from PIL import Image
 from datetime import datetime
-from .models import Artwork, Tag
+from .models import Artwork, Tag, UserSettings, ProfileSettings
 from .widgets import LimitedLengthTextarea
 from ArtChart.settings import ARTWORK_DESC_MAX_LENGTH, ARTWORK_IMAGE_MAX_SIZE
 
@@ -78,4 +78,13 @@ class FeedbackForm(forms.Form):
         required = True,
         widget = LimitedLengthTextarea(attrs=message_textarea_attrs),
         label = 'Ваше сообщение'
+    )
+
+
+class UserSettingsForm(forms.Form):
+    CHOICES = [('feed_updates', 'Уведомлять об обновлениях вашей персональной ленты'),]
+    email_settings = forms.ChoiceField(
+        label = 'Email-уведомления',
+        widget = forms.CheckboxSelectMultiple,
+        choices = CHOICES
     )

@@ -15,11 +15,11 @@
 
 {% block content %}
 
-{% include "main/includes/header.html" %}
-{% include "main/includes/menu.html" %}
+{% include "main/page_blocks/header.html" %}
+{% include "main/page_blocks/menu.html" %}
 
 {% for profile in artists %}
-	{% include "main/includes/artist overview.html" with profile=profile user=request.user %}
+	{% include "main/page_blocks/artist overview.html" with profile=profile user=request.user %}
 {% endfor %}
 
 <div class="bounded_wrapper">
@@ -36,6 +36,6 @@
 	{% endif %}
 </div><!-- bounded_wrapper -->
 
-{% include "main/includes/footer.html" %}
+{% include "main/page_blocks/footer.html" %}
 
 {% endblock %}

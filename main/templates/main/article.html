@@ -18,8 +18,8 @@
 
 {% block content %}
 
-{% include "main/includes/header.html" %}
-{% include "main/includes/menu.html" %}
+{% include "main/page_blocks/header.html" %}
+{% include "main/page_blocks/menu.html" %}
 
 <div class="bounded_wrapper">
   <div class="article_repr">
@@ -60,11 +60,11 @@
       {% endfor %}
     </div>
 
-    {% include "main/includes/artist overview.html" with artist=article.author.user profile=article.author %}
+    {% include "main/page_blocks/artist overview.html" with artist=article.author.user profile=article.author %}
 
   </div>
 </div><!-- bounded_wrapper -->
 
-{% include "main/includes/footer.html" %}
+{% include "main/page_blocks/footer.html" %}
 
 {% endblock %}

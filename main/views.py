@@ -2,9 +2,9 @@ from django.shortcuts import render, get_object_or_404, redirect, render_to_resp
 from django.contrib.auth.models import User
 from django.db.models import Count
 from django.urls import reverse
+from django.utils import timezone
 from django.core.mail import send_mail
 from django.http import HttpResponse
-from datetime import datetime
 from .models import Publication, Artwork, ArtistProfile, Tag, UserSettings, ProfileSettings
 from .forms import *
 from ArtChart.settings import *
@@ -12,7 +12,7 @@ from ArtChart.settings import *
 def index(request):
 	publications = Publication.objects.annotate(likes_count=Count('likes')).order_by('-likes_count')[:CONTENT_ITEMS_LIMIT - 1]
 	infinite = publications.count() == (CONTENT_ITEMS_LIMIT - 1)
-	timestamp = datetime.now().timestamp()
+	timestamp = timezone.now().timestamp()
 	args = {
 		'meta_title': 'ArtChart',
 		'meta_description': 'ArtChart - портал для художников, дизайнеров и людей, интересующихся искусством и творчеством. ' \
@@ -32,7 +32,7 @@ def artist(request, pk):
 	profile = get_object_or_404(ArtistProfile, pk = pk)
 	publications = profile.publication_set.all().order_by('-datetime')[:CONTENT_ITEMS_LIMIT - 1]
 	infinite = publications.count() == (CONTENT_ITEMS_LIMIT - 1)
-	timestamp = datetime.now().timestamp()
+	timestamp = timezone.now().timestamp()
 	user = profile.user
 	create_publication = True if profile.user == request.user else False
 	args = {
@@ -53,7 +53,7 @@ def artist(request, pk):
 def artists(request):
 	artists = ArtistProfile.objects.all().annotate(subs_count=Count('subscribers')).order_by('-subs_count')[:ARTIST_PROFILES_LIMIT]
 	infinite = artists.count() == ARTIST_PROFILES_LIMIT
-	timestamp = datetime.now().timestamp()
+	timestamp = timezone.now().timestamp()
 	args = {
 		'meta_title': 'Блоги на ArtChart',
 		'meta_description': 'Посмотреть блоги художников, зарегистрированных на ArtChart',
@@ -68,7 +68,7 @@ def artists(request):
 def artworks(request):
 	publications = Artwork.objects.order_by('-datetime')[:CONTENT_ITEMS_LIMIT - 1]
 	infinite = publications.count() == (CONTENT_ITEMS_LIMIT - 1)
-	timestamp = datetime.now().timestamp()
+	timestamp = timezone.now().timestamp()
 	args = {
 		'meta_title': 'Работы на ArtChart',
 		'meta_description': 'Посмотреть работы художников, зарегистрированных на ArtChart',
@@ -103,7 +103,7 @@ def feed(request):
 	if user.is_authenticated:
 		publications = Publication.objects.filter(author__in = user.subscriptions.all()).order_by('-datetime')[:CONTENT_ITEMS_LIMIT - 1]
 		infinite = publications.count() == (CONTENT_ITEMS_LIMIT - 1)
-		timestamp = datetime.now().timestamp()
+		timestamp = timezone.now().timestamp()
 		args = {
 			'meta_title': 'Лента',
 			'meta_description': '',
@@ -157,7 +157,7 @@ def tag(request, pk):
 	tag = get_object_or_404(Tag, pk = pk)
 	publications = tag.publications.order_by('-datetime')[:CONTENT_ITEMS_LIMIT - 1]
 	infinite = publications.count() == (CONTENT_ITEMS_LIMIT - 1)
-	timestamp = datetime.now().timestamp()
+	timestamp = timezone.now().timestamp()
 	args = {
 		'meta_title': f'Тег {tag.name}',
 		'meta_description': f'Поиск публикаций по тегу {tag.name} на ArtChart',

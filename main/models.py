@@ -1,12 +1,8 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.utils import timezone
 from django.template.loader import render_to_string
-from django.dispatch import receiver
-from django.db.models.signals import post_delete, pre_save
-
-import os
-from datetime import datetime
 
 
 class UserSettings(models.Model):
@@ -14,12 +10,9 @@ class UserSettings(models.Model):
 	feed_update_notifications = models.BooleanField(default=True)
 
 
-'''
-Class represents user who can create publications
-'''
 class ArtistProfile(models.Model):
 	def avatar_upload_path(self, filename):
-		date = datetime.now()
+		date = timezone.now()
 		return 'avatars/{}/{}/{}'.format(date.year, date.month, filename)
 
 	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
@@ -33,23 +26,14 @@ class ArtistProfile(models.Model):
 	def as_html(self, user):
 		return render_to_string('main/includes/artist overview.html', {'profile': self, 'user': user})
 
-# Deletes avatar file after profile deleting
-@receiver(post_delete, sender=ArtistProfile)
-def on_instance_delete(sender, instance, **kwargs):
-	if instance.avatar:
-		if os.path.isfile(instance.avatar.path):
-			os.remove(instance.avatar.path)
-
 
 class ProfileSettings(models.Model):
 	profile = models.OneToOneField(ArtistProfile, on_delete=models.CASCADE)
-	subscribers_update_notifications = models.BooleanField(default=True)
+	subscribers_update_notifications = models.BooleanField(default=False)
 	publication_comments_update_notifications = models.BooleanField(default=True)
 
 
-'''
-Abstract class for any publication
-'''
+# Abstract class for any publication
 class Publication(models.Model):
 	author = models.ForeignKey(ArtistProfile, on_delete=models.CASCADE)
 	datetime = models.DateTimeField()
@@ -60,12 +44,9 @@ class Publication(models.Model):
 		return self.name
 
 
-'''
-Class represents artwork publication object
-'''
 class Artwork(Publication):
 	def upload_path(self, filename):
-		date = datetime.now()
+		date = timezone.now()
 		return 'artworks/{}/{}/{}.{}'.format(date.year, date.month, str(self.pk), filename.split('.')[-1])
 
 	desc = models.TextField(default='no desc')
@@ -73,13 +54,6 @@ class Artwork(Publication):
 
 	def as_html(self):
 		return render_to_string('main/includes/content item artwork.html', {'artwork': self})
-
-# Deletes image file after instance deleting
-@receiver(post_delete, sender=Artwork)
-def on_instance_delete(sender, instance, **kwargs):
-	if instance.image:
-		if os.path.isfile(instance.image.path):
-			os.remove(instance.image.path)
 
 
 class Comment(models.Model):
@@ -101,3 +75,52 @@ class Tag(models.Model):
 
 	def __str__(self):
 		return self.name
+
+
+'''
+=============================== RECEIVERS ===============================
+'''
+from django.db.models.signals import post_delete, pre_save, post_save
+from django.dispatch import receiver
+from django.urls import reverse
+import os
+
+
+# Deletes avatar file after profile deleting
+@receiver(post_delete, sender=ArtistProfile)
+def on_instance_delete(sender, instance, **kwargs):
+	if instance.avatar:
+		if os.path.isfile(instance.avatar.path):
+			os.remove(instance.avatar.path)
+
+
+# Deletes image file after instance deleting
+@receiver(post_delete, sender=Artwork)
+def on_instance_delete(sender, instance, **kwargs):
+	if instance.image:
+		if os.path.isfile(instance.image.path):
+			os.remove(instance.image.path)
+
+
+@receiver(post_save, sender=Artwork)
+def notify_subs(sender, instance, created, **kwargs):
+	if created:
+		author = instance.author
+		subs = author.subscribers.exclude(usersettings__feed_update_notifications=False)
+		settings_url = reverse('settings')
+
+		from django.core.mail import send_mail
+		from ArtChart.settings import EMAIL_HOST_USER, HOST
+
+		url = HOST + reverse('artwork', args=(instance.pk,))
+		text = 'В вашей персональной ленте на ArtChart появилась новая работа. Чтобы увидеть ее, перейдите по ссылке: ' + url
+		html = render_to_string('email_templates/feed_update_notification.html', {'publication_link': url})
+
+		for user in subs:
+			send_mail(
+				f'Новая публикация от {author.user.username} в вашей ленте на ArtChart!',
+				text,
+				EMAIL_HOST_USER,
+				[user.email,],
+				html_message = html
+			)

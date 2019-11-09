@@ -83,6 +83,8 @@ class Tag(models.Model):
 from django.db.models.signals import post_delete, pre_save, post_save
 from django.dispatch import receiver
 from django.urls import reverse
+from django.core.mail import send_mail
+from ArtChart.settings import EMAIL_HOST_USER, HOST
 import os
 
 
@@ -108,13 +110,9 @@ def notify_subs(sender, instance, created, **kwargs):
 		author = instance.author
 		subs = author.subscribers.exclude(usersettings__feed_update_notifications=False)
 		settings_url = reverse('settings')
-
-		from django.core.mail import send_mail
-		from ArtChart.settings import EMAIL_HOST_USER, HOST
-
 		url = HOST + reverse('artwork', args=(instance.pk,))
 		text = 'В вашей персональной ленте на ArtChart появилась новая работа. Чтобы увидеть ее, перейдите по ссылке: ' + url
-		html = render_to_string('email_templates/feed_update_notification.html', {'publication_link': url})
+		html = render_to_string('email_templates/feed_update_notification.html', {'link': url})
 
 		for user in subs:
 			send_mail(
@@ -124,3 +122,30 @@ def notify_subs(sender, instance, created, **kwargs):
 				[user.email,],
 				html_message = html
 			)
+
+
+@receiver(post_save, sender=Comment)
+def notify_comment(sender, instance, created, **kwargs):
+	pub_author_profile = instance.publication.author
+	pub_author = pub_author_profile.user
+	commentator = instance.author
+
+	if created and pub_author_profile.profilesettings.publication_comments_update_notifications and commentator != pub_author:
+		publication = instance.publication
+		url = HOST + reverse('artwork', args=(publication.pk,))
+		theme = 'Новый комментарий к вашей работе на ArtChart'
+		text = f'Пользователь {commentator.username} написал новый комментарий к вашей работе {publication.name} на ArtChart. ' \
+				f'Перейдите по ссылке: {url}, чтобы увидеть страницу публикации'
+		args = {
+			'author': commentator.username,
+			'publication': publication,
+			'link': url,
+		}
+		html = render_to_string('email_templates/new_comment_notification.html', args)
+		send_mail(
+			theme,
+			text,
+			EMAIL_HOST_USER,
+			[pub_author.email],
+			html_message = html,
+		)

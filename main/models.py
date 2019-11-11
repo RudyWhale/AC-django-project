@@ -80,7 +80,7 @@ class Tag(models.Model):
 '''
 =============================== RECEIVERS ===============================
 '''
-from django.db.models.signals import post_delete, pre_save, post_save
+from django.db.models.signals import post_delete, pre_save, post_save, m2m_changed
 from django.dispatch import receiver
 from django.urls import reverse
 from django.core.mail import send_mail
@@ -147,5 +147,27 @@ def notify_comment(sender, instance, created, **kwargs):
 			text,
 			EMAIL_HOST_USER,
 			[pub_author.email],
+			html_message = html,
+		)
+
+
+@receiver(m2m_changed, sender=ArtistProfile.subscribers.through)
+def notify_subscriber(sender, instance, action, pk_set, **kwargs):
+	if action == "post_add":
+		subscriber = User.objects.filter(pk__in=pk_set)[0]
+		url = HOST + reverse('artist', args=(instance.pk,))
+		theme = 'У вас новый подписчик на ArtChart'
+		text = f'Пользователь {subscriber.username} подпсался на ваш профиль на ArtChart. ' \
+				f'Вы можете перейти в профиль по ссылке: {url}'
+		args = {
+			'subscriber': subscriber.username,
+		 	'link': url
+		}
+		html = render_to_string('email_templates/new_subscriber_notification.html', args)
+		send_mail(
+			theme,
+			text,
+			EMAIL_HOST_USER,
+			[instance.user.email],
 			html_message = html,
 		)

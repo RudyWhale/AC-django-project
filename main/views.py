@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.core.mail import send_mail
 from django.http import HttpResponse
+from django.template.response import SimpleTemplateResponse
 from .models import Publication, Artwork, ArtistProfile, Tag, UserSettings, ProfileSettings
 from .forms import *
 from ArtChart.settings import *
@@ -148,6 +149,10 @@ def become_artist(request):
 			'msg_header': 'Войдите на сайт',
 			'msg_text':  'Простите, но мы хотим знать, с кем имеем дело.' \
 						' Пожалуйста, авторизуйтесь, если хотите создать аккаунт художника на ArtChart',
+			'links': {
+				'На страницу входа': reverse('login'),
+				'На главную': reverse('index'),
+			},
 			'from_page': request.META.get('HTTP_REFERER')
 		}
 		return render(request, 'main/info message.html', args)
@@ -237,7 +242,17 @@ def settings(request):
 	user = request.user
 
 	if not user.is_authenticated:
-		return HttpResponse(status=401)
+		args = {
+			'meta_title': '',
+			'meta_description': '',
+			'msg_header': "Представьтесь, пожалуйста",
+			'msg_text':  "Авторизуйтесь для доступа к странице настроек",
+			'links': {
+				'На страницу входа': reverse('login'),
+				'На главную': reverse('index'),
+			}
+		}
+		return SimpleTemplateResponse(template='main/info message.html', context=args, status=400)
 
 	user_settings = UserSettings.objects.get_or_create(user=user)[0]
 
@@ -251,17 +266,22 @@ def settings(request):
 		user_settings.feed_update_notifications = 'feed_update_notifications' in email_choices
 		user_settings.save()
 
-		if profile_settings:
-			profile_settings.subscribers_update_notifications = 'subscribers_update_notifications' in email_choices
-			profile_settings.publication_comments_update_notifications = 'publication_comments_update_notifications' in email_choices
-			profile_settings.save()
-
 		args = {
 			'meta_title': 'Настройки изменены',
 			'meta_description': '',
 			'msg_header': "Настройки были изменены",
-			'msg_text':  "Мы сохранили все изменения вашего профиля"
+			'msg_text':  "Мы сохранили все изменения вашего профиля",
+			'links': {
+				'На главную': reverse('index'),
+			}
 		}
+
+		if profile_settings:
+			profile_settings.subscribers_update_notifications = 'subscribers_update_notifications' in email_choices
+			profile_settings.publication_comments_update_notifications = 'publication_comments_update_notifications' in email_choices
+			profile_settings.save()
+			args['links']['Ваш профиль'] = reverse('artist', args=[user.profile.pk,])
+
 		return render(request, 'main/info message.html', args)
 
 	else:

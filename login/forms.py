@@ -125,3 +125,11 @@ class ACPasswordResetForm(PasswordResetForm):
 class ACSetPasswordForm(SetPasswordForm):
 	new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Введите новый пароль'}))
 	new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Повторите новый пароль'}))
+
+	def clean_new_password2(self):
+		password = self.cleaned_data['new_password2']
+
+		if len(password) < 6:
+			raise forms.ValidationError('Password too short')
+
+		return password

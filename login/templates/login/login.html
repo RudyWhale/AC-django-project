@@ -47,9 +47,11 @@
             <input type="hidden" name="next" value="{% url 'index' %}">
         </form>
 
-        <a class="help_link" href="{% url 'password reset' %}">Забыли пароль?</a>
-        <a class="help_link" href="{% url 'index' %}">На главную</a>
-        <a class="help_link" href="{% url 'register' %}">Регистрация</a>
+        <div class="help_links">
+            <a class="help_link" href="{% url 'password reset' %}">Забыли пароль?</a>
+            <a class="help_link" href="{% url 'index' %}">На главную</a>
+            <a class="help_link" href="{% url 'register' %}">Регистрация</a>
+        </div>
 
     </div><!-- container -->
 

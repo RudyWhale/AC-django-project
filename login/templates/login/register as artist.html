@@ -54,8 +54,10 @@
             <input class="submit_btn" type="submit" name="submit" value="Отправить" />
         </form>
 
-        <a class="help_link" href="{% url 'login' %}">Страница входа</a>
-        <a class="help_link" href="{% url 'index' %}">На главную</a>
+        <div class="help_links">
+            <a class="help_link" href="{% url 'login' %}">Страница входа</a>
+            <a class="help_link" href="{% url 'index' %}">На главную</a>
+        </div>
 
     </div>
 

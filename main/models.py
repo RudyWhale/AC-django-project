@@ -83,22 +83,21 @@ class Tag(models.Model):
 		return self.name
 
 
-# User notification. Used for both, email and site notifications
-class BaseNotification(models.Model):
+# Task for sending email notification asynchronously
+class BaseEmailTask(models.Model):
 	recipient = models.ForeignKey(User, on_delete=models.CASCADE)
-	send_email = models.BooleanField(default=False)
 
 
 # Keeps info about new publications in user's personal feed
-class FeedUpdateNotification(BaseNotification):
+class FeedUpdateEmailTask(BaseEmailTask):
 	publications = models.ManyToManyField(Publication)
 
 
-# Keeps info about new comments on artist's publications
-class CommentsNotification(BaseNotification):
-	comments = models.ManyToManyField(Comment)
-
-
-# Keeps info about artist's new subscribers
-class SubscribersNotification(BaseNotification):
-	subscribers = models.ManyToManyField(User)
+# # Keeps info about new comments on artist's publications
+# class CommentsEmailTask(BaseEmailTask):
+# 	comments = models.ManyToManyField(Comment)
+#
+#
+# # Keeps info about artist's new subscribers
+# class SubscribersEmailTask(BaseEmailTask):
+# 	subscribers = models.ManyToManyField(User)

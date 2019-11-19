@@ -1,38 +1,37 @@
 div.header {
 	width: 100%;
+	height: 120px;
 	float: left;
 	background-color: rgb(40,40,40);
 }
 
 div.header_logo {
-	width: calc(100% - 150px);
+	width: calc(100% - 200px);
 	float: left;
 	font-family: "Oswald", sans-serif;
 	color: white;
 }
 
 div.header_logo>a {
+	margin-top: 23px;
 	color: rgb(40,40,40);
 	text-decoration: none;
 	float: left;
 }
 
 h1.logo {
-	margin: 27px 0 0 0;
+	margin: 0;
 	padding: 0px;
 	color: white;
-	height: 73px;
-	line-height: 73px;
 	font-weight: normal;
 	font-size: 80px;
 }
 
 div.header_user_info {
-	width: 150px;
-	height: 100px;
+	width: 200px;
 	float: right;
 	text-align: right;
-	padding: 6px 10px 0 0;
+	padding: 10px 10px 0 0;
 	box-sizing: border-box;
 	color: rgb(120,120,120);
 }
@@ -55,19 +54,34 @@ a.user_info_href {
 	margin-bottom: 0px;
 	color: rgb(120,120,120);
 	margin-top: 0px;
+	float: right;
+	clear: both;
 }
 
 /*===============================================*/
 /* MEDIA ----------------------------------------*/
 /*===============================================*/
 
-@media screen and (max-width: 800px){
+
+@media screen and (max-width: 600px){
+	div.header {
+		height: 108px;
+	}
+
 	div.header_logo {
 		width: calc(100% - 130px);
 	}
 
 	div.header_user_info {
 		width: 130px;
+	}
+
+	div.header_logo>a {
+		margin-top: 36px;
+	}
+
+	h1.logo {
+		font-size: 60px;
 	}
 
 	p.user_info_label {
@@ -84,15 +98,5 @@ a.user_info_href {
 
 	a.user_info_href {
 		font-size: 12px;
-	}
-}
-
-
-@media screen and (max-width: 600px){
-	h1.logo {
-		margin: 47px 0 0 0;
-		font-size: 60px;
-		height: 50px;
-		line-height: 50px;
 	}
 }

@@ -1,20 +1,20 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.utils import timezone
 from django.template.loader import render_to_string
-from django.dispatch import receiver
-from django.db.models.signals import post_delete, pre_save
-
-import os
-from datetime import datetime
 
 
-'''
-Class represents user who can create publications
-'''
+# Settings attached to any registrated user
+class UserSettings(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
+	feed_update_notifications = models.BooleanField(default=True)
+
+
+# Additional data of user, who can add publications
 class ArtistProfile(models.Model):
 	def avatar_upload_path(self, filename):
-		date = datetime.now()
+		date = timezone.now()
 		return 'avatars/{}/{}/{}'.format(date.year, date.month, filename)
 
 	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
@@ -28,17 +28,15 @@ class ArtistProfile(models.Model):
 	def as_html(self, user):
 		return render_to_string('main/includes/artist overview.html', {'profile': self, 'user': user})
 
-# Deletes avatar file after profile deleting
-@receiver(post_delete, sender=ArtistProfile)
-def on_instance_delete(sender, instance, **kwargs):
-	if instance.avatar:
-		if os.path.isfile(instance.avatar.path):
-			os.remove(instance.avatar.path)
+
+# Settings related to artist profile. Orinary user does not have them
+class ProfileSettings(models.Model):
+	profile = models.OneToOneField(ArtistProfile, on_delete=models.CASCADE)
+	subscribers_update_notifications = models.BooleanField(default=False)
+	publication_comments_update_notifications = models.BooleanField(default=True)
 
 
-'''
-Abstract class for any publication
-'''
+# Abstract class for any publication
 class Publication(models.Model):
 	author = models.ForeignKey(ArtistProfile, on_delete=models.CASCADE)
 	datetime = models.DateTimeField()
@@ -49,12 +47,10 @@ class Publication(models.Model):
 		return self.name
 
 
-'''
-Class represents artwork publication object
-'''
+# Publication representing an artwork
 class Artwork(Publication):
 	def upload_path(self, filename):
-		date = datetime.now()
+		date = timezone.now()
 		return 'artworks/{}/{}/{}.{}'.format(date.year, date.month, str(self.pk), filename.split('.')[-1])
 
 	desc = models.TextField(default='no desc')
@@ -63,14 +59,8 @@ class Artwork(Publication):
 	def as_html(self):
 		return render_to_string('main/includes/content item artwork.html', {'artwork': self})
 
-# Deletes image file after instance deleting
-@receiver(post_delete, sender=Artwork)
-def on_instance_delete(sender, instance, **kwargs):
-	if instance.image:
-		if os.path.isfile(instance.image.path):
-			os.remove(instance.image.path)
 
-
+# Publication comments
 class Comment(models.Model):
 	publication = models.ForeignKey(Publication, on_delete=models.CASCADE)
 	author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -84,9 +74,30 @@ class Comment(models.Model):
 		ordering = ['-datetime']
 
 
+# Publication tags. Names are unique, lowercased and contain no spaces
 class Tag(models.Model):
 	name = models.CharField(max_length=30)
 	publications = models.ManyToManyField(Publication)
 
 	def __str__(self):
 		return self.name
+
+
+# Task for sending email notification asynchronously
+class BaseEmailTask(models.Model):
+	recipient = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+# Keeps info about new publications in user's personal feed
+class FeedUpdateEmailTask(BaseEmailTask):
+	publications = models.ManyToManyField(Publication)
+
+
+# # Keeps info about new comments on artist's publications
+# class CommentsEmailTask(BaseEmailTask):
+# 	comments = models.ManyToManyField(Comment)
+#
+#
+# # Keeps info about artist's new subscribers
+# class SubscribersEmailTask(BaseEmailTask):
+# 	subscribers = models.ManyToManyField(User)

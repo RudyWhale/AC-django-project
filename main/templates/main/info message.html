@@ -15,9 +15,14 @@
 <div class="bounded_wrapper">
 	<div class="info_msg">
 
-		<h3 class="info_msg_header">{{msg_header}}</h3>
-		<p class="info_msg_text">{{msg_text}}</p>
-		<a class="info_msg_link" href="main">Перейти на главную</a>
+		<div class="info_msg_content">
+			<h3 class="info_msg_header">{{msg_header}}</h3>
+			<p class="info_msg_text">{{msg_text}}</p>
+
+			{% for name, url in links.items %}
+				<a class="info_msg_link" href="{{url}}">{{name}}</a>
+			{% endfor %}
+		</div>
 
 	</div>
 </div>

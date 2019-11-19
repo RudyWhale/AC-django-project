@@ -82,7 +82,7 @@ input.submit_btn {
 	border: 1px solid black;
 	background-color: inherit;
 	cursor: pointer;
-	margin: 20px auto;
+	margin: 20px auto 0 auto;
 }
 
 input.submit_btn:hover {
@@ -124,6 +124,10 @@ p.symbols_left_label {
 
 textarea, input {
 	outline: none;
+}
+
+div.help_links {
+	margin-top: 20px;
 }
 
 /*===============================================*/

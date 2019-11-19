@@ -35,11 +35,11 @@
             <table>
                 <tr>
                     <td class="login_label">Имя</td>
-                    <td class="login_input">{{ form.username }}</td>
+                    <td class="login_input">{{form.username}}</td>
                 </tr>
                 <tr>
                     <td class="login_label">Пароль</td>
-                    <td class="login_input">{{ form.password }}</td>
+                    <td class="login_input">{{form.password}}</td>
                 </tr>
             </table>
 
@@ -47,9 +47,11 @@
             <input type="hidden" name="next" value="{% url 'index' %}">
         </form>
 
-        <a class="help_link" href="{% url 'password reset' %}">Забыли пароль?</a>
-        <a class="help_link" href="{% url 'index' %}">На главную</a>
-        <a class="help_link" href="{% url 'register' %}">Регистрация</a>
+        <div class="help_links">
+            <a class="help_link" href="{% url 'password reset' %}">Забыли пароль?</a>
+            <a class="help_link" href="{% url 'index' %}">На главную</a>
+            <a class="help_link" href="{% url 'register' %}">Регистрация</a>
+        </div>
 
     </div><!-- container -->
 

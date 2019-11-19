@@ -17,11 +17,14 @@
 
     <div class="container">
 
-        <h1 class="login_header">Регистрация на сайте</h1>
+        <h1 class="login_header">{{header}}</h1>
         <p class="login_warning">{{message}}</p>
-        <a class="help_link" href="{% url 'register' %}">На страницу регистрации</a>
-        <a class="help_link" href="{% url 'login' %}">На страницу входа</a>
-        <a class="help_link" href="{% url 'index' %}">На главную</a>
+
+        <div class="help_links">
+            {% for name, url in links.items %}
+                <a class="help_link" href="{{url}}">{{name}}</a>
+            {% endfor %}
+        </div>
 
     </div><!-- container -->
 

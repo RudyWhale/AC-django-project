@@ -1,0 +1,14 @@
+<html>
+  <h3>Здравствуйте, {{task.recipient.username}}!</h3>
+  <p>
+    {% if task.publications.count > 1 %}
+      В вашей <a href="{{feed_url}}">персональной ленте</a> на ArtChart появились новые публикации.
+    {% elif task.publications.count == 1 %}
+      В вашей <a href="{{feed_url}}">персональной ленте</a> на ArtChart появилась новая публикация.
+    {% endif %}
+  </p>
+  <p style="color: rgb(120,120,120)">
+    Это сообщение создано автоматически.
+    Если вы не хотите получать такие уведомления, можете настроить их на <a href="{{settings_url}}" style="color: rgb(120,120,120)">странице настроек</a>.
+  </p>
+</html>

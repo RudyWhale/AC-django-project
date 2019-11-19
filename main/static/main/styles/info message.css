@@ -2,39 +2,40 @@ div.info_msg {
 	float: left;
 	width: 100%;
 	background-color: white;
-	padding: 10px;
+	padding: 12px 5px;
 	box-sizing: border-box;
 	min-height: 300px;
+}
+
+div.info_msg_content {
+	max-width: 800px;
+	margin: 0 auto;
 }
 
 h3.info_msg_header {
 	float: left;
 	width: 100%;
-	font-family: 'Oswald', sans-serif;
-	font-size: 50px;
-	color: rgb(120,120,120);
-	margin: 0px 0px 10px 0px;
-	line-height: 60px;
+	font-family: 'Roboto', sans-serif;
+	font-size: 48px;
+	color: rgb(140,140,140);
+	margin: 0;
+	border-bottom: 4px solid rgb(140,140,140);
 }
 
 p.info_msg_text {
 	float: left;
 	width: 100%;
 	font-family: 'Roboto', sans-serif;
-	font-size: 25px;
-	margin: 0px 0px 10px 0px;
+	font-size: 20px;
+	margin: 28px 0;
 }
 
 a.info_msg_link {
 	float: left;
-	font-family: 'Roboto', sans-serif;
-	font-size: 25px;
-	font-style: italic;
-	text-decoration: none;
-	color: white;
-	background-color: black;
-	margin-top: 10px;
-	padding: 5px;
+	clear: left;
+	font-family: 'Roboto Slab', sans-serif;
+	font-size: 18px;
+	color: black;
 }
 
 a.info_msg_link:hover {

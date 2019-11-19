@@ -47,7 +47,6 @@
                     <td class="login_label">о себе</td>
                     <td class="login_input">
                       {{form.desc}}
-                      <p class="symbols_left_label">осталось символов: {{max_desc_length}}</p>
                     </td>
                 </tr>
             </table>
@@ -55,8 +54,10 @@
             <input class="submit_btn" type="submit" name="submit" value="Отправить" />
         </form>
 
-        <a class="help_link" href="{% url 'login' %}">Страница входа</a>
-        <a class="help_link" href="{% url 'index' %}">На главную</a>
+        <div class="help_links">
+            <a class="help_link" href="{% url 'login' %}">Страница входа</a>
+            <a class="help_link" href="{% url 'index' %}">На главную</a>
+        </div>
 
     </div>
 

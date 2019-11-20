@@ -256,11 +256,6 @@ def settings(request):
 
 	user_settings = UserSettings.objects.get_or_create(user=user)[0]
 
-	try:
-		profile_settings = ProfileSettings.objects.get_or_create(profile = user.profile)[0]
-	except ArtistProfile.DoesNotExist:
-		profile_settings = None
-
 	if request.method == 'POST':
 		email_choices = request.POST.getlist('email_settings')
 		user_settings.feed_update_notifications = 'feed_update_notifications' in email_choices
@@ -270,24 +265,17 @@ def settings(request):
 			'meta_title': 'Настройки изменены',
 			'meta_description': '',
 			'msg_header': "Настройки были изменены",
-			'msg_text':  "Мы сохранили все изменения вашего профиля",
+			'msg_text':  "Мы сохранили изменения вашего профиля",
 			'links': {
 				'На главную': reverse('index'),
 			}
 		}
-
-		if profile_settings:
-			profile_settings.subscribers_update_notifications = 'subscribers_update_notifications' in email_choices
-			profile_settings.publication_comments_update_notifications = 'publication_comments_update_notifications' in email_choices
-			profile_settings.save()
-			args['links']['Ваш профиль'] = reverse('artist', args=[user.profile.pk,])
-
 		return render(request, 'main/info message.html', args)
 
 	else:
 		args = {
 			'header': 'Настройки пользователя',
-			'form': UserSettingsForm(user_settings, profile_settings),
+			'form': UserSettingsForm(user_settings),
 			'submit_text': 'Сохранить настройки'
 		}
 		return render(request, 'main/form.html', args)

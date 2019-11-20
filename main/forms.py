@@ -89,20 +89,7 @@ class UserSettingsForm(forms.Form):
         choices = CHOICES
     )
 
-    def __init__(self, user_settings, profile_settings=None):
+    def __init__(self, user_settings):
         super().__init__()
         settings_field = self.fields['email_settings']
         settings_field.initial = ['feed_update_notifications' if user_settings.feed_update_notifications else None]
-
-        if profile_settings:
-            PROFILE_CHOICES = [
-                ('subscribers_update_notifications', 'Уведомлять о новых подписчиках'),
-                ('publication_comments_update_notifications', 'Уведомлять о новых комментариях к моим работам')
-            ]
-            settings_field.choices += PROFILE_CHOICES
-
-            if profile_settings.subscribers_update_notifications:
-                settings_field.initial.append('subscribers_update_notifications')
-
-            if profile_settings.publication_comments_update_notifications:
-                settings_field.initial.append('publication_comments_update_notifications')

@@ -157,10 +157,6 @@ div.comment_form>button {
 	width: 50px;
 	height: 60px;
 	line-height: 0px;
-	background-color: inherit;
-	border: 1px solid black;
-	cursor: pointer;
-	outline: none;
 	float: left;
 	margin-left: 8px;
 }
@@ -168,11 +164,6 @@ div.comment_form>button {
 div.comment_form>button>img {
 	width: 30px;
 	height: 30px;
-}
-
-div.comment_form>button:hover {
-	background-color: rgb(200,200,200);
-	box-shadow: -4px 4px 0 0 rgb(200,200,200), inset -3px 3px 0 0 white;
 }
 
 div.comment_container {

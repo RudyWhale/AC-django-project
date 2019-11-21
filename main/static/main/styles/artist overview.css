@@ -67,21 +67,11 @@ p.subscribe_count {
 }
 
 button.subscribe_btn {
-	cursor: pointer;
-	background: white;
-	display: block;
 	width: 150px;
-	float: left;
 	height: 35px;
-	line-height: 0px;
-	padding-bottom: 4px;
-	font-family: 'Oswald', sans-serif;
-	font-size: 20px;
-	text-align: center;
-	border: 2px solid black;
-	box-sizing: border-box;
 	margin: 0px 0px 0px 5px;
-	outline: none;
+	padding-bottom: 3px;
+	font-size: 20px;
 }
 
 button.subscribe_btn:hover {

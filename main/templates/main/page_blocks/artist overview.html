@@ -15,7 +15,7 @@
 				<p class="subscribe_count" id="subs_count_{{profile.pk}}">{{profile.subscribers.count}}</p>
 				{% load main_tags %}
 				<button
-					class="subscribe_btn"
+					class="subscribe_btn transparent_btn"
 					id="subs_btn_{{profile.pk}}"
 					data-pk={{profile.pk}}
 					{% if not user.is_authenticated %}

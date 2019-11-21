@@ -13,6 +13,20 @@ button, input {
 	outline: none;
 }
 
+.transparent_btn {
+	background-color: inherit;
+	border: 1px solid black;
+	cursor: pointer;
+	text-align: center;
+	font-family: 'Oswald', sans-serif;
+	box-sizing: border-box;
+}
+
+.transparent_btn:hover {
+	background-color: rgb(200,200,200);
+	box-shadow: -4px 4px 0 0 rgb(200,200,200), inset -3px 3px 0 0 white;
+}
+
 p.symbols_left_label {
 	margin: 0;
 	font-family: 'Roboto Slab', sans-serif;
@@ -22,10 +36,6 @@ p.symbols_left_label {
 	width: 100%;
 	line-height: 16px;
 	transition: opacity 0.5s;
-}
-
-.hide {
-	opacity: 0;
 }
 
 p.image_loading_label {
@@ -39,4 +49,8 @@ p.image_loading_label {
 	top: 50%;
 	left: 50%;
 	transform:  translate(-50%, -50%);
+}
+
+.hide {
+	opacity: 0;
 }

@@ -9,6 +9,10 @@ div.bounded_wrapper {
 	margin: 0px auto;
 }
 
+div.min_height {
+	min-height: 350px;
+}
+
 button, input {
 	outline: none;
 }

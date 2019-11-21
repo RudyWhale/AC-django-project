@@ -4,7 +4,6 @@ div.info_msg {
 	background-color: white;
 	padding: 12px 5px;
 	box-sizing: border-box;
-	min-height: 300px;
 }
 
 div.info_msg_content {

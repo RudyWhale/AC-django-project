@@ -21,7 +21,7 @@ def index(request):
 							'подписываться на любимых авторов и следить за их деятельностью на портале',
 		'site_description': True,
 		'publications': publications,
-		'content_header': 'популярно:',
+		'content_header': 'Популярно',
 		'infinite': infinite,
 		'timestamp': timestamp,
 		'load_content_url': reverse('load content main')
@@ -41,7 +41,7 @@ def artist(request, pk):
 		'meta_description': f'Блог пользователя {user.username} на ArtChart. {profile.desc}',
 		'user': user,
 		'profile': profile,
-		'content_header': 'Блог автора:',
+		'content_header': 'Блог автора',
 		'publications': publications,
 		'create_publication': create_publication,
 		'infinite': infinite,
@@ -122,6 +122,10 @@ def feed(request):
 			'meta_description': '',
 			'msg_header': "Этот раздел досутен только авторизованным пользователям",
 			'msg_text':  "Войдите на сайт для того, чтобы подписываться на блоги художников и видеть вашу персональную ленту",
+			'links': {
+				'На страницу входа': reverse('login'),
+				'На главную': reverse('index'),
+			},
 			'from_page': request.META.get('HTTP_REFERER')
 		}
 		return render(request, 'main/info message.html', args)

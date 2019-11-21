@@ -16,6 +16,7 @@ h3.info_msg_header {
 	width: 100%;
 	font-family: 'Roboto', sans-serif;
 	font-size: 48px;
+	font-weight: 600;
 	color: rgb(140,140,140);
 	margin: 0;
 	border-bottom: 4px solid rgb(140,140,140);

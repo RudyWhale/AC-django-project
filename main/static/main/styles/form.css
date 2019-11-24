@@ -23,6 +23,7 @@ div.form_header>h2 {
   font-family: 'Roboto', sans-serif;
   margin: 0;
   color: rgb(140,140,140);
+  font-weight: 600;
 }
 
 div.form_field {

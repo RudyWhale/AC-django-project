@@ -142,7 +142,7 @@ $(function(){
 
     if ($('.login_warning').length || is_clean_field){
       if (!$('.form_errors').length){
-        var message = "Пожалуйста, корректно заполните все поля формы для регистрации";
+        var message = "Пожалуйста, корректно заполните все поля формы";
         ($('<p class="login_warning form_errors"></p>').text(message)).prependTo($('.login_form'));
       }
       return false;

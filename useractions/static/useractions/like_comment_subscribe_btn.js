@@ -24,6 +24,7 @@ var comment_send = function(btn){
           function() { on_comment_hover_out($(this)); }
         );
         $('.comment_form>textarea').val("");
+        $('.comment_form>textarea').keyup();
         $('.no_comments_label').remove();
       }
     ).fail(function(){alert("Произошла ошибка");});}

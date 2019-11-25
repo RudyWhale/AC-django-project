@@ -6,6 +6,7 @@ $(function(){
   };
 
   $('input.inp_name').focusout(function(){
+    $(this).val($(this).val().trim());
     var text = $(this).val();
     if (text.trim()){
       $('.space_in_username').remove();

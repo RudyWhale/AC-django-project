@@ -86,10 +86,11 @@ def register(request):
 			return render(request, 'login/login.html', args)
 
 		else:
+			links['Напишите нам'] = reverse('feedback')
 			args = {
 				'header': header,
 				'message':  "К сожалению, во время регистрации произошла ошибка. Если она повторяется, вы можете написать администрации",
-				'links': links + {'Напишите нам': reverse('feedback')}
+				'links': links,
 			}
 			return SimpleTemplateResponse(template='login/login.html', context=args, status=400)
 

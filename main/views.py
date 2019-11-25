@@ -218,28 +218,53 @@ def robots(request):
 
 
 def new_artwork(request):
-    user = request.user
+	user = request.user
 
-    try:
-        profile = user.profile
-    except AttributeError as e: return HttpResponse(status=403)
+	try:
+		profile = user.profile
 
-    if request.method == 'POST':
-        form = ArtworkCreationForm(request.POST, request.FILES)
+	except AttributeError as e:
+		args = {
+			'meta_title': '',
+			'meta_description': '',
+			'msg_header': "Что-то пошло не так",
+			'msg_text':  'Во время создания публикации нам не удалось найти ваш профиль художника. ' \
+			'Вы можете написать нам об ошибке, и мы постараемся найти причину ее появления',
+			'links': {
+				'На главную': reverse('index'),
+				'Напишите нам': reverse('feedback'),
+			}
+		}
+		return SimpleTemplateResponse(template='main/info message.html', context=args, status=403)
 
-        if form.is_valid():
-            form.save(profile = profile)
-            return redirect('artist', pk = profile.pk)
+	if request.method == 'POST':
+		form = ArtworkCreationForm(request.POST, request.FILES)
 
-        else: return HttpResponse(status=400)
+		if form.is_valid():
+			form.save(profile = profile)
+			return redirect('artist', pk = profile.pk)
 
-    else:
-        args = {
+		else:
+			args = {
+				'meta_title': '',
+				'meta_description': '',
+				'msg_header': "Что-то пошло не так",
+				'msg_text':  'Во время создания публикации произошла неизвестная ошибка. ' \
+				'Если она повторяется, можете написать нам, и мы постараемся найти причину ее появления',
+				'links': {
+					'На главную': reverse('index'),
+					'Напишите нам': reverse('feedback'),
+				}
+			}
+			return SimpleTemplateResponse(template='main/info message.html', context=args, status=400)
+
+	else:
+		args = {
 			'header': 'Новая работа',
-            'form': ArtworkCreationForm(),
-            'submit_text': 'Создать работу',
-        }
-        return render(request, 'main/form.html', args)
+			'form': ArtworkCreationForm(),
+			'submit_text': 'Создать работу',
+		}
+		return render(request, 'main/form.html', args)
 
 
 def settings(request):

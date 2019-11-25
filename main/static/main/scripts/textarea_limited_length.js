@@ -12,4 +12,8 @@ $(function() {
       label.css('opacity', '0');
     }
   });
+
+  $('textarea.limited_length').focusout(function(){
+    $(this).val($(this).val().trim())
+  })
 })

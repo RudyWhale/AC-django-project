@@ -18,15 +18,11 @@ def like(request):
 		likes = 0;
 		publ = Publication.objects.get(pk = publ_pk)
 
-		if user not in publ.likes.all():
-			publ.likes.add(user)
-			label = "не нравится"
-		else:
-			publ.likes.remove(user)
-			label = "нравится"
+		if user not in publ.likes.all(): publ.likes.add(user)
+		else: publ.likes.remove(user)
 
 		likes = publ.likes.count();
-		return JsonResponse({'count': likes, 'btn_text': label})
+		return HttpResponse(likes)
 
 	else: return HttpResponse(status=401)
 

@@ -6,7 +6,5 @@
     onclick="like_send($(this));"
   {% else %}
     onclick="not_auth_alert();"
-  {% endif %}>
-  {{artwork|like_btn_text:user}}
-  </button>
+  {% endif %}>{{artwork|like_btn_text:user}}</button>
 </div><!-- publication_likes -->

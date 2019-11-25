@@ -24,9 +24,7 @@
 						onclick="self_sub_alert($(this));"
 					{% else %}
 						onclick="submit_send($(this));"
-					{% endif %}>
-					{{profile|subscribe_btn_text:user}}
-				</button>
+					{% endif %}>{{profile|subscribe_btn_text:user}}</button>
 			</div>
 
 			<p>{{profile.desc}}</p>

@@ -1,6 +1,7 @@
 body {
 	margin: 0;
 	background-color: rgb(220,220,220);
+	color: rgb(40,40,40);
 }
 
 div.bounded_wrapper {
@@ -14,6 +15,10 @@ div.min_height {
 
 button, input {
 	outline: none;
+}
+
+a, button, input, textarea {
+	color: rgb(40,40,40);
 }
 
 .transparent_btn {

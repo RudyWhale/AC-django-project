@@ -45,8 +45,6 @@
 				<p class="artwork_desc_text">{{artwork.desc}}</p>
 
 				<div class="tags">
-					<h5 class="tags_header">Теги:</h5>
-
 					{% for tag in artwork.tag_set.all %}
 						<a class="tag" href="{% url 'tag' pk=tag.pk %}">#{{tag.name}}</a>
 					{% empty %}

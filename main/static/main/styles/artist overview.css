@@ -29,7 +29,6 @@ div.artist_desc {
 div.artist_desc>a {
 	float: left;
 	text-decoration: none;
-	color: black;
 }
 
 div.artist_desc>a>h3 {

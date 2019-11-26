@@ -1,7 +1,7 @@
 var comment_delete = function(btn){
   if (confirm('Вы действительно хотите удалить комментарий? Это действие нельзя оменить')){
     var url = btn.attr('data-url');
-    var comment = btn.parent().parent();
+    var comment = btn.parent();
     $.get(
       url, {},
       function(response){

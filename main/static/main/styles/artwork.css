@@ -9,8 +9,8 @@ div.artwork_img {
 	display: block;
 	float: left;
 	height: 100%;
-	width: 65%;
-	background-color: rgb(80,80,80);
+	width: 67%;
+	background-color: rgb(60,60,60);
 	overflow: hidden;
 	box-sizing: border-box;
 	position: relative; /* for image loading label positioning */
@@ -25,7 +25,7 @@ div.artwork_img>img {
 
 div.artwork_desc {
 	float: left;
-	width: 35%;
+	width: 33%;
 	height: 100%;
 	padding-left: 10px;
 	box-sizing: border-box;
@@ -103,13 +103,13 @@ a.tag {
 	float: left;
 	margin: 2px 6px 0 0;
 	font-family: 'Roboto Slab', sans-serif;
-	font-size: 16px;
+	font-size: 18px;
 	font-weight: 600;
 	text-decoration: none;
 }
 
 a.tag:hover {
-	color: rgb(100,100,100);
+	color: rgb(80,80,80);
 }
 
 /*===============================================*/
@@ -214,28 +214,6 @@ button.comment_delete {
 /*===============================================*/
 /* MEDIA ----------------------------------------*/
 /*===============================================*/
-
-/* @media screen and (max-width: 1000px){
-
-	div.artwork_repr {
-		height: 400px;
-	}
-
-	div.artwork_img {
-		height: 400px;
-		width: calc(100% - 300px);
-	}
-
-	div.artwork_desc {
-		width: 300px;
-	}
-
-	div.artwork_desc_text {
-		height: 350px;
-		font-size: 18px;
-		line-height: 22px;
-	}
-} */
 
 @media screen and (max-width: 800px){
 

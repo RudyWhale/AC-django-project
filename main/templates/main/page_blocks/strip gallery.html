@@ -4,29 +4,34 @@
 
 	<div class="strip_gallery">
 
-		{% for publication in publications %}
-			<div class="strip_gallery_item_artwork">
+		{% for artwork in publications %}
+			<div class="content_item_artwork content_block">
 
-				<a href="{% url 'artwork' pk=publication.artwork.pk %}">
+				<a href="{% url 'artwork' pk=artwork.pk %}" class="artwork_item_image">
 					<p class="image_loading_label">Загружаю картинку, подождите...</p>
-					<img class="hor_center" src="{{publication.artwork.image.url}}" alt="Картина" onload="on_content_image_load(this)" />
+					<img src="{{artwork.image.url}}" class="hor_center" alt="{{artwork.name}}" onload="on_content_image_load(this)" />
 				</a>
 
-				<div class="sg_item_artwork_desc">
+				<div class="item_artwork_desc">
 
-					<h3>{{publication.name}}</h3>
+					<a href="{% url 'artwork' pk=artwork.pk %}" class="content_item_name">{{artwork.name}}</a>
 
-					<a class="sg_item_artwork_author_href" href="{% url 'artist' pk=publication.author.pk %}">от: {{publication.author.user.username}}</a>
-
-					<p>{{publication.artwork.desc}}</p>
+					<div class="content_item_info">
+						<a class="item_artwork_author_href" href="{% url 'artist' pk=artwork.author.pk %}">{{artwork.author.user.username}}</a>
+						{% load static %}
+						<div class="content_item_social">
+							<img src="{% static 'icons/grey heart.png' %}" alt="heart">
+							<p class="social_count">{{artwork.likes.count}}</p>
+						</div>
+						<div class="content_item_social">
+							<img src="{% static 'icons/grey comments.png' %}" alt="comment">
+							<p class="social_count">{{artwork.comment_set.count}}</p>
+						</div>
+					</div><!-- content_item_likes -->
 
 				</div><!-- item_artwork_desc -->
 
-				<div class="strip_gallery_item_likes">
-					<p class="strip_gallery_item_likes_label">понравилось: {{publication.likes.count}}</p>
-				</div><!-- strip_gallery_item_likes -->
-
-			</div><!-- strip_gallery_item_artwork -->
+			</div><!-- content_item_wrapper -->
 		{% endfor %}
 
 	</div><!-- strip_gallery -->

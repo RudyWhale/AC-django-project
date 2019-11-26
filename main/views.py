@@ -85,7 +85,7 @@ def artworks(request):
 def artwork(request, pk):
 	artwork = get_object_or_404(Artwork, pk = pk)
 	author = artwork.author.user
-	related_pubs = Artwork.objects.exclude(pk = pk)[:4]
+	related_pubs = Artwork.objects.exclude(pk = pk)[:3]
 	show_delete_link = request.user == author
 	args = {
 		'meta_title': f'{artwork.name}',

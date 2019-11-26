@@ -19,11 +19,11 @@ div.content_collection>h1 {
   font-weight: 600;
 }
 
-div.content_item_artwork {
-	width: 25%;
+div.content_block {
+	width: 33.33%;
 	float: left;
-	height: 400px;
-	padding: 1px;
+	height: 350px;
+	padding: 5px;
 	box-sizing: border-box;
 }
 
@@ -34,9 +34,9 @@ div.content_item_artwork {
 a.artwork_item_image {
 	display: block;
 	width: 100%;
-	height: 200px;
+	height: 260px;
 	float: left;
-	background-color: rgb(120,120,120);
+  background: rgb(100,100,100);
 	overflow: hidden;
   position: relative; /* for image loading label positioning */
 }
@@ -50,192 +50,70 @@ a.artwork_item_image>img {
 
 div.item_artwork_desc {
 	width: 100%;
+  height: 80px;
 	float: left;
-	height: 160px;
 	overflow: hidden;
 	font-family: 'Roboto', sans-serif;
+  background-color: rgb(40,40,40);
+  color: white;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
-div.item_artwork_desc>a>h3 {
-	display: block;
-	float: left;
+a.content_item_name {
+  font-size: 26px;
+  font-weight: 400;
+  margin: 0px;
+  color: white;
+  text-decoration: none;
+  height: 30px;
+  overflow: hidden;
+  display: block;
+}
+
+a.content_item_name:hover {
+	color: #a8e2d9;
+}
+
+div.content_item_info {
 	width: 100%;
-	font-size: 30px;
-  font-weight: 600;
-	line-height: 30px;
-	margin: 0px;
-	padding: 5px;
+	font-size: 18px;
+	font-family: 'Roboto', sans-serif;
 	box-sizing: border-box;
+  float: left;
+  color: rgb(180,180,180);
+  margin-top: 8px;
+  line-height: 20px;
 }
 
 a.item_artwork_author_href {
-	display: block;
 	float: left;
-	height: 22px;
-	line-height: 22px;
-	background-color: rgb(40,40,40);
-	color: white;
-	overflow: hidden;
-	margin: 0px 5px;
-	padding: 0px 5px;
+	color: inherit;
 	text-decoration: none;
-	font-family: 'Oswald', sans-serif;
 	font-size: 18px;
+  font-family: 'Oswald', sans-serif;
 }
 
 a.item_artwork_author_href:hover {
-	color: rgb(120,120,120);
+	color: #a8e2d9;
 }
 
-div.item_artwork_desc>p {
-	margin: 0px;
-	display: block;
-	width: 100%;
-	overflow: hidden;
-	padding: 0px 5px;
-	box-sizing: border-box;
-	font-size: 18px;
-	line-height: 20px;
-	color: rgb(40,40,40);
+div.content_item_social {
+  float: right;
+  margin-left: 10px;
 }
 
-/*===============================================*/
-/* ARTICLE BLOCK --------------------------------*/
-/*===============================================*/
-
-div.content_item_article {
-	width: 25%;
-	height: 400px;
-	float: left;
-	background-color: rgb(40, 40, 40);
-	color: rgb(200,200,200);
-	border: 1px solid white;
-	box-sizing: border-box;
+div.content_item_social>img {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  float: left;
 }
 
-h5.item_article_label {
-	display: block;
-	width: 100%;
-	float: left;
-	margin: 0px;
-	height: 30px;
-	line-height: 30px;
-	font-family: 'Roboto Slab', sans-serif;
-	font-size: 16px;
-	font-weight: normal;
-	padding: 0px 5px;
-	overflow: hidden;
-	box-sizing: border-box;
-}
-
-div.item_article_desc {
-	width: 100%;
-	float: left;
-	height: 330px;
-	overflow: hidden;
-	font-family: 'Roboto', sans-serif;
-}
-
-div.item_article_desc>a>h3 {
-	display: block;
-	float: left;
-	width: 100%;
-	font-family: 'Roboto', sans-serif;
-	font-size: 30px;
-	font-weight: normal;
-	line-height: 32px;
-	margin: 0px;
-	padding: 5px 5px 0px 5px;
-	box-sizing: border-box;
-	color: white;
-}
-
-div.item_article_desc>a :hover {
-	color: rgb(120,120,120);
-}
-
-a.item_article_author_href {
-	display: block;
-	float: left;
-	height: 20px;
-	line-height: 20px;
-	color: rgb(120,120,120);
-	overflow: hidden;
-	margin: 0px 0px 5px 5px;
-	font-family: 'Oswald', sans-serif;
-	font-size: 16px;
-	text-decoration: none;
-}
-
-a.item_article_author_href:hover {
-	color: rgb(200,200,200);
-}
-
-div.short_article_desc {
-	padding: 5px 5px 5px 10px;
-	box-sizing: border-box;
-	float: left;
-	width: 100%;
-	font-family: 'Roboto Slab', sans-serif;
-	font-size: 18px;
-	line-height: 20px;
-}
-
-div.short_article_desc>p {
-	margin: 0px;
-	border-left: 1px solid rgb(200,200,200);
-	padding-left: 5px;
-}
-
-div.item_article_desc>p {
-	margin: 0px;
-	display: block;
-	width: 100%;
-	overflow: hidden;
-	padding: 0px 5px;
-	box-sizing: border-box;
-	font-size: 18px;
-	line-height: 20px;
-}
-
-/*===============================================*/
-/* LIKES BLOCK ----------------------------------*/
-/*===============================================*/
-
-div.content_item_likes {
-	float: left;
-	width: 100%;
-	height: 40px;
-	font-size: 18px;
-	text-align: center;
-	font-family: 'Oswald', sans-serif;
-	padding: 5px 0px 0px 5px;
-	box-sizing: border-box;
-}
-
-div.likes_container {
-	float: left;
-	height: 30px;
-  line-height: 26px;
-	margin: 0px;
-	background-color: black;
-	color: rgb(180, 180, 180);
-	border-radius: 15px;
-	text-decoration: none;
-  padding: 0px 15px;
-}
-
-p.likes_label {
+p.social_count {
   font-size: 18px;
   margin: 0px;
-  display: inline-block;
-}
-
-p.likes_count {
-  font-size: 15px;
-  margin: 0px;
-  display: inline-block;
-  margin-left: 5px;
+  float: left;
 }
 
 /*===============================================*/
@@ -243,15 +121,13 @@ p.likes_count {
 /*===============================================*/
 
 div.content_item_create {
-	width: 25%;
-	height: 400px;
 	float: left;
-	border: 1px solid white;
-	padding: 5px;
+	padding: 10px;
 	box-sizing: border-box;
 	background-color: rgb(120,120,120);
 	font-family: 'Oswald', 'sans-serif';
 	color: white;
+  height: 100%;
 }
 
 div.content_item_create>p {
@@ -279,27 +155,15 @@ div.content_item_create>a:hover {
 /*===============================================*/
 
 div.load_more {
-  width: 25%;
-  height: 400px;
   float: left;
-  border: 1px solid white;
   box-sizing: border-box;
   padding: 10px;
 }
 
 div.load_more>button {
-  cursor: pointer;
   width: 100%;
   height: 100%;
-  border: 2px solid black;
-  font-family: 'Oswald', sans-serif;
   font-size: 32px;
-  background-color: inherit;
-}
-
-div.load_more>button:hover {
-  background-color: rgb(200,200,200);
-	box-shadow: -7px 7px 0 0 rgb(200,200,200), inset -5px 5px 0 0 white;
 }
 
 /*===============================================*/
@@ -327,12 +191,6 @@ div.empty_label>p {
 /*===============================================*/
 
 @media screen and (max-width: 1000px){
-	div.content_block {
-		width: 33.3333%;
-	}
-}
-
-@media screen and (max-width: 800px){
 	div.content_block {
 		width: 50%;
 	}

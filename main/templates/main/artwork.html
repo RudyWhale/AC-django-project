@@ -7,6 +7,7 @@
 	<link href="{% static 'main/styles/artwork.css' %}" type="text/css" rel="stylesheet" />
 	<link href="{% static 'main/styles/publication.css' %}" type="text/css" rel="stylesheet" />
 	<link href="{% static 'main/styles/strip gallery.css' %}" type="text/css" rel="stylesheet" />
+	<link href="{% static 'main/styles/content.css' %}" type="text/css" rel="stylesheet" />
 {% endblock %}
 
 {% block scripts %}
@@ -74,7 +75,16 @@
 
 			</div><!-- desc_text -->
 
-			{% include "main/includes/publication likes.html" with publication=artwork %}
+			<div class="publication_likes">
+			  <p class="publication_likes_count">{{artwork.likes.count}}</p>
+			  {% load main_tags %}
+			  <button class="publication_likes_btn" data-pk="{{artwork.pk}}"
+			  {% if user.is_authenticated %}
+			    onclick="like_send($(this));"
+			  {% else %}
+			    onclick="not_auth_alert();"
+			  {% endif %}>{{artwork|like_btn_text:user}}</button>
+			</div><!-- publication_likes -->
 
 		</div><!-- artwork_desc -->
 

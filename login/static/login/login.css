@@ -94,8 +94,8 @@ input.submit_btn {
 }
 
 input.submit_btn:hover {
-	background-color: rgb(200,200,200);
-	box-shadow: -4px 4px 0 0 rgb(200,200,200), inset -3px 3px 0 0 white;
+	background-color: #a8e2d9;
+	box-shadow: -4px 4px 0 0 #a8e2d9, inset -3px 3px 0 0 white;
 }
 
 a.help_link {

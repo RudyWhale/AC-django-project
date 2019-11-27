@@ -63,7 +63,8 @@
 						{% else %}
 							onclick="not_auth_alert();"
 						{% endif %}>
-						<img src="https://img.icons8.com/android/50/000000/chevron-right.png">
+						{% load static %}
+						<img src="{% static 'icons/send.png' %}">
 						</button>
 						<p class="symbols_left_label hide">осталось символов: {{max_comment_length}}</p>
 					</div>

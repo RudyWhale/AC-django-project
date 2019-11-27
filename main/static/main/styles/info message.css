@@ -37,7 +37,3 @@ a.info_msg_link {
 	font-size: 18px;
 	color: black;
 }
-
-a.info_msg_link:hover {
-	color: rgb(120,120,120);
-}

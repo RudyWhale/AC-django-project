@@ -13,17 +13,17 @@
 				<p class="user_info_name">{{request.user.username}}</p>
 
 				{% if request.user.profile %}
-					<a href="{% url 'artist' pk=request.user.profile.pk %}" class="user_info_href">ваша страница</a>
+					<a href="{% url 'artist' pk=request.user.profile.pk %}" class="user_info_href hover_accent">ваша страница</a>
 				{% endif %}
 
-				<a href="{% url 'settings' %}" class="user_info_href">настройки</a>
-				<a href="{% url 'logout' %}" class="user_info_href">выйти</a>
+				<a href="{% url 'settings' %}" class="user_info_href hover_accent">настройки</a>
+				<a href="{% url 'logout' %}" class="user_info_href hover_accent">выйти</a>
 
 			{% else %}
 
 				<p class="user_info_label">Вы не вошли на сайт</p>
-				<a href="{% url 'login' %}" class="user_info_href">войти</a>
-				<a href="{% url 'register' %}" class="user_info_href">регистрация</a>
+				<a href="{% url 'login' %}" class="user_info_href hover_accent">войти</a>
+				<a href="{% url 'register' %}" class="user_info_href hover_accent">регистрация</a>
 
 			{% endif %}
 

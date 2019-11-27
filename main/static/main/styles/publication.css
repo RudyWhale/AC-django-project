@@ -37,7 +37,3 @@ button.publication_likes_btn {
 	font-size: 20px;
 	outline: none;
 }
-
-button.publication_likes_btn:hover {
-	color: rgb(120,120,120);
-}

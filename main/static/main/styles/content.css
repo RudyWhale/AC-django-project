@@ -38,6 +38,7 @@ a.artwork_item_image {
 	float: left;
   background: rgb(100,100,100);
 	overflow: hidden;
+  box-sizing: border-box;
   position: relative; /* for image loading label positioning */
 }
 
@@ -71,10 +72,6 @@ a.content_item_name {
   display: block;
 }
 
-a.content_item_name:hover {
-	color: #a8e2d9;
-}
-
 div.content_item_info {
 	width: 100%;
 	font-size: 18px;
@@ -92,10 +89,6 @@ a.item_artwork_author_href {
 	text-decoration: none;
 	font-size: 18px;
   font-family: 'Oswald', sans-serif;
-}
-
-a.item_artwork_author_href:hover {
-	color: #a8e2d9;
 }
 
 div.content_item_social {
@@ -144,10 +137,6 @@ div.content_item_create>a {
 	width: 100%;
 	font-size: 30px;
 	color: white;
-}
-
-div.content_item_create>a:hover {
-  color: black;
 }
 
 /*===============================================*/

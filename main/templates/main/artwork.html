@@ -40,14 +40,14 @@
 				<h3>{{artwork.name}}</h3>
 				<p class="artwork_date">{{artwork.datetime}}
 					{% if user == artwork.author.user %}
-						<button href="{% url 'delete publication' pk=artwork.pk %}" class="publication_delete">Удалить &#128465</button>
+						<button href="{% url 'delete publication' pk=artwork.pk %}" class="publication_delete hover_accent_dark">Удалить</button>
 					{% endif %}
 				</p>
 				<p class="artwork_desc_text">{{artwork.desc}}</p>
 
 				<div class="tags">
 					{% for tag in artwork.tag_set.all %}
-						<a class="tag" href="{% url 'tag' pk=tag.pk %}">#{{tag.name}}</a>
+						<a class="tag hover_accent_dark" href="{% url 'tag' pk=tag.pk %}">#{{tag.name}}</a>
 					{% empty %}
 						<p class="no_tags_label">Теги не указаны</p>
 					{% endfor %}
@@ -78,7 +78,7 @@
 			<div class="publication_likes">
 			  <p class="publication_likes_count">{{artwork.likes.count}}</p>
 			  {% load main_tags %}
-			  <button class="publication_likes_btn" data-pk="{{artwork.pk}}"
+			  <button class="publication_likes_btn hover_accent" data-pk="{{artwork.pk}}"
 			  {% if user.is_authenticated %}
 			    onclick="like_send($(this));"
 			  {% else %}

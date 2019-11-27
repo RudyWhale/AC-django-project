@@ -31,8 +31,16 @@ a, button, input, textarea {
 }
 
 .transparent_btn:hover {
-	background-color: #a8e2d9;
-	box-shadow: -4px 4px 0 0 #a8e2d9, inset -3px 3px 0 0 white;
+	background-color: #6bb4bf;
+	box-shadow: -4px 4px 0 0 #6bb4bf, inset -3px 3px 0 0 white;
+}
+
+.hover_accent:hover {
+	color: #6bb4bf;
+}
+
+.hover_accent_dark:hover {
+	color: #006270;
 }
 
 p.symbols_left_label {

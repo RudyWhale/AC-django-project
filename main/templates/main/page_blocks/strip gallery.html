@@ -5,33 +5,7 @@
 	<div class="strip_gallery">
 
 		{% for artwork in publications %}
-			<div class="content_item_artwork content_block">
-
-				<a href="{% url 'artwork' pk=artwork.pk %}" class="artwork_item_image">
-					<p class="image_loading_label">Загружаю картинку, подождите...</p>
-					<img src="{{artwork.image.url}}" class="hor_center" alt="{{artwork.name}}" onload="on_content_image_load(this)" />
-				</a>
-
-				<div class="item_artwork_desc">
-
-					<a href="{% url 'artwork' pk=artwork.pk %}" class="content_item_name">{{artwork.name}}</a>
-
-					<div class="content_item_info">
-						<a class="item_artwork_author_href" href="{% url 'artist' pk=artwork.author.pk %}">{{artwork.author.user.username}}</a>
-						{% load static %}
-						<div class="content_item_social">
-							<img src="{% static 'icons/grey heart.png' %}" alt="heart">
-							<p class="social_count">{{artwork.likes.count}}</p>
-						</div>
-						<div class="content_item_social">
-							<img src="{% static 'icons/grey comments.png' %}" alt="comment">
-							<p class="social_count">{{artwork.comment_set.count}}</p>
-						</div>
-					</div><!-- content_item_likes -->
-
-				</div><!-- item_artwork_desc -->
-
-			</div><!-- content_item_wrapper -->
+			{% include 'main/includes/content item artwork.html' %}
 		{% endfor %}
 
 	</div><!-- strip_gallery -->

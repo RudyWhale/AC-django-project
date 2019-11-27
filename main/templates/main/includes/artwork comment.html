@@ -4,8 +4,8 @@
     <p>{{comment.text}}</p>
   </div>
   <p class="comment_datetime">{{comment.datetime}}</p>
-  
+
   {% if user == comment.author %}
-    <button class="comment_delete" data-url="{% url 'delete comment' pk=comment.pk %}" onclick="comment_delete($(this))">Удалить</button>
+    <button class="comment_delete hover_accent_dark" data-url="{% url 'delete comment' pk=comment.pk %}" onclick="comment_delete($(this))">Удалить</button>
   {% endif %}
 </div>

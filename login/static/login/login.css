@@ -94,8 +94,8 @@ input.submit_btn {
 }
 
 input.submit_btn:hover {
-	background-color: #a8e2d9;
-	box-shadow: -4px 4px 0 0 #a8e2d9, inset -3px 3px 0 0 white;
+	background-color: #6bb4bf;
+	box-shadow: -4px 4px 0 0 #6bb4bf, inset -3px 3px 0 0 white;
 }
 
 a.help_link {
@@ -107,7 +107,7 @@ a.help_link {
 }
 
 a.help_link:hover {
-	color: black;
+	color: #006270;
 }
 
 p.login_warning {

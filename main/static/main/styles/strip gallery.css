@@ -47,12 +47,20 @@ div.content_block {
 		width: 50%;
 	}
 
+	div.sg_last {
+		display: none;
+	}
+
 }
 
 @media screen and (max-width: 600px){
 
 	div.strip_gallery_item_artwork {
 		width: 100%;
+	}
+
+	div.sg_last {
+		display: block;
 	}
 
 }

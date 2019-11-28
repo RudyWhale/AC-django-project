@@ -28,6 +28,7 @@ a, button, input, textarea {
 	text-align: center;
 	font-family: 'Oswald', sans-serif;
 	box-sizing: border-box;
+	transition: all 0.3s;
 }
 
 .transparent_btn:hover {

@@ -7,6 +7,7 @@
 
     {% load static %}
     <link rel="shortcut icon" type="image/png" href="{% static 'fav.png' %}" />
+    <link href="{% static 'main/styles/body.css' %}" type="text/css" rel="stylesheet" />
     <link href="{% static 'login/login.css' %}" type="text/css" rel="stylesheet" />
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
@@ -37,14 +38,14 @@
           {% csrf_token %}
               <table>
                   {% for field in form %}
-                      <tr>
+                      <tr class="form_field">
                           <td class="login_label">{{field.label}}</td>
                           <td class="login_input">{{field}}</td>
                       </tr>
                   {% endfor %}
               </table>
 
-              <input class="submit_btn" type="submit" value="{{submit_text}}">
+              <input class="submit_btn transparent_btn" type="submit" value="{{submit_text}}">
           </form>
         {% endif %}
 

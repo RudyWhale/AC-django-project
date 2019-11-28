@@ -1,10 +1,7 @@
-button, input {
-	outline: none;
-}
-
 body {
 	margin: 0;
 	height: 100vh;
+	background-color: white;
 }
 
 div.page {
@@ -17,7 +14,9 @@ div.container {
 	display: inline-block;
 	line-height: 20px;
 	width: 350px;
-	vertical-align: middle
+	padding: 40px 80px;
+	vertical-align: middle;
+	background-color: white;
 }
 
 h1.login_header {
@@ -34,6 +33,10 @@ form.login_form {
 form.login_form>table {
 	width: 100%;
 	border-collapse: collapse;
+}
+
+tr.form_field {
+	transition: all 0.3s;
 }
 
 td.login_label {
@@ -82,20 +85,11 @@ td.login_data {
 }
 
 input.submit_btn {
-	font-family: 'Oswald', sans-serif;
 	font-size: 18px;
 	width: 180px;
 	height: 28px;
 	padding: 0px;
-	border: 1px solid black;
-	background-color: inherit;
-	cursor: pointer;
 	margin: 20px auto 0 auto;
-}
-
-input.submit_btn:hover {
-	background-color: #6bb4bf;
-	box-shadow: -4px 4px 0 0 #6bb4bf, inset -3px 3px 0 0 white;
 }
 
 a.help_link {
@@ -118,20 +112,6 @@ p.login_warning {
 	width: 100%;
 	margin: 2px auto;
 	box-sizing: border-box;
-}
-
-p.symbols_left_label {
-	margin: 0;
-	font-family: 'Roboto Slab', sans-serif;
-	font-size: 14px;
-	color: rgb(120,120,120);
-	float: left;
-	width: 100%;
-	line-height: 16px;
-}
-
-textarea, input {
-	outline: none;
 }
 
 div.help_links {

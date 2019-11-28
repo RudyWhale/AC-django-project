@@ -29,6 +29,7 @@ a.menu_item {
 	padding: 18px 0 0 10px;
 	box-sizing: border-box;
 	font-family: 'Oswald', sans-serif;
+	transition: all 0.3s;
 }
 
 a.menu_item:hover {

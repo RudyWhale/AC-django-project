@@ -2,14 +2,14 @@
 	<div class="artist_overview">
 
 		<div class="artist_avatar">
-			<a href="{% url 'artist' pk=profile.pk %}">
+			<a href="{% url 'artist' pk=profile.pk %}" {% if page == 'artist' %}class="disabled"{% endif %}>
 				<img src="{{profile.avatar.url}}" alt="{{profile.user.username}}" onload="on_avatar_load(this);" />
 			</a>
 		</div><!-- artist_avatar -->
 
 		<div class="artist_desc">
 
-			<a href="{% url 'artist' pk=profile.pk %}"><h3>{{profile.user.username}}</h3></a>
+			<a href="{% url 'artist' pk=profile.pk %}" {% if page == 'artist' %}class="disabled"{% endif %}><h3>{{profile.user.username}}</h3></a>
 
 			<div class="artist_overview_subscribe">
 				<p class="subscribe_count" id="subs_count_{{profile.pk}}">{{profile.subscribers.count}}</p>

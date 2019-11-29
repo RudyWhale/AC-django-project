@@ -32,6 +32,13 @@ a.menu_item {
 	transition: all 0.3s;
 }
 
+a.menu_item.disabled {
+	color: white;
+	border-color: white;
+	box-shadow: -3px 3px 0px 0px black, inset -3px 3px 0px 0px black, -4px 4px 0px 0px #006270, inset -4px 4px 0px 0px #006270;
+	text-shadow: -4px 4px 0px #006270;
+}
+
 a.menu_item:hover {
 	border: 1px solid white;
 	color: white;

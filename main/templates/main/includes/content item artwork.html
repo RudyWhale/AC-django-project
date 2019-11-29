@@ -10,7 +10,7 @@
 		<a class="content_item_name hover_accent" href="{% url 'artwork' pk=artwork.pk %}">{{artwork.name}}</a>
 
 		<div class="content_item_info">
-			<a class="item_artwork_author_href hover_accent" href="{% url 'artist' pk=artwork.author.pk %}">{{artwork.author.user.username}}</a>
+			<a class="item_artwork_author_href hover_accent {% if page == 'artist' %}disabled{% endif %}" href="{% url 'artist' pk=artwork.author.pk %}">{{artwork.author.user.username}}</a>
 			{% load static %}
 			<div class="content_item_social">
 				<img src="{% static 'icons/grey heart.png' %}" alt="heart">

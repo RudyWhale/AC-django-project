@@ -2,7 +2,9 @@
 	<div class="bounded_wrapper">
 
 		<div class="header_logo">
-			<a href="{% url 'index' %}"><h1 class="logo">ArtChart</h1></a>
+			<a href="{% url 'index' %}" {% if page == 'index' %}class="disabled"{% endif %}>
+				<h1 class="logo">ArtChart</h1>
+			</a>
 		</div>
 
 		<div class="header_user_info">

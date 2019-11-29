@@ -60,7 +60,7 @@ urlpatterns = [
     path(
         'new-artwork',
         views.new_artwork,
-        name='new-artwork'
+        name='new artwork'
     ),
 	path(
 		'settings',

@@ -20,11 +20,12 @@ def index(request):
 							'Здесь художники рассказывают о своих работах. Зарегистрировавшись, вы сможете отмечать понравившиеся работы, ' \
 							'подписываться на любимых авторов и следить за их деятельностью на портале',
 		'site_description': True,
+		'page': 'index',
 		'publications': publications,
 		'content_header': 'Популярно',
 		'infinite': infinite,
 		'timestamp': timestamp,
-		'load_content_url': reverse('load content main')
+		'load_content_url': reverse('load content main'),
 	}
 	return render(request, 'main/publications.html', args)
 
@@ -39,6 +40,7 @@ def artist(request, pk):
 	args = {
 		'meta_title': f'{user.username}',
 		'meta_description': f'Блог пользователя {user.username} на ArtChart. {profile.desc}',
+		'page': 'artist',
 		'user': user,
 		'profile': profile,
 		'content_header': 'Блог автора',
@@ -58,6 +60,7 @@ def artists(request):
 	args = {
 		'meta_title': 'Блоги на ArtChart',
 		'meta_description': 'Посмотреть блоги художников, зарегистрированных на ArtChart',
+		'page': 'artists',
 		'artists': artists,
 		'infinite': infinite,
 		'timestamp': timestamp,
@@ -73,6 +76,7 @@ def artworks(request):
 	args = {
 		'meta_title': 'Работы на ArtChart',
 		'meta_description': 'Посмотреть работы художников, зарегистрированных на ArtChart',
+		'page': 'artworks',
 		'publications': publications,
 		'content_header': 'картины',
 		'infinite': infinite,
@@ -90,6 +94,7 @@ def artwork(request, pk):
 	args = {
 		'meta_title': f'{artwork.name}',
 		'meta_description': f'Работа художника {author.username} "{artwork.name}". {artwork.desc}',
+		'page': 'artwork',
 		'artwork': artwork,
 		'related_pubs': related_pubs,
 		'delete_link': show_delete_link,
@@ -108,6 +113,7 @@ def feed(request):
 		args = {
 			'meta_title': 'Лента',
 			'meta_description': '',
+			'page': 'feed',
 			'publications': publications,
 			'content_header': 'ваша лента:',
 			'infinite': infinite,
@@ -120,6 +126,7 @@ def feed(request):
 		args = {
 			'meta_title': 'Карамба!',
 			'meta_description': '',
+			'page': 'feed',
 			'msg_header': "Этот раздел досутен только авторизованным пользователям",
 			'msg_text':  "Войдите на сайт для того, чтобы подписываться на блоги художников и видеть вашу персональную ленту",
 			'links': {
@@ -139,6 +146,7 @@ def become_artist(request):
 			args = {
 				'meta_title': 'Карамба!',
 				'meta_description': '',
+				'page': 'become artist',
 				'msg_header': 'У вас нет приглашения',
 				'msg_text': 'К сожалению, в текущий момент мы не принимаем в наши ряды случайных прохожих. ' \
 							'Для того, чтобы создать профиль художника, вам необходимо получить приглашение от администрации',
@@ -150,6 +158,7 @@ def become_artist(request):
 		args = {
 			'meta_title': 'Карамба!',
 			'meta_description': '',
+			'page': 'become artist',
 			'msg_header': 'Войдите на сайт',
 			'msg_text':  'Простите, но мы хотим знать, с кем имеем дело.' \
 						' Пожалуйста, авторизуйтесь, если хотите создать аккаунт художника на ArtChart',
@@ -170,6 +179,7 @@ def tag(request, pk):
 	args = {
 		'meta_title': f'Тег {tag.name}',
 		'meta_description': f'Поиск публикаций по тегу {tag.name} на ArtChart',
+		'page': 'tag',
 		'publications': publications,
 		'content_header': 'Поиск по тегу ' + tag.name + ':',
 		'infinite': infinite,
@@ -197,6 +207,7 @@ def feedback(request):
 		args = {
 			'meta_title': 'Спасибо!',
 			'meta_description': '',
+			'page': 'feedback',
 			'msg_header': "Ваше сообщение было отправлено",
 			'msg_text':  "Спасибо за обратную связь! Нам важно ваше мнение о проекте, ведь вы можете помочь сделать его лучше"
 		}
@@ -206,6 +217,7 @@ def feedback(request):
 		args = {
 			'meta_title': 'Напишите нам',
 			'meta_description': '',
+			'page': 'feedback',
 			'header': 'Обратная связь',
 			'form': FeedbackForm(),
 			'submit_text': 'Отправить сообшение'
@@ -227,6 +239,7 @@ def new_artwork(request):
 		args = {
 			'meta_title': '',
 			'meta_description': '',
+			'page': 'new artwork',
 			'msg_header': "Что-то пошло не так",
 			'msg_text':  'Во время создания публикации нам не удалось найти ваш профиль художника. ' \
 			'Вы можете написать нам об ошибке, и мы постараемся найти причину ее появления',
@@ -248,6 +261,7 @@ def new_artwork(request):
 			args = {
 				'meta_title': '',
 				'meta_description': '',
+				'page': 'new artwork',
 				'msg_header': "Что-то пошло не так",
 				'msg_text':  'Во время создания публикации произошла неизвестная ошибка. ' \
 				'Если она повторяется, можете написать нам, и мы постараемся найти причину ее появления',
@@ -260,6 +274,7 @@ def new_artwork(request):
 
 	else:
 		args = {
+			'page': 'new artwork',
 			'header': 'Новая работа',
 			'form': ArtworkCreationForm(),
 			'submit_text': 'Создать работу',
@@ -274,6 +289,7 @@ def settings(request):
 		args = {
 			'meta_title': '',
 			'meta_description': '',
+			'page': 'settings',
 			'msg_header': "Представьтесь, пожалуйста",
 			'msg_text':  "Авторизуйтесь для доступа к странице настроек",
 			'links': {
@@ -293,6 +309,7 @@ def settings(request):
 		args = {
 			'meta_title': 'Настройки изменены',
 			'meta_description': '',
+			'page': 'settings',
 			'msg_header': "Настройки были изменены",
 			'msg_text':  "Мы сохранили изменения вашего профиля",
 			'links': {
@@ -303,6 +320,7 @@ def settings(request):
 
 	else:
 		args = {
+			'page': 'settings',
 			'header': 'Настройки пользователя',
 			'form': UserSettingsForm(user_settings),
 			'submit_text': 'Сохранить настройки'

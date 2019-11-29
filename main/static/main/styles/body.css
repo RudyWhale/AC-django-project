@@ -44,6 +44,10 @@ a, button, input, textarea {
 	color: #006270;
 }
 
+a.disabled {
+	pointer-events: none;
+}
+
 p.symbols_left_label {
 	margin: 0;
 	font-family: 'Roboto Slab', sans-serif;

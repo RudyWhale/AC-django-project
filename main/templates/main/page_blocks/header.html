@@ -15,10 +15,15 @@
 				<p class="user_info_name">{{request.user.username}}</p>
 
 				{% if request.user.profile %}
-					<a href="{% url 'artist' pk=request.user.profile.pk %}" class="user_info_href hover_accent">ваша страница</a>
+					<a href="{% url 'artist' pk=request.user.profile.pk %}"
+						class="user_info_href hover_accent {% if page == 'artist' and user == request.user %}disabled{% endif %}">
+						ваша страница
+					</a>
 				{% endif %}
 
-				<a href="{% url 'settings' %}" class="user_info_href hover_accent">настройки</a>
+				<a href="{% url 'settings' %}" class="user_info_href hover_accent {% if page == 'settings' %}disabled{% endif %}">
+					настройки
+				</a>
 				<a href="{% url 'logout' %}" class="user_info_href hover_accent">выйти</a>
 
 			{% else %}

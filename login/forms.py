@@ -24,7 +24,7 @@ class ACAuthenticationForm(AuthenticationForm):
 	username = forms.CharField(max_length=254, label="Имя")
 	password = forms.CharField(label="Пароль", widget=forms.widgets.PasswordInput)
 	if USE_RECAPTCHA:
-		captcha = ReCaptchaField(widget=ReCaptchaV2Invisible, disabled=True)
+		captcha = ReCaptchaField()
 
 
 '''
@@ -53,7 +53,7 @@ class RegistrationForm(UserCreationForm):
 		widget = forms.widgets.TextInput(attrs={'placeholder': 'Имя профиля', 'class': 'inp_name'}),
 	)
 	if USE_RECAPTCHA:
-		captcha = ReCaptchaField(widget=ReCaptchaV2Invisible, disabled=True)
+		captcha = ReCaptchaField()
 
 	class Meta:
 		model = User

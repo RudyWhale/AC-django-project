@@ -4,13 +4,17 @@ from django.contrib.auth.models import User
 from django.core.validators import validate_email
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.urls import reverse
+
+from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV2Invisible
 from PIL import Image
 from io import BytesIO
 from datetime import datetime
+
 from main.models import ArtistProfile
 from main.widgets import LimitedLengthTextarea
 from .snippets import get_hash
-from ArtChart.settings import EMAIL_HOST_USER, PROFILE_AVATAR_MAX_SIZE as MAX_AVATAR_SIZE, PROFILE_DESC_MAX_LENGTH
+from ArtChart.settings import EMAIL_HOST_USER, PROFILE_AVATAR_MAX_SIZE as MAX_AVATAR_SIZE, PROFILE_DESC_MAX_LENGTH, USE_RECAPTCHA
 
 
 '''
@@ -19,6 +23,8 @@ Login form
 class ACAuthenticationForm(AuthenticationForm):
 	username = forms.CharField(max_length=254, label="Имя")
 	password = forms.CharField(label="Пароль", widget=forms.widgets.PasswordInput)
+	if USE_RECAPTCHA:
+		captcha = ReCaptchaField(widget=ReCaptchaV2Invisible, disabled=True)
 
 
 '''
@@ -46,6 +52,8 @@ class RegistrationForm(UserCreationForm):
 		label = 'Имя',
 		widget = forms.widgets.TextInput(attrs={'placeholder': 'Имя профиля', 'class': 'inp_name'}),
 	)
+	if USE_RECAPTCHA:
+		captcha = ReCaptchaField(widget=ReCaptchaV2Invisible, disabled=True)
 
 	class Meta:
 		model = User

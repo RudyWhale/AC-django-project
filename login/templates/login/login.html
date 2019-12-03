@@ -36,16 +36,20 @@
         {% if form %}
           <form method="post" action="{{action_url}}" enctype="multipart/form-data" class="login_form">
           {% csrf_token %}
-              <table>
-                  {% for field in form %}
-                      <tr class="form_field">
-                          <td class="login_label">{{field.label}}</td>
-                          <td class="login_input">{{field}}</td>
-                      </tr>
-                  {% endfor %}
-              </table>
+            <table>
+              {% for field in form %}
+                {% if field.label == 'Captcha' %}
+                  {{field}}
+                {% else %}
+                  <tr class="form_field">
+                      <td class="login_label">{{field.label}}</td>
+                      <td class="login_input">{{field}}</td>
+                  </tr>
+                {% endif %}
+              {% endfor %}
+            </table>
 
-              <input class="submit_btn transparent_btn" type="submit" value="{{submit_text}}">
+            <input class="submit_btn transparent_btn" type="submit" value="{{submit_text}}">
           </form>
         {% endif %}
 

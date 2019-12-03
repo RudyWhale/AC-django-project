@@ -14,7 +14,7 @@ div.min_height {
 }
 
 div.g-recaptcha>div {
-	margin: auto;
+	margin: 10px auto;
 }
 
 button, input {

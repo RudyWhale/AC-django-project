@@ -39,9 +39,7 @@
             <table>
               {% for field in form %}
                 {% if field.label == 'Captcha' %}
-                  <div class="align_center">
-                    {{field}}
-                  </div>
+                  {{field}}
                 {% else %}
                   <tr class="form_field">
                       <td class="login_label">{{field.label}}</td>

@@ -34,7 +34,7 @@ def login(request):
 
 		args = {
 			'header': header,
-			'message': 'Неправильные имя пользователя или пароль',
+			'message': 'Ошибка :( Проверьте правильность ввода',
 			'form': form,
 			'action_url': action,
 			'submit_text': 'Войти',

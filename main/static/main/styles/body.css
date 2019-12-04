@@ -13,10 +13,6 @@ div.min_height {
 	min-height: 350px;
 }
 
-div.g-recaptcha>div {
-	margin: 10px auto;
-}
-
 button, input {
 	outline: none;
 }

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login as user_login, logout as user_logout
-from django.contrib.auth.models import User, Permission
+from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
@@ -10,9 +10,8 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.template.response import SimpleTemplateResponse
 from django.templatetags.static import static
-from main.models import ArtistProfile
-from ArtChart.settings import EMAIL_HOST_USER, PROFILE_DESC_MAX_LENGTH, PROFILE_AVATAR_MAX_SIZE, HOST
-from .forms import ACAuthenticationForm, ArtistCreationForm, RegistrationForm, ACPasswordResetForm, ACSetPasswordForm
+from ArtChart.settings import EMAIL_HOST_USER, HOST
+from .forms import ACAuthenticationForm, RegistrationForm, ACPasswordResetForm, ACSetPasswordForm
 from .snippets import get_hash
 
 
@@ -106,64 +105,6 @@ def register(request):
 		return render(request, 'login/login.html', args)
 
 
-def logout(request):
-	user_logout(request)
-	return redirect('index')
-
-
-def register_as_artist(request):
-	header = 'Создание профиля'
-
-	if request.method == 'POST':
-		form = ArtistCreationForm(request.POST, request.FILES)
-
-		if form.is_valid():
-			# Takes care of user permissions
-			reg_perm = Permission.objects.get(name="Can add artist profile")
-			download_perm = Permission.objects.get(name="Can add publication")
-			request.user.user_permissions.remove(reg_perm)
-			request.user.user_permissions.add(download_perm)
-
-			# Creates new artist profile
-			profile = form.save(request.user)
-			args = {
-				'header': header,
-				'message': 'Профиль художника был успешно создан. Теперь вы можете создавать публикации, которые будут видны другим пользователям',
-				'links': {
-					'Ваша страница': reverse('artist', args=[profile.pk,]),
-					'На главную': reverse('index'),
-				},
-			}
-			return render(request, 'login/login.html', args)
-
-		else:
-			args = {
-				'header': 'Создание профиля',
-				'message':  'К сожалению, во время регистрации произошла ошибка. Если она повторяется, вы можете написать администрации',
-				'links': {
-					'Страница регистрации': reverse('become artist'),
-					'Напишите нам': reverse('feedback'),
-					'На главную': reverse('index'),
-				}
-			}
-			return SimpleTemplateResponse(template='login/login.html', context=args, status=400)
-
-	else:
-		if (request.user.has_perm('main.add_artistprofile')):
-			args = {
-				'header': 'Создание профиля',
-				'scripts': [static('login/reg_form.js'), static('main/scripts/textarea_limited_length.js')],
-				'form': ArtistCreationForm(),
-				'max_desc_length': PROFILE_DESC_MAX_LENGTH,
-				'action_url': reverse('register as artist'),
-				'submit_text': 'Отправить',
-				'links': {'На главную': reverse('index'),}
-			}
-			return render(request, 'login/login.html', args)
-
-		else: return redirect('become artist')
-
-
 def activate(request, pk, hash):
 	header = 'Регистрация на сайте'
 
@@ -173,6 +114,18 @@ def activate(request, pk, hash):
 		if (get_hash(user) == hash):
 			user.is_active = True
 			user.save()
+
+			# sends welcome email
+			message = 'Рады сообщить, что только что мы активировали ваш аккаунт!'
+			html = render_to_string('login/email_templates/welcome.html', {'username': user.username})
+			send_mail(
+				'Добро пожаловать!',
+				message,
+				EMAIL_HOST_USER,
+				[user.email],
+				html_message = html,
+			)
+
 			args = {
 				'header': header,
 				'message':  'Ваш аккаунт успешно активирован. Добро пожаловать на ArtChart! :)',
@@ -207,6 +160,11 @@ def activate(request, pk, hash):
 			}
 		}
 		return SimpleTemplateResponse(template='login/login.html', context=args, status=400)
+
+
+def logout(request):
+	user_logout(request)
+	return redirect('index')
 
 
 def password_reset(request):

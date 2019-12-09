@@ -93,11 +93,6 @@ class FeedUpdateEmailTask(BaseEmailTask):
 	publications = models.ManyToManyField(Publication)
 
 
-# # Keeps info about new comments on artist's publications
-# class CommentsEmailTask(BaseEmailTask):
-# 	comments = models.ManyToManyField(Comment)
-#
-#
-# # Keeps info about artist's new subscribers
-# class SubscribersEmailTask(BaseEmailTask):
-# 	subscribers = models.ManyToManyField(User)
+class BlackList(models.Model):
+	email = models.EmailField()
+	comment = models.CharField(max_length=1000, blank=True)

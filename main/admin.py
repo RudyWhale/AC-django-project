@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
-from .models import Artwork, ArtistProfile, Comment, Tag, Publication, UserSettings, FeedUpdateEmailTask
+from .models import *
 
 
 class UserSettingsInline(admin.StackedInline):
@@ -21,3 +21,4 @@ admin.site.register(Comment)
 admin.site.register(Tag)
 admin.site.register(Publication)
 admin.site.register(FeedUpdateEmailTask)
+admin.site.register(BlackList)

@@ -29,11 +29,6 @@ urlpatterns = [
 		name = 'register'
 	),
 	path(
-		'register_as_artist',
-		views.register_as_artist,
-		name = 'register as artist'
-	),
-	path(
 		'check_nickname',
 		ajax.check_nickname,
 		name = 'check nickname'

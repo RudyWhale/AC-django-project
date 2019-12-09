@@ -55,18 +55,26 @@ class RegistrationForm(UserCreationForm):
 	if USE_RECAPTCHA:
 		captcha = ReCaptchaField()
 
+
 	class Meta:
 		model = User
 		fields = ['username', 'email']
+
 
 	def clean_email(self):
 		email = self.cleaned_data['email']
 		validate_email(email)
 
+		from main.models import BlackList
+
 		if User.objects.filter(email=email).exists():
 			raise forms.ValidationError('Email already used')
 
+		elif BlackList.objects.all() and BlackList.objects.get(email=email):
+			raise forms.ValidationError('Email in blacklist')
+
 		return email
+
 
 	def clean_password2(self):
 		password = self.cleaned_data['password2']
@@ -75,6 +83,7 @@ class RegistrationForm(UserCreationForm):
 			raise forms.ValidationError('Password too short')
 
 		return password
+
 
 	def save(self, commit=True):
 		user = super().save(commit = False)
@@ -86,59 +95,6 @@ class RegistrationForm(UserCreationForm):
 			user.save()
 
 		return user
-
-
-'''
-Form for artist registration
-'''
-class ArtistCreationForm(forms.ModelForm):
-	avatar = forms.ImageField(
-		required=True,
-		widget=forms.widgets.FileInput(attrs={'class': 'avatar_inp', 'data-max_size': MAX_AVATAR_SIZE}),
-		label='Фото',
-	)
-	desc_attrs = {
-		'cols': '38',
-		'rows': '7',
-		'placeholder': 'Напишите о себе. Эта информация будет отображаться в вашем профиле',
-		'maxlength': PROFILE_DESC_MAX_LENGTH,
-		'class': 'limited_length'
-	}
-	desc = forms.CharField(
-		required=True,
-		widget=LimitedLengthTextarea(attrs=desc_attrs),
-		label='описание',
-	)
-
-	class Meta:
-		model = ArtistProfile
-		fields = ['avatar', 'desc']
-
-	def clean_avatar(self):
-		file = self.cleaned_data['avatar']
-
-		if file.size > MAX_AVATAR_SIZE:
-			raise forms.ValidationError('Avatar is too big')
-
-		return file
-
-	def clean_desc(self):
-		text = self.cleaned_data['desc']
-
-		if len(text) > PROFILE_DESC_MAX_LENGTH:
-			raise forms.ValidationError('Desc text is too long')
-
-		return text
-
-	def save(self, user, commit=True):
-		profile = super().save(commit=False)
-
-		profile.user = user
-
-		if commit:
-			profile.save()
-
-		return profile
 
 
 class ACPasswordResetForm(PasswordResetForm):
@@ -158,6 +114,7 @@ class ACSetPasswordForm(SetPasswordForm):
 		widget=forms.PasswordInput(attrs={'placeholder': 'Повторите новый пароль', 'class': 'pass2'}),
 		label='пароль',
 	)
+
 
 	def clean_new_password2(self):
 		password = self.cleaned_data['new_password2']

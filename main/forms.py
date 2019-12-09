@@ -2,9 +2,9 @@ from django import forms
 from django.forms import ModelForm
 from PIL import Image
 from datetime import datetime
-from .models import Artwork, Tag, UserSettings, ProfileSettings
+from .models import Artwork, Tag, UserSettings, ProfileSettings, ArtistProfile
 from .widgets import LimitedLengthTextarea
-from ArtChart.settings import ARTWORK_DESC_MAX_LENGTH, ARTWORK_IMAGE_MAX_SIZE
+from ArtChart.settings import ARTWORK_DESC_MAX_LENGTH, ARTWORK_IMAGE_MAX_SIZE, PROFILE_AVATAR_MAX_SIZE, PROFILE_DESC_MAX_LENGTH
 
 
 class AbstractPostCreationForm(ModelForm):
@@ -93,3 +93,60 @@ class UserSettingsForm(forms.Form):
         super().__init__()
         settings_field = self.fields['email_settings']
         settings_field.initial = ['feed_update_notifications' if user_settings.feed_update_notifications else None]
+
+
+'''
+Form for artist registration
+'''
+class ArtistCreationForm(forms.ModelForm):
+	avatar = forms.ImageField(
+		required=True,
+		widget=forms.widgets.FileInput(attrs={'class': 'avatar_inp', 'data-max_size': PROFILE_AVATAR_MAX_SIZE}),
+		label='Фото',
+	)
+	desc_attrs = {
+		'cols': '38',
+		'rows': '7',
+		'placeholder': 'Напишите о себе. Эта информация будет отображаться в вашем профиле',
+		'maxlength': PROFILE_DESC_MAX_LENGTH,
+		'class': 'limited_length'
+	}
+	desc = forms.CharField(
+		required=True,
+		widget=LimitedLengthTextarea(attrs=desc_attrs),
+		label='Описание',
+	)
+
+
+	class Meta:
+		model = ArtistProfile
+		fields = ['avatar', 'desc']
+
+
+	def clean_avatar(self):
+		file = self.cleaned_data['avatar']
+
+		if file.size > PROFILE_AVATAR_MAX_SIZE:
+			raise forms.ValidationError('Avatar is too big')
+
+		return file
+
+
+	def clean_desc(self):
+		text = self.cleaned_data['desc']
+
+		if len(text) > PROFILE_DESC_MAX_LENGTH:
+			raise forms.ValidationError('Desc text is too long')
+
+		return text
+
+
+	def save(self, user, commit=True):
+		profile = super().save(commit=False)
+
+		profile.user = user
+
+		if commit:
+			profile.save()
+
+		return profile

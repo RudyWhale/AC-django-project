@@ -141,7 +141,62 @@ def feed(request):
 def become_artist(request):
 	if request.user.is_authenticated:
 		if  request.user.has_perm('main.add_artistprofile'):
-			return redirect('register as artist')
+			header = 'Создание профиля'
+			title = 'Создание профиля'
+
+			if request.method == 'POST':
+				form = ArtistCreationForm(request.POST, request.FILES)
+
+				if form.is_valid():
+					# Takes care of user permissions
+					from django.contrib.auth.models import Permission
+
+					reg_perm = Permission.objects.get(name="Can add artist profile")
+					download_perm = Permission.objects.get(name="Can add publication")
+					request.user.user_permissions.remove(reg_perm)
+					request.user.user_permissions.add(download_perm)
+
+					# Creates new artist profile
+					profile = form.save(request.user)
+					args = {
+						'page': 'register as artist',
+						'meta_title': title,
+						'meta_description': '',
+						'msg_header': header,
+						'msg_text': 'Профиль художника был успешно создан. Теперь вы можете создавать публикации, которые будут видны другим пользователям',
+						'links': {
+							'Ваша страница': reverse('artist', args=[profile.pk,]),
+							'На главную': reverse('index'),
+						},
+					}
+					return render(request, 'main/message.html', args)
+
+				else:
+					args = {
+						'page': 'register as artist',
+						'meta_title': title,
+						'meta_description': '',
+						'msg_header': header,
+						'msg_text':  'К сожалению, во время регистрации произошла ошибка. Если она повторяется, вы можете написать администрации',
+						'links': {
+							'Страница регистрации': reverse('become artist'),
+							'Напишите нам': reverse('feedback'),
+							'На главную': reverse('index'),
+						}
+					}
+					return SimpleTemplateResponse(template='main/message.html', context=args, status=400)
+
+			else:
+				args = {
+					'page': 'register as artist',
+					'meta_title': title,
+					'meta_description': '',
+					'header': header,
+					'form': ArtistCreationForm(),
+					'submit_text': 'Отправить',
+				}
+				return render(request, 'main/form.html', args)
+
 		else:
 			args = {
 				'meta_title': 'Карамба!',
@@ -149,8 +204,12 @@ def become_artist(request):
 				'page': 'become artist',
 				'msg_header': 'У вас нет приглашения',
 				'msg_text': 'К сожалению, в текущий момент мы не принимаем в наши ряды случайных прохожих. ' \
-							'Для того, чтобы создать профиль художника, вам необходимо получить приглашение от администрации',
-				'from_page': request.META.get('HTTP_REFERER')
+							'Для того, чтобы создать профиль художника, вам необходимо получить приглашение от администрации. ' \
+							'Напишите нам, прикрепите ссылку на свое портфолио, и мы пришлем вам приглашение для регистрации профиля.',
+				'links': {
+					'Напишите нам': reverse('feedback'),
+					'На главную': reverse('index'),
+				},
 			}
 			return render(request, 'main/info message.html', args)
 
@@ -166,7 +225,6 @@ def become_artist(request):
 				'На страницу входа': reverse('login'),
 				'На главную': reverse('index'),
 			},
-			'from_page': request.META.get('HTTP_REFERER')
 		}
 		return render(request, 'main/info message.html', args)
 
@@ -326,62 +384,3 @@ def settings(request):
 			'submit_text': 'Сохранить настройки'
 		}
 		return render(request, 'main/form.html', args)
-
-
-def register_as_artist(request):
-	header = 'Создание профиля'
-	title = header
-
-	if request.method == 'POST':
-		form = ArtistCreationForm(request.POST, request.FILES)
-
-		if form.is_valid():
-			# Takes care of user permissions
-			from django.contrib.auth.models import Permission
-
-			reg_perm = Permission.objects.get(name="Can add artist profile")
-			download_perm = Permission.objects.get(name="Can add publication")
-			request.user.user_permissions.remove(reg_perm)
-			request.user.user_permissions.add(download_perm)
-
-			# Creates new artist profile
-			profile = form.save(request.user)
-			args = {
-				'page': 'register as artist',
-				'meta_title': title,
-				'meta_description': '',
-				'msg_header': header,
-				'msg_text': 'Профиль художника был успешно создан. Теперь вы можете создавать публикации, которые будут видны другим пользователям',
-				'links': {
-					'Ваша страница': reverse('artist', args=[profile.pk,]),
-					'На главную': reverse('index'),
-				},
-			}
-			return render(request, 'main/message.html', args)
-
-		else:
-			args = {
-				'page': 'register as artist',
-				'meta_title': title,
-				'meta_description': '',
-				'msg_header': header,
-				'msg_text':  'К сожалению, во время регистрации произошла ошибка. Если она повторяется, вы можете написать администрации',
-				'links': {
-					'Страница регистрации': reverse('become artist'),
-					'Напишите нам': reverse('feedback'),
-					'На главную': reverse('index'),
-				}
-			}
-			return SimpleTemplateResponse(template='main/message.html', context=args, status=400)
-
-	else:
-		if (request.user.has_perm('main.add_artistprofile')):
-			args = {
-				'page': 'register as artist',
-				'header': 'Создание профиля',
-				'form': ArtistCreationForm(),
-				'submit_text': 'Отправить',
-			}
-			return render(request, 'main/form.html', args)
-
-		else: return redirect('become artist')

@@ -58,7 +58,7 @@ urlpatterns = [
 		name ='robots'
 	),
     path(
-        'new-artwork',
+        'new_artwork',
         views.new_artwork,
         name='new artwork'
     ),
@@ -66,10 +66,5 @@ urlpatterns = [
 		'settings',
 		views.settings,
 		name='settings'
-	),
-	path(
-		'register_as_artist',
-		views.register_as_artist,
-		name = 'register as artist'
 	),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

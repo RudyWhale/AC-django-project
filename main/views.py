@@ -139,8 +139,10 @@ def feed(request):
 
 
 def become_artist(request):
-	if request.user.is_authenticated:
-		if  request.user.has_perm('main.add_artistprofile'):
+	user = request.user
+
+	if user.is_authenticated:
+		if  user.has_perm('main.add_artistprofile'):
 			header = 'Создание профиля'
 			title = 'Создание профиля'
 
@@ -169,7 +171,7 @@ def become_artist(request):
 							'На главную': reverse('index'),
 						},
 					}
-					return render(request, 'main/message.html', args)
+					return render(request, 'main/info message.html', args)
 
 				else:
 					args = {
@@ -184,7 +186,7 @@ def become_artist(request):
 							'На главную': reverse('index'),
 						}
 					}
-					return SimpleTemplateResponse(template='main/message.html', context=args, status=400)
+					return SimpleTemplateResponse(template='main/info message.html', context=args, status=400)
 
 			else:
 				args = {
@@ -198,18 +200,22 @@ def become_artist(request):
 				return render(request, 'main/form.html', args)
 
 		else:
+			if user.has_perm('main.add_publication'):
+				message = 'У вас уже есть профиль художника. Зачем вам еще один?'
+				links = {'Ваша страница': reverse('artist', args=[user.profile.pk,]), 'На главную': reverse('index')}
+			else:
+				message = 'К сожалению, в текущий момент мы не принимаем в наши ряды случайных прохожих. ' \
+							'Для того, чтобы создать профиль художника, вам необходимо получить приглашение от администрации. ' \
+							'Напишите нам, прикрепите ссылку на свое портфолио, и мы пришлем вам приглашение для регистрации профиля.'
+				links = {'Напишите нам': reverse('feedback'), 'На главную': reverse('index')}
+
 			args = {
 				'meta_title': 'Карамба!',
 				'meta_description': '',
 				'page': 'become artist',
 				'msg_header': 'У вас нет приглашения',
-				'msg_text': 'К сожалению, в текущий момент мы не принимаем в наши ряды случайных прохожих. ' \
-							'Для того, чтобы создать профиль художника, вам необходимо получить приглашение от администрации. ' \
-							'Напишите нам, прикрепите ссылку на свое портфолио, и мы пришлем вам приглашение для регистрации профиля.',
-				'links': {
-					'Напишите нам': reverse('feedback'),
-					'На главную': reverse('index'),
-				},
+				'msg_text': message,
+				'links': links,
 			}
 			return render(request, 'main/info message.html', args)
 

@@ -4,6 +4,5 @@ todo.txt
 __pycache__
 media/
 static/
-migrations/
 wsgi.py
 !/*/static/

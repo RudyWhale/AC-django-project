@@ -4,6 +4,7 @@
 	{% load static %}
 
 	<link href="{% static 'main/styles/artist overview.css' %}" type="text/css" rel="stylesheet" />
+	<link href="{% static 'main/styles/content.css' %}" type="text/css" rel="stylesheet" />
 {% endblock %}
 
 {% block scripts %}
@@ -17,6 +18,10 @@
 
 {% include "main/page_blocks/header.html" %}
 {% include "main/page_blocks/menu.html" %}
+
+<div class="bounded_wrapper">
+	<h1 class="section_header">художники</h1>
+</div>
 
 {% for profile in artists %}
 	{% include "main/page_blocks/artist overview.html" with profile=profile user=request.user %}

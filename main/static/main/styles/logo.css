@@ -17,7 +17,7 @@ div.header_logo {
 }
 
 div.header_logo>a {
-	margin-top: 24px;
+	margin-top: 25px;
 	text-decoration: none;
 	float: left;
 }
@@ -84,7 +84,7 @@ a.user_info_href.disabled {
 	}
 
 	div.header_logo>a {
-		margin-top: 36px;
+		margin-top: 37px;
 	}
 
 	h1.logo {

@@ -3,7 +3,6 @@ div.desc_container {
 	width: 100%;
 	box-sizing: border-box;
 	padding: 10px 20px;
-	background-color: white;
 }
 
 div.desc {
@@ -13,7 +12,6 @@ div.desc {
 	text-align: center;
 	padding: 20px 70px;
 	box-sizing: border-box;
-	border: 1px solid black;
 }
 
 div.desc>p {

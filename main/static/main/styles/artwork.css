@@ -2,13 +2,13 @@ div.artwork_repr {
 	float: left;
 	width: 100%;
 	height: 480px;
-	background-color: white;
+	margin-top: 10px;
 }
 
 div.artwork_img {
 	display: block;
 	float: left;
-	height: 100%;
+	height: calc(100% - 10px);
 	width: 67%;
 	background-color: rgb(60,60,60);
 	overflow: hidden;
@@ -37,7 +37,7 @@ div.artwork_desc_text {
 	float: left;
 	width: 100%;
 	height: 430px;
-	padding: 10px 10px 0 0;
+	padding: 0 10px 0 0;
 	box-sizing: border-box;
 	line-height: 25px;
 	font-family: 'Roboto', sans-serif;

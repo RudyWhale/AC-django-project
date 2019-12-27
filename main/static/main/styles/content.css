@@ -1,7 +1,6 @@
 div.content_collection {
   float: left;
   width: 100%;
-  background-color: white;
   overflow-wrap: break-word;
 	word-wrap: break-word;
 }
@@ -16,7 +15,7 @@ div.content_collection>h1 {
 	font-family: 'Oswald', sans-serif;
 	font-size: 30px;
 	margin: 0px;
-  font-weight: 600;
+  font-weight: 400;
 }
 
 div.content_block {

@@ -1,9 +1,8 @@
 div.strip_gallery_wrapper {
-	background-color: black;
 	width: 100%;
 	float: left;
-	color: rgb(200,200,200);
 	padding: 0px;
+	background-color: rgb(200,200,200)
 }
 
 div.strip_gallery_wrapper>h1 {
@@ -18,7 +17,6 @@ div.strip_gallery_wrapper>h1 {
 	font-family: 'Oswald', sans-serif;
 	font-size: 30px;
 	margin: 0px;
-	color: rgb(80,80,80);
 }
 
 div.strip_gallery {

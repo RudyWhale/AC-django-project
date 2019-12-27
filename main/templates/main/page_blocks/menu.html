@@ -1,7 +1,9 @@
-<div class="menu">
-	<ul>
-		<li><a class="menu_item {% if page == 'artworks' %}disabled{% endif %}" href="{% url 'artworks' %}">картины.</a></li>
-		<li><a class="menu_item {% if page == 'artists' %}disabled{% endif %}" href="{% url 'artists' %}">художники.</a></li>
-		<li><a class="menu_item {% if page == 'feed' %}disabled{% endif %}" href="{% url 'feed' %}">лента.</a></li>
-	</ul>
-</div><!-- menu -->
+	<div class="menu">
+		<div class="bounded_wrapper">
+		<ul class="navbar_ul">
+			<li class="navbar_li"><a class="menu_item {% if page == 'artworks' %}disabled{% endif %}" href="{% url 'artworks' %}">картины</a></li>
+			<li class="navbar_li"><a class="menu_item {% if page == 'artists' %}disabled{% endif %}" href="{% url 'artists' %}">художники</a></li>
+			<li class="navbar_li"><a class="menu_item {% if page == 'feed' %}disabled{% endif %}" href="{% url 'feed' %}">лента</a></li>
+		</ul>
+		</div>
+	</div><!-- menu -->

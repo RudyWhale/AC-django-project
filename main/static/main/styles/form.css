@@ -1,8 +1,7 @@
 div.form {
-  background-color: white;
   float: left;
   width: 100%;
-  padding: 10px 5px;
+  padding: 0 5px;
   box-sizing: border-box;
 }
 
@@ -15,7 +14,7 @@ div.form>form {
 div.form_header {
   width: 100%;
   float: left;
-  margin: 20px 0 10px 0;
+  margin: 10px 0 10px 0;
   border-bottom: 4px solid rgb(140,140,140);
 }
 

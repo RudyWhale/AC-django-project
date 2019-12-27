@@ -38,11 +38,6 @@ urlpatterns = [
 		name='tag'
 	),
 	path(
-		'become_artist',
-		views.become_artist,
-		name='become artist'
-	),
-	path(
 		'feed',
 		views.feed,
 		name='feed'

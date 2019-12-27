@@ -1,6 +1,17 @@
-from django.forms.widgets import Textarea
+from django.forms.widgets import Textarea, CheckboxInput
 
 class LimitedLengthTextarea(Textarea):
     def render(self, name, value, attrs, renderer, max_length=1000):
         symbols_left_label = f'<p class="symbols_left_label">осталось символов: {max_length}</p>'
         return super().render(name, value, attrs, renderer) + '\n' + symbols_left_label
+
+
+class ACCheckBox(CheckboxInput):
+    def __init__(self, label, attrs={}, check_test=None):
+        super().__init__(attrs, check_test)
+        self.label = label
+
+    def render(self, name, value, attrs, renderer):
+        label = f'<p class="checkbox_label">{self.label}</p>'
+        attrs['class'] = 'checkbox_input'
+        return super().render(name, value, attrs, renderer) + label

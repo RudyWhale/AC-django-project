@@ -1,4 +1,4 @@
-from django.db.models.signals import post_delete, pre_save, post_save, m2m_changed
+from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from django.core.mail import send_mail
 from django.contrib.auth.models import User

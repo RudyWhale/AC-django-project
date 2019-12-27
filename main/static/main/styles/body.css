@@ -1,7 +1,7 @@
 body {
 	margin: 0;
-	background-color: rgb(220,220,220);
 	color: rgb(40,40,40);
+	background: rgb(220, 220, 220)
 }
 
 div.bounded_wrapper {

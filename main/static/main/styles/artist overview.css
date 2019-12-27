@@ -2,27 +2,34 @@ div.artist_overview {
 	float: left;
 	width: 100%;
 	box-sizing: border-box;
+	padding: 25px 0;
 	background-color: white;
+}
+
+div.artist_wrapper {
+	max-width: 800px;
+	margin: 0 auto;
 }
 
 div.artist_avatar {
 	float: left;
-	width: 250px;
-	height: 250px;
+	width: 230px;
+	height: 230px;
 	border-radius: 125px;
 	overflow: hidden;
 	border: 1px rgb(40,40,40) solid;
-	margin: 23px;
+	margin-right: 20px;
+	box-sizing: border-box;
 }
 
 div.artist_avatar>a>img {
-  height: 250px;
+  height: 230px;
   position: relative;
 }
 
 div.artist_desc {
 	float: left;
-	width: calc(100% - 300px);
+	width: calc(100% - 250px);
 	font-family: 'Roboto', sans-serif;
 }
 
@@ -32,7 +39,7 @@ div.artist_desc>a {
 }
 
 div.artist_desc>a>h3 {
-	margin: 20px 0px 0px 0px;
+	margin: 0px;
 	font-size: 50px;
 	font-weight: 600;
 }
@@ -42,15 +49,14 @@ div.artist_desc>p {
 	float: left;
 	width: 100%;
 	margin: 0px;
-	font-size: 20px;
-	padding: 0px 10px 10px 0px;
+	font-size: 18px;
 	box-sizing: border-box;
 }
 
 div.artist_overview_subscribe {
 	width: 100%;
 	float: left;
-	height: 45px;
+	margin: 10px 0;
 }
 
 p.subscribe_count {

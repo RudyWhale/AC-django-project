@@ -18,9 +18,9 @@ class ArtistProfile(models.Model):
 		return 'avatars/{}/{}/{}'.format(date.year, date.month, filename)
 
 	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-	desc = models.TextField(default ='no desc')
-	avatar = models.ImageField(upload_to=avatar_upload_path, blank=True)
-	subscribers = models.ManyToManyField(User, related_name='subscriptions')
+	desc = models.TextField(default ='')
+	avatar = models.ImageField(upload_to=avatar_upload_path, default='avatars/default.png')
+	subscribers = models.ManyToManyField(User, related_name='subscriptions', blank=True)
 
 	def __str__(self):
 		return self.user.username

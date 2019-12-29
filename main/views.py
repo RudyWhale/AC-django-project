@@ -54,7 +54,7 @@ def artist(request, pk):
 
 
 def artists(request):
-	artists = ArtistProfile.objects.all().annotate(subs_count=Count('subscribers')).order_by('-subs_count')[:ARTIST_PROFILES_LIMIT]
+	artists = ArtistProfile.objects.filter(user__is_active=True).annotate(subs_count=Count('subscribers')).order_by('-subs_count')[:ARTIST_PROFILES_LIMIT]
 	infinite = artists.count() == ARTIST_PROFILES_LIMIT
 	timestamp = timezone.now().timestamp()
 	args = {

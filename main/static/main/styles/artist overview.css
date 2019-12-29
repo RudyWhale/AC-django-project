@@ -94,6 +94,17 @@ button.load_artists_btn {
 	margin: 10px 0;
 }
 
+a.add_artwork {
+	margin-left: 5px;
+}
+
+a.add_artwork>img {
+	height: 40px;
+	width: 40px;
+	position: relative;
+	bottom: -6px;
+}
+
 /*===============================================*/
 /* MEDIA ----------------------------------------*/
 /*===============================================*/

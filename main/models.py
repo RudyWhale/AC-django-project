@@ -26,14 +26,14 @@ class ArtistProfile(models.Model):
 		return self.user.username
 
 	def as_html(self, user):
-		return render_to_string('main/includes/artist overview.html', {'profile': self, 'user': user})
+		return render_to_string('main/page_blocks/artist overview.html', {'profile': self, 'user': user})
 
 
 # Settings related to artist profile. Orinary user does not have them
-class ProfileSettings(models.Model):
-	profile = models.OneToOneField(ArtistProfile, on_delete=models.CASCADE)
-	subscribers_update_notifications = models.BooleanField(default=False)
-	publication_comments_update_notifications = models.BooleanField(default=True)
+# class ProfileSettings(models.Model):
+# 	profile = models.OneToOneField(ArtistProfile, on_delete=models.CASCADE)
+# 	subscribers_update_notifications = models.BooleanField(default=False)
+# 	publication_comments_update_notifications = models.BooleanField(default=True)
 
 
 # Abstract class for any publication

@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from PIL import Image
 from datetime import datetime
-from .models import Artwork, Tag, UserSettings, ProfileSettings, ArtistProfile
+from .models import Artwork, Tag, UserSettings, ArtistProfile
 from .widgets import LimitedLengthTextarea, ACCheckBox
 from ArtChart.settings import ARTWORK_DESC_MAX_LENGTH, ARTWORK_IMAGE_MAX_SIZE, PROFILE_AVATAR_MAX_SIZE, PROFILE_DESC_MAX_LENGTH
 
@@ -70,7 +70,8 @@ class ArtworkCreationForm(AbstractPostCreationForm):
 
 class FeedbackForm(forms.Form):
     message_textarea_attrs = {
-        'placeholder': 'Напишите ваше сообщение для администрации портала. Если нужно, укажите электронную почту для связи',
+        'placeholder':  'Напишите ваше сообщение для администрации портала.' \
+                        'Если нужно, укажите электронную почту или другие контакты для связи',
         'maxlength': '1000',
         'class': 'limited_length',
     }
@@ -110,7 +111,7 @@ class ArtistProfileForm(forms.ModelForm):
 		'class': 'limited_length'
 	}
 	desc = forms.CharField(
-		required=True,
+		required=False,
 		widget=LimitedLengthTextarea(attrs=desc_attrs),
 		label='Описание',
 	)

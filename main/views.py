@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.template.response import SimpleTemplateResponse
-from .models import Publication, Artwork, ArtistProfile, Tag, UserSettings, ProfileSettings
+from .models import Publication, Artwork, ArtistProfile, Tag, UserSettings
 from .forms import *
 from ArtChart.settings import *
 
@@ -269,13 +269,29 @@ def settings(request):
 		return SimpleTemplateResponse(template='main/info message.html', context=args, status=400)
 
 	settings = UserSettings.objects.get_or_create(user=user)[0]
+	profile = ArtistProfile.objects.get_or_create(user=user)[0]
 
 	if request.method == 'POST':
 		settings_form = UserSettingsForm(request.POST, instance=settings)
 		profile_form = ArtistProfileForm(request.POST, request.FILES, instance=user.profile)
 
-		if settings_form.is_valid(): settings_form.save()
-		if profile_form.is_valid(): profile_form.save()
+		if not settings_form.is_valid() or not profile_form.is_valid():
+			args = {
+				'meta_title': 'Ошибка',
+				'meta_description': '',
+				'page': 'settings',
+				'msg_header': "Что-то пошло не так...",
+				'msg_text': """
+								Во время сохранения ваших настроек произошла ошибка.
+								Если эта ошибка повторяется, вы можете написать нам о ней.
+							""",
+				'links': {
+					'Ваша страница': reverse('artist', args=[request.user.pk,]),
+					'Напишите нам': reverse('feedback'),
+					'На главную': reverse('index'),
+				}
+			}
+			return render(request, 'main/info message.html', args)
 
 		args = {
 			'meta_title': 'Настройки изменены',
@@ -294,8 +310,8 @@ def settings(request):
 		args = {
 			'page': 'settings',
 			'forms': {
-				'Профиль': ArtistProfileForm(instance=user.profile),
-				'Email-уведомления': UserSettingsForm(instance=user.usersettings)
+				'Профиль': ArtistProfileForm(instance=profile),
+				'Email-уведомления': UserSettingsForm(instance=settings)
 			},
 			'submit_text': 'Сохранить настройки'
 		}

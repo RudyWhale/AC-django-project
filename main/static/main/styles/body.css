@@ -31,6 +31,7 @@ h1.section_header {
 	margin: 0px;
 	font-weight: normal;
 	padding: 0 5px;
+	box-sizing: border-box;
 }
 
 .transparent_btn {

@@ -78,6 +78,22 @@ button.subscribe_btn {
 	font-size: 20px;
 }
 
+div.load_artists {
+	width: 100%;
+	box-sizing: border-box;
+	float: left;
+	text-align: center;
+	padding: 0 10px;
+}
+
+button.load_artists_btn {
+	height: 100px;
+	width: 100%;
+	max-width: 800px;
+	font-size: 20px;
+	margin: 10px 0;
+}
+
 /*===============================================*/
 /* MEDIA ----------------------------------------*/
 /*===============================================*/

@@ -3,6 +3,8 @@ div.content_collection {
   width: 100%;
   overflow-wrap: break-word;
 	word-wrap: break-word;
+  padding: 5px;
+  box-sizing: border-box;
 }
 
 div.content_block {

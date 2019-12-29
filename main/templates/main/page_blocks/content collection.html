@@ -1,11 +1,9 @@
 <div class="bounded_wrapper">
+	{% if content_header %}
+		<h1 class="section_header">{{content_header}}</h1>
+	{% endif %}
+
 	<div class="content_collection">
-
-		{% if content_header %}
-
-			<h1 class="section_header">{{content_header}}</h1>
-
-		{% endif %}
 
 		{% if create_publication %}
 

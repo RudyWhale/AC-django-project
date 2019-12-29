@@ -100,7 +100,7 @@ Form for artist profile
 class ArtistProfileForm(forms.ModelForm):
 	avatar = forms.ImageField(
 		required=False,
-		widget=forms.widgets.FileInput(attrs={'class': 'avatar_inp', 'data-max_size': PROFILE_AVATAR_MAX_SIZE}),
+		widget=forms.widgets.FileInput(attrs={'class': 'avatar_inp image_inp', 'data-max_size': PROFILE_AVATAR_MAX_SIZE}),
 		label='Фото',
 	)
 	desc_attrs = {

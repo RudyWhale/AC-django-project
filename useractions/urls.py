@@ -4,13 +4,25 @@ from django.conf.urls.static import static
 from ArtChart import settings
 
 urlpatterns = [
-	path('like', views.like, name='like'),
-	path('subscribe', views.subscribe, name='subscribe'),
-	path('comment', views.comment, name='comment'),
 	path(
-		'load_content_publications',
-		views.load_content_publications,
-		name='load content publications'
+		'like',
+		views.like,
+		name='like'
+	),
+	path(
+		'subscribe',
+		views.subscribe,
+		name='subscribe'
+	),
+	path(
+		'comment',
+		views.comment,
+		name='comment'
+	),
+	path(
+		'load_content_category/<int:pk>',
+		views.load_content_category,
+		name='load content category'
 	),
 	path(
 		'load_content_tag/<int:pk>',

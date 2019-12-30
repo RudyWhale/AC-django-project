@@ -12,6 +12,7 @@ ul.navbar_ul {
 
 li.navbar_li {
 	display: inline;
+	line-height: 36px;
 }
 
 a.menu_item {
@@ -19,7 +20,7 @@ a.menu_item {
 	color: rgb(120,120,120);
 	text-decoration: none;
 
-	font-size: 24px;
+	font-size: 22px;
 	text-align: left;
 	font-family: 'Oswald', sans-serif;
 	transition: all 0.3s;

@@ -3,7 +3,7 @@ from django.http import JsonResponse, HttpResponse
 from django.db.models import Count
 from django.template.loader import render_to_string
 from datetime import datetime
-from main.models import Publication, Artwork, Tag, ArtistProfile, Comment
+from main.models import Publication, Artwork, Tag, ArtistProfile, Comment, ArtworkCategory
 from ArtChart.settings import CONTENT_ITEMS_LIMIT, ARTIST_PROFILES_LIMIT, COMMENT_MAX_LENGTH
 import json
 
@@ -77,13 +77,14 @@ def comment(request):
 		return HttpResponse(status=401)
 
 
-def load_content_publications(request):
+def load_content_category(request, pk):
 	if not all(key in request.GET for key in ['from_tstamp', 'shown']):
 		return HttpResponse(status=400)
 
 	from_date = datetime.fromtimestamp(float(request.GET['from_tstamp']))
 	shown = int(request.GET['shown'])
-	query = Artwork.objects.exclude(datetime__gt = from_date).order_by('-datetime')[shown:shown + CONTENT_ITEMS_LIMIT]
+	category = get_object_or_404(ArtworkCategory, pk=pk)
+	query = category.artwork_set.exclude(datetime__gt = from_date).order_by('-datetime')[shown:shown + CONTENT_ITEMS_LIMIT]
 	content = ''.join([obj.as_html() for obj in query])
 	hide_btn = query.count() < CONTENT_ITEMS_LIMIT
 	return JsonResponse({'content': content, 'hide_btn': hide_btn})

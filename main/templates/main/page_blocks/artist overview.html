@@ -28,7 +28,13 @@
 						{% endif %}>{{profile|subscribe_btn_text:user}}</button>
 				</div>
 
-				<p>{{profile.desc}}</p>
+				<p>
+					{% if profile.desc %}
+						{{profile.desc}}
+					{% else %}
+						Этот пользователь пока ничего о себе не написал :(
+					{% endif %}
+				</p>
 
 			</div><!-- artist_desc -->
 		</div><!-- artist_wrapper -->

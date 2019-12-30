@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.template.response import SimpleTemplateResponse
-from .models import Publication, Artwork, ArtistProfile, Tag, UserSettings
+from .models import Publication, Artwork, ArtistProfile, Tag, UserSettings, ArtworkCategory
 from .forms import *
 from ArtChart.settings import *
 
@@ -19,7 +19,7 @@ def index(request):
 		'meta_description': 'ArtChart - портал для художников, дизайнеров и людей, интересующихся искусством и творчеством. ' \
 							'Здесь художники рассказывают о своих работах. Зарегистрировавшись, вы сможете отмечать понравившиеся работы, ' \
 							'подписываться на любимых авторов и следить за их деятельностью на портале',
-		'site_description': True,
+		'site_description': not request.user.is_authenticated,
 		'page': 'index',
 		'publications': publications,
 		'content_header': 'популярные работы',
@@ -69,19 +69,20 @@ def artists(request):
 	return render(request, 'main/artists.html', args)
 
 
-def artworks(request):
-	publications = Artwork.objects.order_by('-datetime')[:CONTENT_ITEMS_LIMIT - 1]
+def category(request, pk):
+	category = get_object_or_404(ArtworkCategory, pk=pk)
+	publications = category.artwork_set.order_by('-datetime')[:CONTENT_ITEMS_LIMIT - 1]
 	infinite = publications.count() == (CONTENT_ITEMS_LIMIT - 1)
 	timestamp = timezone.now().timestamp()
 	args = {
 		'meta_title': 'Работы на ArtChart',
 		'meta_description': 'Посмотреть работы художников, зарегистрированных на ArtChart',
-		'page': 'artworks',
+		'page': 'category ' + str(pk),
 		'publications': publications,
-		'content_header': 'картины',
+		'content_header': category.name,
 		'infinite': infinite,
 		'timestamp': timestamp,
-		'load_content_url': reverse('load content publications')
+		'load_content_url': reverse('load content category', args=[pk,])
 	}
 	return render(request, 'main/publications.html', args)
 

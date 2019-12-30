@@ -1,9 +1,21 @@
 	<div class="menu">
 		<div class="bounded_wrapper">
 		<ul class="navbar_ul">
-			<li class="navbar_li"><a class="menu_item {% if page == 'artworks' %}disabled{% endif %}" href="{% url 'artworks' %}">картины</a></li>
-			<li class="navbar_li"><a class="menu_item {% if page == 'artists' %}disabled{% endif %}" href="{% url 'artists' %}">художники</a></li>
-			<li class="navbar_li"><a class="menu_item {% if page == 'feed' %}disabled{% endif %}" href="{% url 'feed' %}">лента</a></li>
+			<li class="navbar_li">
+				<a class="menu_item {% if page == 'category 1' %}disabled{% endif %}" href="{% url 'category' pk=1 %}">картины</a>
+			</li>
+			<li class="navbar_li">
+				<a class="menu_item {% if page == 'category 2' %}disabled{% endif %}" href="{% url 'category' pk=2 %}">фотографии</a>
+			</li>
+			<li class="navbar_li">
+				<a class="menu_item {% if page == 'category 3' %}disabled{% endif %}" href="{% url 'category' pk=3 %}">цифровое</a>
+			</li>
+			<li class="navbar_li">
+				<a class="menu_item {% if page == 'artists' %}disabled{% endif %}" href="{% url 'artists' %}">художники</a>
+			</li>
+			<li class="navbar_li">
+				<a class="menu_item {% if page == 'feed' %}disabled{% endif %}" href="{% url 'feed' %}">лента</a>
+			</li>
 		</ul>
 		</div>
 	</div><!-- menu -->

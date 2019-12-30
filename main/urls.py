@@ -23,9 +23,9 @@ urlpatterns = [
 		name='artist'
 	),
 	path(
-		'artworks',
-		views.artworks,
-		name='artworks'
+		'category/<int:pk>',
+		views.category,
+		name='category'
 	),
 	path(
 		'artworks/<int:pk>',

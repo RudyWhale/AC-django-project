@@ -29,7 +29,7 @@ class ArtistProfile(models.Model):
 		return render_to_string('main/page_blocks/artist overview.html', {'profile': self, 'user': user})
 
 
-# Settings related to artist profile. Orinary user does not have them
+# Settings related to artist profile
 # class ProfileSettings(models.Model):
 # 	profile = models.OneToOneField(ArtistProfile, on_delete=models.CASCADE)
 # 	subscribers_update_notifications = models.BooleanField(default=False)
@@ -47,6 +47,14 @@ class Publication(models.Model):
 		return self.name
 
 
+# Is this picture artwork, photo or digital art?
+class ArtworkCategory(models.Model):
+	name = models.CharField(max_length=250)
+
+	def __str__(self):
+		return self.name
+
+
 # Publication representing an artwork
 class Artwork(Publication):
 	def upload_path(self, filename):
@@ -55,6 +63,7 @@ class Artwork(Publication):
 
 	desc = models.TextField(default='no desc')
 	image = models.ImageField(upload_to=upload_path)
+	category = models.ForeignKey(ArtworkCategory, on_delete=models.SET_NULL, null=True)
 
 	def as_html(self):
 		return render_to_string('main/includes/content item artwork.html', {'artwork': self})

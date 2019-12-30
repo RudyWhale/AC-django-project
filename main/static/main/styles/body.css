@@ -13,7 +13,7 @@ div.min_height {
 	min-height: 350px;
 }
 
-button, input {
+button, input, select {
 	outline: none;
 }
 

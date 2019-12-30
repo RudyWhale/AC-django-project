@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from PIL import Image
 from datetime import datetime
-from .models import Artwork, Tag, UserSettings, ArtistProfile
+from .models import Artwork, Tag, UserSettings, ArtistProfile, ArtworkCategory
 from .widgets import LimitedLengthTextarea, ACCheckBox
 from ArtChart.settings import ARTWORK_DESC_MAX_LENGTH, ARTWORK_IMAGE_MAX_SIZE, PROFILE_AVATAR_MAX_SIZE, PROFILE_DESC_MAX_LENGTH
 
@@ -54,10 +54,14 @@ class ArtworkCreationForm(AbstractPostCreationForm):
         required = True,
         widget = forms.TextInput(attrs={'placeholder': 'Придумайте название для работы'}),
         label = 'Название')
+    category = forms.ModelChoiceField(
+        queryset = ArtworkCategory.objects.all(),
+        label='Выберите категорию'
+    )
 
     class Meta:
         model = Artwork
-        fields = ['name', 'desc', 'image']
+        fields = ['name', 'desc', 'image', 'category']
 
     def clean_image(self):
         file = self.cleaned_data['image']

@@ -55,6 +55,7 @@ class ArtworkCreationForm(AbstractPostCreationForm):
         widget = forms.TextInput(attrs={'placeholder': 'Придумайте название для работы'}),
         label = 'Название')
     category = forms.ModelChoiceField(
+        required = False,
         queryset = ArtworkCategory.objects.all(),
         label='Выберите категорию'
     )

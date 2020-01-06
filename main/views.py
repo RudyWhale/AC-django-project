@@ -94,10 +94,11 @@ def artwork(request, pk):
 	show_delete_link = request.user == author
 
 	# No need to send email notification about this artwork
-	try:
-		task = request.user.feedupdateemailtask
+	query = FeedUpdateEmailTask.objects.filter(recipient=request.user)
+	if query.exists():
+		task = query[0]
 		task.publications.remove(artwork)
-	except AttributeError: pass
+		task.save()
 
 	args = {
 		'meta_title': f'{artwork.name}',

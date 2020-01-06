@@ -58,5 +58,10 @@ urlpatterns = [
 		'delete publication/<int:pk>',
 		views.delete_publication,
 		name='delete publication'
-	)
+	),
+	path(
+		'logout',
+		views.logout,
+		name='logout'
+	),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

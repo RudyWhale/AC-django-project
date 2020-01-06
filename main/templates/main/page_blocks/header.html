@@ -20,7 +20,7 @@
 				<a href="{% url 'settings' %}" class="user_info_href hover_accent {% if page == 'settings' %}disabled{% endif %}">
 					настройки
 				</a>
-				<a href="{% url 'logout' %}" class="user_info_href hover_accent">выйти</a>
+				<a href="" class="user_info_href hover_accent logout_btn" data-url="{% url 'logout' %}">выйти</a>
 
 			{% else %}
 

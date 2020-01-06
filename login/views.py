@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login as user_login, logout as user_logout
+from django.contrib.auth import login as user_login
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.validators import validate_email
@@ -162,9 +162,9 @@ def activate(request, pk, hash):
 		return SimpleTemplateResponse(template='login/login.html', context=args, status=400)
 
 
-def logout(request):
-	user_logout(request)
-	return redirect('index')
+# def logout(request):
+# 	user_logout(request)
+# 	return redirect('index')
 
 
 def password_reset(request):

@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.http import JsonResponse, HttpResponse
 from django.db.models import Count
 from django.template.loader import render_to_string
+from django.contrib.auth import logout as user_logout
 from datetime import datetime
 from main.models import Publication, Artwork, Tag, ArtistProfile, Comment, ArtworkCategory
 from ArtChart.settings import CONTENT_ITEMS_LIMIT, ARTIST_PROFILES_LIMIT, COMMENT_MAX_LENGTH
@@ -185,3 +186,8 @@ def delete_publication(request, pk):
 		else: return HttpResponse(status=403)
 
 	else: return HttpResponse(status=401)
+
+
+def logout(request):
+	user_logout(request)
+	return HttpResponse('')

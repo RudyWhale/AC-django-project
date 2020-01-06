@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.template.response import SimpleTemplateResponse
-from .models import Publication, Artwork, ArtistProfile, Tag, UserSettings, ArtworkCategory
+from .models import Publication, Artwork, ArtistProfile, Tag, UserSettings, ArtworkCategory, FeedUpdateEmailTask
 from .forms import *
 from ArtChart.settings import *
 
@@ -92,6 +92,13 @@ def artwork(request, pk):
 	author = artwork.author.user
 	related_pubs = Artwork.objects.exclude(pk = pk)[:3]
 	show_delete_link = request.user == author
+
+	# No need to send email notification about this artwork
+	try:
+		task = request.user.feedupdateemailtask
+		task.publications.remove(artwork)
+	except AttributeError: pass
+
 	args = {
 		'meta_title': f'{artwork.name}',
 		'meta_description': f'Работа художника {author.username} "{artwork.name}". {artwork.desc}',
@@ -206,10 +213,10 @@ def new_artwork(request):
 
 	except AttributeError as e:
 		args = {
-			'meta_title': '',
+			'meta_title': 'Карамба!',
 			'meta_description': '',
 			'page': 'new artwork',
-			'msg_header': "Что-то пошло не так",
+			'msg_header': "Не все идет по плану :(",
 			'msg_text':  'Во время создания публикации нам не удалось найти ваш профиль художника. ' \
 			'Вы можете написать нам об ошибке, и мы постараемся найти причину ее появления',
 			'links': {
@@ -224,14 +231,14 @@ def new_artwork(request):
 
 		if form.is_valid():
 			form.save(profile = profile)
-			return redirect('artist', pk = profile.pk)
+			return redirect('artist', pk = user.pk)
 
 		else:
 			args = {
-				'meta_title': '',
+				'meta_title': 'Карамба!',
 				'meta_description': '',
 				'page': 'new artwork',
-				'msg_header': "Что-то пошло не так",
+				'msg_header': "Не все идет по плану :(",
 				'msg_text':  'Во время создания публикации произошла неизвестная ошибка. ' \
 				'Если она повторяется, можете написать нам, и мы постараемся найти причину ее появления',
 				'links': {

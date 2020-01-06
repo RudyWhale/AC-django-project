@@ -1,4 +1,4 @@
-from django.db.models.signals import post_delete, post_save
+from django.db.models.signals import post_delete, post_save, post_init
 from django.dispatch import receiver
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
@@ -8,7 +8,7 @@ import os
 
 # Deletes avatar file after profile deleting
 @receiver(post_delete, sender=ArtistProfile)
-def on_instance_delete(sender, instance, **kwargs):
+def on_profile_delete(sender, instance, **kwargs):
 	if instance.avatar:
 		if os.path.isfile(instance.avatar.path):
 			os.remove(instance.avatar.path)
@@ -16,7 +16,7 @@ def on_instance_delete(sender, instance, **kwargs):
 
 # Deletes image file after instance deleting
 @receiver(post_delete, sender=Artwork)
-def on_instance_delete(sender, instance, **kwargs):
+def on_artwork_delete(sender, instance, **kwargs):
 	if instance.image:
 		if os.path.isfile(instance.image.path):
 			os.remove(instance.image.path)

@@ -1,6 +1,6 @@
 	<div class="menu">
 		<div class="bounded_wrapper">
-			<ul class="navbar_ul">
+			<ul class="navbar_ul navbar_item">
 				<li class="navbar_li">
 					<a class="menu_item {% if page == 'category 1' %}disabled{% endif %}" href="{% url 'category' pk=1 %}">картины</a>
 				</li>
@@ -18,11 +18,16 @@
 				</li>
 			</ul>
 
-			<div class="user_menu">
+			{% load static %}
+
+			<div class="dropdown_btn navbar_item">
+				<button class="dropdown" onclick="dropdown(this);"></button>
+			</div>
+
+			<div class="user_menu navbar_item">
 
 				{% if request.user.is_authenticated %}
 
-					{% load static %}
 					<p class="user_menu_username">{{request.user.username}}</p>
 					<a href="{% url 'artist' pk=request.user.pk %}"
 						class="user_menu_item user_menu_home {% if page == 'artist' and user == request.user %}disabled{% endif %}"></a>

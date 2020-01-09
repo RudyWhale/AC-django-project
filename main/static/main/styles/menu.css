@@ -1,27 +1,33 @@
 div.menu {
 	width: 100%;
+	height: 60px;
+	line-height: 60px;
 	float: left;
 	border-bottom: 2px solid rgb(200,200,200);
-	padding: 12px 0;
+	box-sizing: border-box;
+}
+
+.navbar_item {
+	display: inline-block;
+	vertical-align: middle;
 }
 
 ul.navbar_ul {
 	margin: 0;
 	padding: 0 0 0 10px;
-	display: inline-block;
-	max-width: 70%;
+	float: left;
+	position: relative;
+	top: -2px;
+	box-sizing: border-box;
 }
 
 li.navbar_li {
 	display: inline;
-	line-height: 36px;
 }
 
 a.menu_item {
-	display: inline-block;
 	color: rgb(120,120,120);
 	text-decoration: none;
-
 	font-size: 22px;
 	text-align: left;
 	font-family: 'Oswald', sans-serif;
@@ -30,24 +36,36 @@ a.menu_item {
 	border-bottom: 2px solid white;
 }
 
-a.menu_item.disabled {
-	color: black;
-	border-bottom: 2px solid black;
-}
-
-a.menu_item:hover {
+a.menu_item:hover, a.menu_item.disabled {
  border-bottom: 2px solid black;
  color: black;
 }
 
+button.dropdown {
+	height: 28px;
+	width: 28px;
+	border: none;
+	background-color: inherit;
+	background-image: url('../../icons/grey menu.png');
+	background-size: 100% 100%;
+	cursor: pointer;
+	display: none;
+	float: left;
+	transition: all 0.3s;
+	margin-left: 10px;
+}
+
+button.dropdown:hover, button.dropdown.disabled {
+	background-image: url('../../icons/menu.png');
+}
+
 div.user_menu {
 	float: right;
-	line-height: 40px;
-	padding-right: 10px;
 	font-family: 'Roboto', sans-serif;
 	font-size: 16px;
 	font-weight: bold;
 	color: rgb(120,120,120);
+	margin-right: 10px;
 }
 
 p.user_menu_username {
@@ -103,27 +121,28 @@ a.user_menu_link:hover {
 /* MEDIA ----------------------------------------*/
 /*===============================================*/
 
-@media screen and (max-width: 1000px){
-
-	/* a.menu_item {
-		width: 220px;
-	} */
-}
-
 @media screen and (max-width: 800px){
 
-	/* li.navbar_li {
-		display: block;
+	button.dropdown {
+		display: inline-block;
 	}
 
-	a.menu_item {
-		width: 80%;
-	} */
+	ul.navbar_ul {
+		display: none;
+		position: absolute;
+		top: 180px;
+		background-color: white;
+		z-index: 5;
+		width: 100%;
+		border-bottom: 2px solid rgb(200,200,200);
+		line-height: 32px;
+		padding: 10px;
+	}
+}
 
-	/* a.menu_item:hover {
-		border: 2px solid white;
-		color: white;
-		box-shadow: none;
-		text-shadow: none;
-	} */
+@media screen and (max-width: 600px){
+
+	ul.navbar_ul {
+		top: 160px;
+	}
 }

@@ -6,7 +6,6 @@ div.header {
 	background-color: #1d9bca;
 	background-image: linear-gradient(30deg, #003967 0%, #126559 100%);
 	background-size: 100% 400%;
-
 }
 
 div.header_logo {
@@ -37,11 +36,11 @@ h1.logo {
 
 @media screen and (max-width: 600px){
 	div.header {
-		height: 108px;
+		height: 100px;
 	}
 
 	div.header_logo>a {
-		margin-top: 37px;
+		margin-top: 29px;
 	}
 
 	h1.logo {

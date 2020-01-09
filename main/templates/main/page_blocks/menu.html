@@ -1,21 +1,43 @@
 	<div class="menu">
 		<div class="bounded_wrapper">
-		<ul class="navbar_ul">
-			<li class="navbar_li">
-				<a class="menu_item {% if page == 'category 1' %}disabled{% endif %}" href="{% url 'category' pk=1 %}">картины</a>
-			</li>
-			<li class="navbar_li">
-				<a class="menu_item {% if page == 'category 2' %}disabled{% endif %}" href="{% url 'category' pk=2 %}">фотографии</a>
-			</li>
-			<li class="navbar_li">
-				<a class="menu_item {% if page == 'category 3' %}disabled{% endif %}" href="{% url 'category' pk=3 %}">цифровое</a>
-			</li>
-			<li class="navbar_li">
-				<a class="menu_item {% if page == 'artists' %}disabled{% endif %}" href="{% url 'artists' %}">художники</a>
-			</li>
-			<li class="navbar_li">
-				<a class="menu_item {% if page == 'feed' %}disabled{% endif %}" href="{% url 'feed' %}">лента</a>
-			</li>
-		</ul>
-		</div>
+			<ul class="navbar_ul">
+				<li class="navbar_li">
+					<a class="menu_item {% if page == 'category 1' %}disabled{% endif %}" href="{% url 'category' pk=1 %}">картины</a>
+				</li>
+				<li class="navbar_li">
+					<a class="menu_item {% if page == 'category 2' %}disabled{% endif %}" href="{% url 'category' pk=2 %}">фотографии</a>
+				</li>
+				<li class="navbar_li">
+					<a class="menu_item {% if page == 'category 3' %}disabled{% endif %}" href="{% url 'category' pk=3 %}">цифровое</a>
+				</li>
+				<li class="navbar_li">
+					<a class="menu_item {% if page == 'artists' %}disabled{% endif %}" href="{% url 'artists' %}">художники</a>
+				</li>
+				<li class="navbar_li">
+					<a class="menu_item {% if page == 'feed' %}disabled{% endif %}" href="{% url 'feed' %}">лента</a>
+				</li>
+			</ul>
+
+			<div class="user_menu">
+
+				{% if request.user.is_authenticated %}
+
+					{% load static %}
+					<p class="user_menu_username">{{request.user.username}}</p>
+					<a href="{% url 'artist' pk=request.user.pk %}"
+						class="user_menu_item user_menu_home {% if page == 'artist' and user == request.user %}disabled{% endif %}"></a>
+					<a href="{% url 'settings' %}"
+						class="user_menu_item user_menu_settings hover_accent {% if page == 'settings' %}disabled{% endif %}"></a>
+					<a href=""
+						class="user_menu_item user_menu_logout logout_btn" data-url="{% url 'logout' %}"></a>
+
+				{% else %}
+
+					<a href="{% url 'login' %}" class="user_menu_link">Войти</a>
+					<a href="{% url 'register' %}" class="user_menu_link">Регистрация</a>
+
+				{% endif %}
+
+			</div><!-- user_info -->
+		</div><!-- bounded_wrapper -->
 	</div><!-- menu -->

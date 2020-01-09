@@ -34,6 +34,17 @@ h1.section_header {
 	line-height: 54px;
 }
 
+h1.light_header {
+	float: left;
+	width: 100%;
+	font-family: 'Roboto', sans-serif;
+	font-size: 42px;
+	font-weight: 600;
+	color: rgb(140,140,140);
+	margin: 10px 0 0 0;
+	border-bottom: 3px solid rgb(140,140,140);
+}
+
 .transparent_btn {
 	background-color: inherit;
 	border: 1px solid black;

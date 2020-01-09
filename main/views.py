@@ -138,7 +138,7 @@ def feed(request):
 			'meta_title': 'Карамба!',
 			'meta_description': '',
 			'page': 'feed',
-			'msg_header': "Этот раздел досутен только авторизованным пользователям",
+			'msg_header': "Этот раздел доступен только авторизованным пользователям",
 			'msg_text':  "Войдите на сайт для того, чтобы подписываться на блоги художников и видеть вашу персональную ленту",
 			'links': {
 				'На страницу входа': reverse('login'),
@@ -324,7 +324,7 @@ def settings(request):
 		args = {
 			'page': 'settings',
 			'forms': {
-				'Профиль': ArtistProfileForm(instance=profile),
+				'Настройки профиля': ArtistProfileForm(instance=profile),
 				'Email-уведомления': UserSettingsForm(instance=settings)
 			},
 			'submit_text': 'Сохранить настройки'

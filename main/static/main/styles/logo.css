@@ -10,7 +10,7 @@ div.header {
 }
 
 div.header_logo {
-	width: calc(100% - 200px);
+	width: 100%;
 	float: left;
 	font-family: "Oswald", sans-serif;
 	color: white;
@@ -30,41 +30,6 @@ h1.logo {
 	font-size: 80px;
 }
 
-div.header_user_info {
-	width: 200px;
-	float: right;
-	text-align: right;
-	padding: 10px 10px 0 0;
-	box-sizing: border-box;
-	color: white;
-}
-
-p.user_info_label {
-	font-family: "Roboto Slab", sans-serif;
-	font-size: 14px;
-	margin: 0px;
-}
-
-p.user_info_name {
-	font-family: "Oswald", sans-serif;
-	font-size: 16px;
-	margin: 0px;
-}
-
-a.user_info_href {
-	font-family: "Roboto Slab", sans-serif;
-	font-size: 14px;
-	margin-bottom: 0px;
-	color: white;
-	margin-top: 0px;
-	float: right;
-	clear: both;
-}
-
-a.user_info_href.disabled {
-	color: #6bb4bf;
-}
-
 /*===============================================*/
 /* MEDIA ----------------------------------------*/
 /*===============================================*/
@@ -75,35 +40,11 @@ a.user_info_href.disabled {
 		height: 108px;
 	}
 
-	div.header_logo {
-		width: calc(100% - 130px);
-	}
-
-	div.header_user_info {
-		width: 130px;
-	}
-
 	div.header_logo>a {
 		margin-top: 37px;
 	}
 
 	h1.logo {
 		font-size: 60px;
-	}
-
-	p.user_info_label {
-		font-size: 12px;
-	}
-
-	p.user_info_name {
-		font-size: 14px;
-	}
-
-	a.user_info_logout {
-		font-size: 12px;
-	}
-
-	a.user_info_href {
-		font-size: 12px;
 	}
 }

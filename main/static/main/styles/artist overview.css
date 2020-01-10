@@ -39,7 +39,7 @@ div.artist_desc>a {
 
 div.artist_desc>a>h3 {
 	margin: 0px;
-	font-size: 50px;
+	font-size: 40px;
 	font-weight: 600;
 }
 
@@ -90,7 +90,7 @@ button.load_artists_btn {
 	height: 100px;
 	width: 100%;
 	max-width: 800px;
-	font-size: 20px;
+	font-size: 26px;
 	margin: 10px 0;
 }
 

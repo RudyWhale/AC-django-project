@@ -32,12 +32,6 @@ div.desc>p {
 	}
 }
 
-@media screen and (max-width: 800px){
-	div.desc {
-		font-size: 14px;
-	}
-}
-
 @media screen and (max-width: 600px){
 	div.desc {
 		padding: 10px;

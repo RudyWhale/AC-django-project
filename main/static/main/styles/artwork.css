@@ -102,9 +102,9 @@ a.tag {
 	display: block;
 	float: left;
 	margin: 2px 6px 0 0;
-	font-family: 'Roboto Slab', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	font-size: 18px;
-	font-weight: 600;
+	font-weight: bold;
 	text-decoration: none;
 }
 
@@ -120,7 +120,7 @@ div.comments {
 
 h5.comments_header {
 	display: block;
-	font-size: 18px;
+	font-size: 20px;
 	margin: 0px;
 	float: left;
 	width: 100%;
@@ -170,7 +170,7 @@ h6.comment_author {
 	margin: 0 4px 0 0;
 	font-size: 18px;
 	font-weight: 600;
-	font-family: 'Roboto Slab', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	display: inline;
 	line-height: 20px;
 	float: left;

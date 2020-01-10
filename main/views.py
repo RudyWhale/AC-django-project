@@ -159,7 +159,7 @@ def tag(request, pk):
 		'meta_description': f'Поиск публикаций по тегу {tag.name} на ArtChart',
 		'page': 'tag',
 		'publications': publications,
-		'content_header': f'публикации с тегом "{tag.name}"',
+		'content_header': f'тег: {tag.name}',
 		'infinite': infinite,
 		'timestamp': timestamp,
 		'load_content_url': reverse('load content tag', args=(tag.pk,))

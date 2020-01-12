@@ -2,28 +2,26 @@ div.strip_gallery_wrapper {
 	width: 100%;
 	float: left;
 	padding: 0px;
-	background-color: rgb(200,200,200)
-}
-
-div.strip_gallery_wrapper>h1 {
-	display: block;
-	width: 100%;
-	height: 70px;
-	line-height: 70px;
-	float: left;
-	text-align: center;
-	font-weight: normal;
-	font-family: 'Oswald', sans-serif;
-	font-size: 36px;
-	margin: 0px;
+	border-top: 2px solid rgb(200,200,200);
 }
 
 div.strip_gallery {
 	width: 100%;
 	max-width: 1200px;
-	margin: 0 auto;
+	margin: 0 auto 10px auto;
+	padding: 0 5px;
+	box-sizing: border-box;
 	overflow: hidden;
-	margin-bottom: 20px;
+}
+
+div.strip_gallery>h1 {
+	display: block;
+	width: 100%;
+	float: left;
+	font-weight: normal;
+	font-family: 'Oswald', sans-serif;
+	font-size: 44px;
+	margin: 0 0 0 5px;
 }
 
 div.content_block {

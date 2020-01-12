@@ -38,19 +38,38 @@
 			<div class="artwork_desc_text">
 
 				<h3>{{artwork.name}}</h3>
-				<p class="artwork_date">{{artwork.datetime}}
+
+				<p class="artwork_date">
+					{{artwork.datetime|date:"j E Y в G:i"}}
 					{% if user == artwork.author.user %}
 						<button href="{% url 'delete publication' pk=artwork.pk %}" class="publication_delete hover_accent_dark">Удалить</button>
 					{% endif %}
 				</p>
+
 				<p class="artwork_desc_text">{{artwork.desc}}</p>
 
-				<div class="tags">
+				<div class="artwork_desc_tags">
 					{% for tag in artwork.tag_set.all %}
 						<a class="tag hover_accent_dark" href="{% url 'tag' pk=tag.pk %}">#{{tag.name}}</a>
 					{% empty %}
 						<p class="no_tags_label">Теги не указаны</p>
 					{% endfor %}
+				</div>
+
+				<div class="artwork_desc_author">
+					<div class="artwork_author_avatar">
+						<a href="{% url 'artist' pk=artwork.author.user.pk %}">
+							<img src="{{artwork.author.avatar.url}}" alt="{{artwork.author.user.username}}" onload="on_avatar_load(this);" />
+						</a>
+					</div>
+					<div class="artwork_author_desc">
+						<a href="{% url 'artist' pk=artwork.author.user.pk %}" class="artwork_author_name hover_accent_dark">
+							{{artwork.author.user.username}}
+						</a>
+						<p class="artwork_author_count">
+							публикаций: {{artwork.author.publication_set.count}}
+						</p>
+					</div>
 				</div>
 
 				<div class="comments">
@@ -68,7 +87,6 @@
 						</button>
 						<p class="symbols_left_label hide">осталось символов: {{max_comment_length}}</p>
 					</div>
-
 					{% for comment in artwork.comment_set.all %}
 						{% include "main/includes/artwork comment.html" %}
 					{% endfor %}
@@ -94,7 +112,6 @@
 </div><!-- bounded_wrapper -->
 
 {% include "main/page_blocks/strip gallery.html" with publications=related_pubs %}
-{% include "main/page_blocks/artist overview.html" with profile=artwork.author user=request.user %}
 {% include "main/page_blocks/footer.html" %}
 
 {% endblock %}

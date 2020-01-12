@@ -12,6 +12,5 @@ class ACCheckBox(CheckboxInput):
         self.label = label
 
     def render(self, name, value, attrs, renderer):
-        label = f'<p class="checkbox_label">{self.label}</p>'
         attrs['class'] = 'checkbox_input'
-        return super().render(name, value, attrs, renderer) + label
+        return f'<p class="checkbox_label">{super().render(name, value, attrs, renderer)} {self.label}</p>'

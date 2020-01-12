@@ -18,11 +18,11 @@ urlpatterns = [
 		views.password_change,
 		name = 'password change'
 	),
-    path(
-    	'logout',
-    	views.logout,
-    	name = 'logout'
-    ),
+    # path(
+    # 	'logout',
+    # 	views.logout,
+    # 	name = 'logout'
+    # ),
     path(
 		'register',
 		views.register,

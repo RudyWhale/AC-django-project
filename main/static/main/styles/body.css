@@ -1,7 +1,7 @@
 body {
 	margin: 0;
-	background-color: rgb(220,220,220);
 	color: rgb(40,40,40);
+	background-color: white;
 }
 
 div.bounded_wrapper {
@@ -13,12 +13,38 @@ div.min_height {
 	min-height: 350px;
 }
 
-button, input {
+button, input, select {
 	outline: none;
 }
 
 a, button, input, textarea {
 	color: rgb(40,40,40);
+}
+
+h1.section_header {
+	display: block;
+	width: 100%;
+	float: left;
+	font-family: 'Oswald', sans-serif;
+	font-size: 54px;
+	margin: 0px;
+	font-weight: normal;
+	padding: 0 10px;
+	box-sizing: border-box;
+	line-height: 64px;
+	overflow: hidden;
+}
+
+h1.light_header {
+	float: left;
+	width: 100%;
+	font-family: 'Roboto', sans-serif;
+	font-size: 42px;
+	font-weight: 600;
+	color: rgb(140,140,140);
+	margin: 10px 0 0 0;
+	border-bottom: 3px solid rgb(140,140,140);
+	overflow: hidden;
 }
 
 .transparent_btn {
@@ -74,4 +100,21 @@ p.image_loading_label {
 
 .hide {
 	opacity: 0;
+}
+
+/*===============================================*/
+/* MEDIA ----------------------------------------*/
+/*===============================================*/
+
+@media screen and (max-width: 600px){
+
+	h1.section_header {
+		font-size: 50px;
+		line-height: 60px;
+	}
+
+	h1.light_header {
+		font-size: 38px;
+	}
+
 }

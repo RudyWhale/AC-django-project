@@ -18,22 +18,22 @@ class ArtistProfile(models.Model):
 		return 'avatars/{}/{}/{}'.format(date.year, date.month, filename)
 
 	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-	desc = models.TextField(default ='no desc')
-	avatar = models.ImageField(upload_to=avatar_upload_path, blank=True)
-	subscribers = models.ManyToManyField(User, related_name='subscriptions')
+	desc = models.TextField(default ='')
+	avatar = models.ImageField(upload_to=avatar_upload_path, default='avatars/default.png')
+	subscribers = models.ManyToManyField(User, related_name='subscriptions', blank=True)
 
 	def __str__(self):
 		return self.user.username
 
 	def as_html(self, user):
-		return render_to_string('main/includes/artist overview.html', {'profile': self, 'user': user})
+		return render_to_string('main/page_blocks/artist overview.html', {'profile': self, 'user': user})
 
 
-# Settings related to artist profile. Orinary user does not have them
-class ProfileSettings(models.Model):
-	profile = models.OneToOneField(ArtistProfile, on_delete=models.CASCADE)
-	subscribers_update_notifications = models.BooleanField(default=False)
-	publication_comments_update_notifications = models.BooleanField(default=True)
+# Settings related to artist profile
+# class ProfileSettings(models.Model):
+# 	profile = models.OneToOneField(ArtistProfile, on_delete=models.CASCADE)
+# 	subscribers_update_notifications = models.BooleanField(default=False)
+# 	publication_comments_update_notifications = models.BooleanField(default=True)
 
 
 # Abstract class for any publication
@@ -41,6 +41,14 @@ class Publication(models.Model):
 	author = models.ForeignKey(ArtistProfile, on_delete=models.CASCADE)
 	datetime = models.DateTimeField()
 	likes = models.ManyToManyField(User, related_name='likes', blank=True)
+	name = models.CharField(max_length=250)
+
+	def __str__(self):
+		return self.name
+
+
+# Is this picture artwork, photo or digital art?
+class ArtworkCategory(models.Model):
 	name = models.CharField(max_length=250)
 
 	def __str__(self):
@@ -55,6 +63,7 @@ class Artwork(Publication):
 
 	desc = models.TextField(default='no desc')
 	image = models.ImageField(upload_to=upload_path)
+	category = models.ForeignKey(ArtworkCategory, on_delete=models.SET_NULL, null=True)
 
 	def as_html(self):
 		return render_to_string('main/includes/content item artwork.html', {'artwork': self})

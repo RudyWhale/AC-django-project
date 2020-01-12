@@ -2,27 +2,33 @@ div.artist_overview {
 	float: left;
 	width: 100%;
 	box-sizing: border-box;
-	background-color: white;
+	padding: 25px 0;
+}
+
+div.artist_wrapper {
+	max-width: 800px;
+	margin: 0 auto;
 }
 
 div.artist_avatar {
 	float: left;
-	width: 250px;
-	height: 250px;
+	width: 230px;
+	height: 230px;
 	border-radius: 125px;
 	overflow: hidden;
 	border: 1px rgb(40,40,40) solid;
-	margin: 23px;
+	margin-right: 20px;
+	box-sizing: border-box;
 }
 
 div.artist_avatar>a>img {
-  height: 250px;
+  height: 230px;
   position: relative;
 }
 
 div.artist_desc {
 	float: left;
-	width: calc(100% - 300px);
+	width: calc(100% - 250px);
 	font-family: 'Roboto', sans-serif;
 }
 
@@ -32,8 +38,8 @@ div.artist_desc>a {
 }
 
 div.artist_desc>a>h3 {
-	margin: 20px 0px 0px 0px;
-	font-size: 50px;
+	margin: 0px;
+	font-size: 40px;
 	font-weight: 600;
 }
 
@@ -42,15 +48,14 @@ div.artist_desc>p {
 	float: left;
 	width: 100%;
 	margin: 0px;
-	font-size: 20px;
-	padding: 0px 10px 10px 0px;
+	font-size: 18px;
 	box-sizing: border-box;
 }
 
 div.artist_overview_subscribe {
 	width: 100%;
 	float: left;
-	height: 45px;
+	margin: 10px 0;
 }
 
 p.subscribe_count {
@@ -71,6 +76,33 @@ button.subscribe_btn {
 	margin: 0px 0px 0px 5px;
 	padding-bottom: 3px;
 	font-size: 20px;
+}
+
+div.load_artists {
+	width: 100%;
+	box-sizing: border-box;
+	float: left;
+	text-align: center;
+	padding: 0 10px;
+}
+
+button.load_artists_btn {
+	height: 100px;
+	width: 100%;
+	max-width: 800px;
+	font-size: 26px;
+	margin: 10px 0;
+}
+
+a.add_artwork {
+	margin-left: 5px;
+}
+
+a.add_artwork>img {
+	height: 32px;
+	width: 32px;
+	position: relative;
+	top: 2px;
 }
 
 /*===============================================*/

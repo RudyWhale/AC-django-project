@@ -1,28 +1,16 @@
 div.content_collection {
   float: left;
   width: 100%;
-  background-color: white;
   overflow-wrap: break-word;
 	word-wrap: break-word;
-}
-
-div.content_collection>h1 {
-	display: block;
-	width: 100%;
-	float: left;
-	line-height: 70px;
-	text-align: center;
-	text-transform: uppercase;
-	font-family: 'Oswald', sans-serif;
-	font-size: 30px;
-	margin: 0px;
-  font-weight: 600;
+  padding: 5px;
+  box-sizing: border-box;
 }
 
 div.content_block {
 	width: 33.33%;
 	float: left;
-	height: 350px;
+	height: 340px;
 	padding: 5px;
 	box-sizing: border-box;
 }
@@ -51,13 +39,13 @@ a.artwork_item_image>img {
 
 div.item_artwork_desc {
 	width: 100%;
-  height: 80px;
+  height: 70px;
 	float: left;
 	overflow: hidden;
 	font-family: 'Roboto', sans-serif;
   background-color: rgb(40,40,40);
   color: white;
-  padding: 10px;
+  padding: 4px 10px;
   box-sizing: border-box;
 }
 
@@ -70,6 +58,7 @@ a.content_item_name {
   height: 30px;
   overflow: hidden;
   display: block;
+  float: left;
 }
 
 div.content_item_info {
@@ -79,7 +68,7 @@ div.content_item_info {
 	box-sizing: border-box;
   float: left;
   color: rgb(180,180,180);
-  margin-top: 8px;
+  margin-top: 6px;
   line-height: 20px;
 }
 

@@ -3,6 +3,7 @@
 {% block styles %}
 	{% load static %}
 
+
 	<link href="{% static 'main/styles/artist overview.css' %}" type="text/css" rel="stylesheet" />
 {% endblock %}
 
@@ -18,15 +19,19 @@
 {% include "main/page_blocks/header.html" %}
 {% include "main/page_blocks/menu.html" %}
 
+<div class="bounded_wrapper">
+	<h1 class="section_header">художники</h1>
+</div>
+
 {% for profile in artists %}
 	{% include "main/page_blocks/artist overview.html" with profile=profile user=request.user %}
 {% endfor %}
 
 <div class="bounded_wrapper">
 	{% if artists and infinite %}
-		<div class="load_more">
+		<div class="load_more load_artists">
 			<button
-				class="load_more_btn"
+				class="load_more_btn load_artists_btn transparent_btn"
 				data-timestamp="{{timestamp}}"
 				data-url="{{load_content_url}}"
 				data-cnt_selector="div.artist_overview">
@@ -34,7 +39,7 @@
 			</button>
 		</div>
 	{% endif %}
-</div><!-- bounded_wrapper -->
+</div>
 
 {% include "main/page_blocks/footer.html" %}
 

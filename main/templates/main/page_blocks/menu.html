@@ -1,7 +1,48 @@
-<div class="menu">
-	<ul>
-		<li><a class="menu_item {% if page == 'artworks' %}disabled{% endif %}" href="{% url 'artworks' %}">картины.</a></li>
-		<li><a class="menu_item {% if page == 'artists' %}disabled{% endif %}" href="{% url 'artists' %}">художники.</a></li>
-		<li><a class="menu_item {% if page == 'feed' %}disabled{% endif %}" href="{% url 'feed' %}">лента.</a></li>
-	</ul>
-</div><!-- menu -->
+	<div class="menu">
+		<div class="bounded_wrapper">
+			<ul class="navbar_ul navbar_item">
+				<li class="navbar_li">
+					<a class="menu_item {% if page == 'category 1' %}disabled{% endif %}" href="{% url 'category' pk=1 %}">картины</a>
+				</li>
+				<li class="navbar_li">
+					<a class="menu_item {% if page == 'category 2' %}disabled{% endif %}" href="{% url 'category' pk=2 %}">фотографии</a>
+				</li>
+				<li class="navbar_li">
+					<a class="menu_item {% if page == 'category 3' %}disabled{% endif %}" href="{% url 'category' pk=3 %}">цифровое</a>
+				</li>
+				<li class="navbar_li">
+					<a class="menu_item {% if page == 'artists' %}disabled{% endif %}" href="{% url 'artists' %}">художники</a>
+				</li>
+				<li class="navbar_li">
+					<a class="menu_item {% if page == 'feed' %}disabled{% endif %}" href="{% url 'feed' %}">лента</a>
+				</li>
+			</ul>
+
+			{% load static %}
+
+			<div class="dropdown_btn navbar_item">
+				<button class="dropdown" onclick="dropdown(this);"></button>
+			</div>
+
+			<div class="user_menu navbar_item">
+
+				{% if request.user.is_authenticated %}
+
+					<p class="user_menu_username">{{request.user.username}}</p>
+					<a href="{% url 'artist' pk=request.user.pk %}"
+						class="user_menu_item user_menu_home {% if page == 'artist' and user == request.user %}disabled{% endif %}"></a>
+					<a href="{% url 'settings' %}"
+						class="user_menu_item user_menu_settings hover_accent {% if page == 'settings' %}disabled{% endif %}"></a>
+					<a href=""
+						class="user_menu_item user_menu_logout logout_btn" data-url="{% url 'logout' %}"></a>
+
+				{% else %}
+
+					<a href="{% url 'login' %}" class="user_menu_link">Войти</a>
+					<a href="{% url 'register' %}" class="user_menu_link">Регистрация</a>
+
+				{% endif %}
+
+			</div><!-- user_info -->
+		</div><!-- bounded_wrapper -->
+	</div><!-- menu -->

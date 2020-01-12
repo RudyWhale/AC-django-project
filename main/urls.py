@@ -23,9 +23,9 @@ urlpatterns = [
 		name='artist'
 	),
 	path(
-		'artworks',
-		views.artworks,
-		name='artworks'
+		'category/<int:pk>',
+		views.category,
+		name='category'
 	),
 	path(
 		'artworks/<int:pk>',
@@ -36,11 +36,6 @@ urlpatterns = [
 		'tag/<int:pk>',
 		views.tag,
 		name='tag'
-	),
-	path(
-		'become_artist',
-		views.become_artist,
-		name='become artist'
 	),
 	path(
 		'feed',

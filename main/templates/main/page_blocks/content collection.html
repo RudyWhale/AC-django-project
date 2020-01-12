@@ -1,24 +1,17 @@
 <div class="bounded_wrapper">
+	{% if content_header %}
+		<h1 class="section_header">
+			{{content_header}}
+			{% if create_publication %}
+				<a href="{% url 'new artwork' %}" class="add_artwork">
+					{% load static %}
+					<img src="{% static 'icons/add artwork.png' %}">
+				</a>
+			{% endif %}
+		</h1>
+	{% endif %}
+
 	<div class="content_collection">
-
-		{% if content_header %}
-
-			<h1>{{content_header}}</h1>
-
-		{% endif %}
-
-		{% if create_publication %}
-
-			<div class="content_block"><div class="content_item_create">
-
-				<p>Добавьте что-то новое в свой блог</p>
-				<hr />
-				<a class="hover_accent_dark" href="{% url 'new artwork' %}">Добавить работу</a>
-
-			</div></div><!-- content_item_create -->
-
-		{% endif %}
-
 		{% for publication in publications %}
 
 			{% if publication.artwork %}
@@ -29,11 +22,9 @@
 
 		{% empty %}
 
-			{% if not create_publication %}
-				<div class="empty_label">
-					<p>Здесь пока ничего нет</p>
-				</div>
-			{% endif %}
+			<div class="empty_label">
+				<p>Здесь пока ничего нет</p>
+			</div>
 
 		{% endfor %}
 

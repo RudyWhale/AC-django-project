@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.template.response import SimpleTemplateResponse
-from .models import Publication, Artwork, ArtistProfile, Tag, UserSettings, ProfileSettings
+from .models import Publication, Artwork, ArtistProfile, Tag, UserSettings, ArtworkCategory, FeedUpdateEmailTask
 from .forms import *
 from ArtChart.settings import *
 
@@ -19,10 +19,10 @@ def index(request):
 		'meta_description': 'ArtChart - портал для художников, дизайнеров и людей, интересующихся искусством и творчеством. ' \
 							'Здесь художники рассказывают о своих работах. Зарегистрировавшись, вы сможете отмечать понравившиеся работы, ' \
 							'подписываться на любимых авторов и следить за их деятельностью на портале',
-		'site_description': True,
+		'site_description': not request.user.is_authenticated,
 		'page': 'index',
 		'publications': publications,
-		'content_header': 'Популярно',
+		'content_header': 'популярные работы',
 		'infinite': infinite,
 		'timestamp': timestamp,
 		'load_content_url': reverse('load content main'),
@@ -31,11 +31,11 @@ def index(request):
 
 
 def artist(request, pk):
-	profile = get_object_or_404(ArtistProfile, pk = pk)
+	user = get_object_or_404(User, pk=pk)
+	profile = ArtistProfile.objects.get_or_create(user=user)[0]
 	publications = profile.publication_set.all().order_by('-datetime')[:CONTENT_ITEMS_LIMIT - 1]
 	infinite = publications.count() == (CONTENT_ITEMS_LIMIT - 1)
 	timestamp = timezone.now().timestamp()
-	user = profile.user
 	create_publication = True if profile.user == request.user else False
 	args = {
 		'meta_title': f'{user.username}',
@@ -43,7 +43,7 @@ def artist(request, pk):
 		'page': 'artist',
 		'user': user,
 		'profile': profile,
-		'content_header': 'Блог автора',
+		'content_header': 'работы автора',
 		'publications': publications,
 		'create_publication': create_publication,
 		'infinite': infinite,
@@ -54,7 +54,7 @@ def artist(request, pk):
 
 
 def artists(request):
-	artists = ArtistProfile.objects.all().annotate(subs_count=Count('subscribers')).order_by('-subs_count')[:ARTIST_PROFILES_LIMIT]
+	artists = ArtistProfile.objects.filter(user__is_active=True).annotate(subs_count=Count('subscribers')).order_by('-subs_count')[:ARTIST_PROFILES_LIMIT]
 	infinite = artists.count() == ARTIST_PROFILES_LIMIT
 	timestamp = timezone.now().timestamp()
 	args = {
@@ -69,19 +69,20 @@ def artists(request):
 	return render(request, 'main/artists.html', args)
 
 
-def artworks(request):
-	publications = Artwork.objects.order_by('-datetime')[:CONTENT_ITEMS_LIMIT - 1]
+def category(request, pk):
+	category = get_object_or_404(ArtworkCategory, pk=pk)
+	publications = category.artwork_set.order_by('-datetime')[:CONTENT_ITEMS_LIMIT - 1]
 	infinite = publications.count() == (CONTENT_ITEMS_LIMIT - 1)
 	timestamp = timezone.now().timestamp()
 	args = {
 		'meta_title': 'Работы на ArtChart',
 		'meta_description': 'Посмотреть работы художников, зарегистрированных на ArtChart',
-		'page': 'artworks',
+		'page': 'category ' + str(pk),
 		'publications': publications,
-		'content_header': 'картины',
+		'content_header': category.name,
 		'infinite': infinite,
 		'timestamp': timestamp,
-		'load_content_url': reverse('load content publications')
+		'load_content_url': reverse('load content category', args=[pk,])
 	}
 	return render(request, 'main/publications.html', args)
 
@@ -91,6 +92,16 @@ def artwork(request, pk):
 	author = artwork.author.user
 	related_pubs = Artwork.objects.exclude(pk = pk)[:3]
 	show_delete_link = request.user == author
+
+	# No need to send email notification about this artwork
+	user = request.user
+	if user.is_authenticated:
+		query = FeedUpdateEmailTask.objects.filter(recipient=user)
+		if query.exists():
+			task = query[0]
+			task.publications.remove(artwork)
+			task.save()
+
 	args = {
 		'meta_title': f'{artwork.name}',
 		'meta_description': f'Работа художника {author.username} "{artwork.name}". {artwork.desc}',
@@ -115,7 +126,7 @@ def feed(request):
 			'meta_description': '',
 			'page': 'feed',
 			'publications': publications,
-			'content_header': 'ваша лента:',
+			'content_header': 'ваша лента',
 			'infinite': infinite,
 			'timestamp': timestamp,
 			'load_content_url': reverse('load content feed')
@@ -127,104 +138,13 @@ def feed(request):
 			'meta_title': 'Карамба!',
 			'meta_description': '',
 			'page': 'feed',
-			'msg_header': "Этот раздел досутен только авторизованным пользователям",
+			'msg_header': "Этот раздел доступен только авторизованным пользователям",
 			'msg_text':  "Войдите на сайт для того, чтобы подписываться на блоги художников и видеть вашу персональную ленту",
 			'links': {
 				'На страницу входа': reverse('login'),
 				'На главную': reverse('index'),
 			},
 			'from_page': request.META.get('HTTP_REFERER')
-		}
-		return render(request, 'main/info message.html', args)
-
-
-def become_artist(request):
-	if request.user.is_authenticated:
-		if  request.user.has_perm('main.add_artistprofile'):
-			header = 'Создание профиля'
-			title = 'Создание профиля'
-
-			if request.method == 'POST':
-				form = ArtistCreationForm(request.POST, request.FILES)
-
-				if form.is_valid():
-					# Takes care of user permissions
-					from django.contrib.auth.models import Permission
-
-					reg_perm = Permission.objects.get(name="Can add artist profile")
-					download_perm = Permission.objects.get(name="Can add publication")
-					request.user.user_permissions.remove(reg_perm)
-					request.user.user_permissions.add(download_perm)
-
-					# Creates new artist profile
-					profile = form.save(request.user)
-					args = {
-						'page': 'register as artist',
-						'meta_title': title,
-						'meta_description': '',
-						'msg_header': header,
-						'msg_text': 'Профиль художника был успешно создан. Теперь вы можете создавать публикации, которые будут видны другим пользователям',
-						'links': {
-							'Ваша страница': reverse('artist', args=[profile.pk,]),
-							'На главную': reverse('index'),
-						},
-					}
-					return render(request, 'main/message.html', args)
-
-				else:
-					args = {
-						'page': 'register as artist',
-						'meta_title': title,
-						'meta_description': '',
-						'msg_header': header,
-						'msg_text':  'К сожалению, во время регистрации произошла ошибка. Если она повторяется, вы можете написать администрации',
-						'links': {
-							'Страница регистрации': reverse('become artist'),
-							'Напишите нам': reverse('feedback'),
-							'На главную': reverse('index'),
-						}
-					}
-					return SimpleTemplateResponse(template='main/message.html', context=args, status=400)
-
-			else:
-				args = {
-					'page': 'register as artist',
-					'meta_title': title,
-					'meta_description': '',
-					'header': header,
-					'form': ArtistCreationForm(),
-					'submit_text': 'Отправить',
-				}
-				return render(request, 'main/form.html', args)
-
-		else:
-			args = {
-				'meta_title': 'Карамба!',
-				'meta_description': '',
-				'page': 'become artist',
-				'msg_header': 'У вас нет приглашения',
-				'msg_text': 'К сожалению, в текущий момент мы не принимаем в наши ряды случайных прохожих. ' \
-							'Для того, чтобы создать профиль художника, вам необходимо получить приглашение от администрации. ' \
-							'Напишите нам, прикрепите ссылку на свое портфолио, и мы пришлем вам приглашение для регистрации профиля.',
-				'links': {
-					'Напишите нам': reverse('feedback'),
-					'На главную': reverse('index'),
-				},
-			}
-			return render(request, 'main/info message.html', args)
-
-	else:
-		args = {
-			'meta_title': 'Карамба!',
-			'meta_description': '',
-			'page': 'become artist',
-			'msg_header': 'Войдите на сайт',
-			'msg_text':  'Простите, но мы хотим знать, с кем имеем дело.' \
-						' Пожалуйста, авторизуйтесь, если хотите создать аккаунт художника на ArtChart',
-			'links': {
-				'На страницу входа': reverse('login'),
-				'На главную': reverse('index'),
-			},
 		}
 		return render(request, 'main/info message.html', args)
 
@@ -239,7 +159,7 @@ def tag(request, pk):
 		'meta_description': f'Поиск публикаций по тегу {tag.name} на ArtChart',
 		'page': 'tag',
 		'publications': publications,
-		'content_header': 'Поиск по тегу ' + tag.name + ':',
+		'content_header': f'тег: {tag.name}',
 		'infinite': infinite,
 		'timestamp': timestamp,
 		'load_content_url': reverse('load content tag', args=(tag.pk,))
@@ -276,8 +196,9 @@ def feedback(request):
 			'meta_title': 'Напишите нам',
 			'meta_description': '',
 			'page': 'feedback',
-			'header': 'Обратная связь',
-			'form': FeedbackForm(),
+			'forms': {
+				'Обратная связь': FeedbackForm(),
+			},
 			'submit_text': 'Отправить сообшение'
 		}
 		return render(request, 'main/form.html', args)
@@ -295,10 +216,10 @@ def new_artwork(request):
 
 	except AttributeError as e:
 		args = {
-			'meta_title': '',
+			'meta_title': 'Карамба!',
 			'meta_description': '',
 			'page': 'new artwork',
-			'msg_header': "Что-то пошло не так",
+			'msg_header': "Не все идет по плану :(",
 			'msg_text':  'Во время создания публикации нам не удалось найти ваш профиль художника. ' \
 			'Вы можете написать нам об ошибке, и мы постараемся найти причину ее появления',
 			'links': {
@@ -313,14 +234,14 @@ def new_artwork(request):
 
 		if form.is_valid():
 			form.save(profile = profile)
-			return redirect('artist', pk = profile.pk)
+			return redirect('artist', pk = user.pk)
 
 		else:
 			args = {
-				'meta_title': '',
+				'meta_title': 'Карамба!',
 				'meta_description': '',
 				'page': 'new artwork',
-				'msg_header': "Что-то пошло не так",
+				'msg_header': "Не все идет по плану :(",
 				'msg_text':  'Во время создания публикации произошла неизвестная ошибка. ' \
 				'Если она повторяется, можете написать нам, и мы постараемся найти причину ее появления',
 				'links': {
@@ -333,8 +254,9 @@ def new_artwork(request):
 	else:
 		args = {
 			'page': 'new artwork',
-			'header': 'Новая работа',
-			'form': ArtworkCreationForm(),
+			'forms': {
+				'Новая работа': ArtworkCreationForm()
+			},
 			'submit_text': 'Создать работу',
 		}
 		return render(request, 'main/form.html', args)
@@ -357,12 +279,33 @@ def settings(request):
 		}
 		return SimpleTemplateResponse(template='main/info message.html', context=args, status=400)
 
-	user_settings = UserSettings.objects.get_or_create(user=user)[0]
+	settings = UserSettings.objects.get_or_create(user=user)[0]
+	profile = ArtistProfile.objects.get_or_create(user=user)[0]
 
 	if request.method == 'POST':
-		email_choices = request.POST.getlist('email_settings')
-		user_settings.feed_update_notifications = 'feed_update_notifications' in email_choices
-		user_settings.save()
+		settings_form = UserSettingsForm(request.POST, instance=settings)
+		profile_form = ArtistProfileForm(request.POST, request.FILES, instance=profile)
+
+		if not settings_form.is_valid() or not profile_form.is_valid():
+			args = {
+				'meta_title': 'Ошибка',
+				'meta_description': '',
+				'page': 'settings',
+				'msg_header': "Что-то пошло не так...",
+				'msg_text': """
+								Во время сохранения ваших настроек произошла ошибка.
+								Если эта ошибка повторяется, вы можете написать нам о ней.
+							""",
+				'links': {
+					'Ваша страница': reverse('artist', args=[request.user.pk,]),
+					'Напишите нам': reverse('feedback'),
+					'На главную': reverse('index'),
+				}
+			}
+			return render(request, 'main/info message.html', args)
+
+		settings_form.save()
+		profile_form.save()
 
 		args = {
 			'meta_title': 'Настройки изменены',
@@ -371,6 +314,7 @@ def settings(request):
 			'msg_header': "Настройки были изменены",
 			'msg_text':  "Мы сохранили изменения вашего профиля",
 			'links': {
+				'Ваша страница': reverse('artist', args=[request.user.pk,]),
 				'На главную': reverse('index'),
 			}
 		}
@@ -379,8 +323,10 @@ def settings(request):
 	else:
 		args = {
 			'page': 'settings',
-			'header': 'Настройки пользователя',
-			'form': UserSettingsForm(user_settings),
+			'forms': {
+				'Настройки профиля': ArtistProfileForm(instance=profile),
+				'Email-уведомления': UserSettingsForm(instance=settings)
+			},
 			'submit_text': 'Сохранить настройки'
 		}
 		return render(request, 'main/form.html', args)

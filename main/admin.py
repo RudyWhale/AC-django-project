@@ -15,6 +15,7 @@ class ACUserAdmin(UserAdmin):
 admin.site.unregister(User)
 admin.site.register(User, ACUserAdmin)
 
+admin.site.register(ArtworkCategory)
 admin.site.register(Artwork)
 admin.site.register(ArtistProfile)
 admin.site.register(Comment)

@@ -2,8 +2,8 @@ from django import forms
 from django.forms import ModelForm
 from PIL import Image
 from datetime import datetime
-from .models import Artwork, Tag, UserSettings, ProfileSettings, ArtistProfile
-from .widgets import LimitedLengthTextarea
+from .models import Artwork, Tag, UserSettings, ArtistProfile, ArtworkCategory
+from .widgets import LimitedLengthTextarea, ACCheckBox
 from ArtChart.settings import ARTWORK_DESC_MAX_LENGTH, ARTWORK_IMAGE_MAX_SIZE, PROFILE_AVATAR_MAX_SIZE, PROFILE_DESC_MAX_LENGTH
 
 
@@ -54,10 +54,15 @@ class ArtworkCreationForm(AbstractPostCreationForm):
         required = True,
         widget = forms.TextInput(attrs={'placeholder': 'Придумайте название для работы'}),
         label = 'Название')
+    category = forms.ModelChoiceField(
+        required = False,
+        queryset = ArtworkCategory.objects.all(),
+        label='Выберите категорию'
+    )
 
     class Meta:
         model = Artwork
-        fields = ['name', 'desc', 'image']
+        fields = ['name', 'desc', 'image', 'category']
 
     def clean_image(self):
         file = self.cleaned_data['image']
@@ -70,7 +75,8 @@ class ArtworkCreationForm(AbstractPostCreationForm):
 
 class FeedbackForm(forms.Form):
     message_textarea_attrs = {
-        'placeholder': 'Напишите ваше сообщение для администрации портала. Если нужно, укажите электронную почту для связи',
+        'placeholder':  'Напишите ваше сообщение для администрации портала.' \
+                        'Если нужно, укажите электронную почту или другие контакты для связи',
         'maxlength': '1000',
         'class': 'limited_length',
     }
@@ -81,27 +87,25 @@ class FeedbackForm(forms.Form):
     )
 
 
-class UserSettingsForm(forms.Form):
-    CHOICES = [('feed_update_notifications', 'Уведомлять об обновлениях вашей персональной ленты'),]
-    email_settings = forms.ChoiceField(
-        label = 'Email-уведомления',
-        widget = forms.CheckboxSelectMultiple,
-        choices = CHOICES
+class UserSettingsForm(forms.ModelForm):
+    feed_update_notifications = forms.BooleanField(
+        label = 'Лента',
+        required = False,
+        widget = ACCheckBox(label='Уведомлять вас, когда в ленте появляется что-то новое')
     )
 
-    def __init__(self, user_settings):
-        super().__init__()
-        settings_field = self.fields['email_settings']
-        settings_field.initial = ['feed_update_notifications' if user_settings.feed_update_notifications else None]
+    class Meta:
+        model = UserSettings
+        fields = ['feed_update_notifications',]
 
 
 '''
-Form for artist registration
+Form for artist profile
 '''
-class ArtistCreationForm(forms.ModelForm):
+class ArtistProfileForm(forms.ModelForm):
 	avatar = forms.ImageField(
-		required=True,
-		widget=forms.widgets.FileInput(attrs={'class': 'avatar_inp', 'data-max_size': PROFILE_AVATAR_MAX_SIZE}),
+		required=False,
+		widget=forms.widgets.FileInput(attrs={'class': 'avatar_inp image_inp', 'data-max_size': PROFILE_AVATAR_MAX_SIZE}),
 		label='Фото',
 	)
 	desc_attrs = {
@@ -112,7 +116,7 @@ class ArtistCreationForm(forms.ModelForm):
 		'class': 'limited_length'
 	}
 	desc = forms.CharField(
-		required=True,
+		required=False,
 		widget=LimitedLengthTextarea(attrs=desc_attrs),
 		label='Описание',
 	)
@@ -126,7 +130,7 @@ class ArtistCreationForm(forms.ModelForm):
 	def clean_avatar(self):
 		file = self.cleaned_data['avatar']
 
-		if file.size > PROFILE_AVATAR_MAX_SIZE:
+		if file and file.size > PROFILE_AVATAR_MAX_SIZE:
 			raise forms.ValidationError('Avatar is too big')
 
 		return file
@@ -139,14 +143,3 @@ class ArtistCreationForm(forms.ModelForm):
 			raise forms.ValidationError('Desc text is too long')
 
 		return text
-
-
-	def save(self, user, commit=True):
-		profile = super().save(commit=False)
-
-		profile.user = user
-
-		if commit:
-			profile.save()
-
-		return profile

@@ -2,13 +2,13 @@ div.artwork_repr {
 	float: left;
 	width: 100%;
 	height: 480px;
-	background-color: white;
+	margin-top: 10px;
 }
 
 div.artwork_img {
 	display: block;
 	float: left;
-	height: 100%;
+	height: calc(100% - 10px);
 	width: 67%;
 	background-color: rgb(60,60,60);
 	overflow: hidden;
@@ -34,37 +34,33 @@ div.artwork_desc {
 }
 
 div.artwork_desc_text {
-	float: left;
 	width: 100%;
 	height: 430px;
-	padding: 10px 10px 0 0;
+	padding: 0 10px 0 0;
 	box-sizing: border-box;
 	line-height: 25px;
 	font-family: 'Roboto', sans-serif;
 	overflow-y: auto;
 }
 
+div.artwork_desc_text>* {
+	float: left;
+	width: 100%;
+}
+
 div.artwork_desc_text>h3 {
-	display: block;
 	margin: 0px;
 	font-size: 36px;
-	width: 100%;
 	line-height: 40px;
 	box-sizing: border-box;
 	font-weight: 600;
 }
 
-p.artwork_desc_text {
-	margin: 10px 0 0 0;
-	font-size: 18px;
-}
-
 p.artwork_date {
+	font-family: 'Roboto', sans-serif;
+	margin: 0;
+	font-size: 16px;
 	color: rgb(120,120,120);
-	font-size: 14px;
-	font-family: 'Roboto Slab', sans-serif;
-	line-height: 16px;
-	margin: 0 0 5px 0;
 }
 
 button.publication_delete {
@@ -73,20 +69,23 @@ button.publication_delete {
 	padding: 0px;
 	border: none;
 	background: inherit;
-	font-family: 'Roboto Slab', sans-serif;
-	font-size: 14px;
+	font-family: 'Roboto', sans-serif;
+	font-size: 16px;
 	text-decoration: underline;
 	cursor: pointer;
+}
+
+p.artwork_desc_text {
+	margin: 10px 0 0 0;
+	font-size: 18px;
 }
 
 /*===============================================*/
 /* TAGS -----------------------------------------*/
 /*===============================================*/
 
-div.tags {
+div.artwork_desc_tags {
 	margin-top: 8px;
-	float: left;
-	width: 100%;
 }
 
 p.no_tags_label {
@@ -102,10 +101,51 @@ a.tag {
 	display: block;
 	float: left;
 	margin: 2px 6px 0 0;
-	font-family: 'Roboto Slab', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	font-size: 18px;
-	font-weight: 600;
+	font-weight: bold;
 	text-decoration: none;
+}
+
+/*===============================================*/
+/* AUTHOR ---------------------------------------*/
+/*===============================================*/
+
+div.artwork_desc_author {
+	margin-top: 10px;
+}
+
+div.artwork_desc_author>* {
+	float: left;
+}
+
+div.artwork_author_avatar {
+	height: 60px;
+	width: 60px;
+	border-radius: 30px;
+	border: 1px solid black;
+	overflow: hidden;
+	margin-right: 10px;
+}
+
+div.artwork_author_avatar>a>img {
+	position: relative;
+	height: 60px;
+}
+
+a.artwork_author_name {
+	font-family: 'Roboto';
+	font-size: 20px;
+	font-weight: bold;
+	text-decoration: none;
+	margin-top: 5px;
+	display: block;
+}
+
+p.artwork_author_count {
+	margin: 0;
+	width: 100%;
+	font-size: 16px;
 }
 
 /*===============================================*/
@@ -120,7 +160,7 @@ div.comments {
 
 h5.comments_header {
 	display: block;
-	font-size: 18px;
+	font-size: 20px;
 	margin: 0px;
 	float: left;
 	width: 100%;
@@ -170,7 +210,7 @@ h6.comment_author {
 	margin: 0 4px 0 0;
 	font-size: 18px;
 	font-weight: 600;
-	font-family: 'Roboto Slab', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	display: inline;
 	line-height: 20px;
 	float: left;

@@ -1,5 +1,5 @@
 <div class="comment_container">
-  <h6 class="comment_author">{{comment.author}}:</h6>
+  <a href="{% url 'artist' pk=comment.author.pk %}"><h6 class="comment_author hover_accent_dark">{{comment.author}}:</h6></a>
   <div class="comment_text">
     <p>{{comment.text}}</p>
   </div>

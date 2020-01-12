@@ -1,25 +1,13 @@
 div.info_msg {
 	float: left;
 	width: 100%;
-	background-color: white;
-	padding: 12px 5px;
+	padding: 0 5px 12px 5px;
 	box-sizing: border-box;
 }
 
 div.info_msg_content {
 	max-width: 800px;
 	margin: 0 auto;
-}
-
-h3.info_msg_header {
-	float: left;
-	width: 100%;
-	font-family: 'Roboto', sans-serif;
-	font-size: 48px;
-	font-weight: 600;
-	color: rgb(140,140,140);
-	margin: 0;
-	border-bottom: 4px solid rgb(140,140,140);
 }
 
 p.info_msg_text {
@@ -33,7 +21,8 @@ p.info_msg_text {
 a.info_msg_link {
 	float: left;
 	clear: left;
-	font-family: 'Roboto Slab', sans-serif;
-	font-size: 18px;
-	color: black;
+	font-family: 'Roboto', sans-serif;
+	font-weight: bold;
+	font-size: 20px;
+	text-decoration: none;
 }

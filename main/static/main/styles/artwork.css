@@ -88,15 +88,6 @@ div.artwork_desc_tags {
 	margin-top: 8px;
 }
 
-p.no_tags_label {
-	display: block;
-	float: left;
-	margin: 0 0 0 5px;
-	color: rgb(120,120,120);
-	font-style: italic;
-	font-family: 'Oswald', sans-serif;
-}
-
 a.tag {
 	display: block;
 	float: left;

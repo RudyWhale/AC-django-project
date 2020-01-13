@@ -10,8 +10,13 @@ from ArtChart.settings import ARTWORK_DESC_MAX_LENGTH, ARTWORK_IMAGE_MAX_SIZE, P
 class AbstractPostCreationForm(ModelForm):
     tag_set = forms.CharField(
         max_length = 100,
-        widget = forms.TextInput(attrs={'placeholder': 'Впишите, теги, соответствующие, работе, разделив, их, запятой'}),
-        label = 'Теги через запятую'
+        widget = forms.TextInput(
+            attrs={
+                'placeholder': 'Впишите, теги, соответствующие, работе, разделив, их, запятой',
+                'autocomplete': 'off'
+            }),
+        label = 'Теги через запятую',
+        required = False,
     )
 
     def save(self, profile, commit=True):
@@ -24,14 +29,15 @@ class AbstractPostCreationForm(ModelForm):
 
         tags_str = self.cleaned_data['tag_set'].replace(" ", "").lower()
 
-        for tag_name in tags_str.split(','):
-            try:
-                tag = Tag.objects.get(name = tag_name)
+        if tags_str:
+            for tag_name in tags_str.split(','):
+                try:
+                    tag = Tag.objects.get(name = tag_name)
 
-            except Tag.DoesNotExist:
-                tag = Tag.objects.create(name = tag_name)
+                except Tag.DoesNotExist:
+                    tag = Tag.objects.create(name = tag_name)
 
-            tag.publications.add(post)
+                tag.publications.add(post)
 
         return post
 
@@ -40,7 +46,8 @@ class ArtworkCreationForm(AbstractPostCreationForm):
     desc_textarea_attrs = {
         'placeholder': 'Напишите здесь о работе',
         'maxlength': ARTWORK_DESC_MAX_LENGTH,
-        'class': 'limited_length'
+        'class': 'limited_length',
+        'autocomplete': 'off'
     }
     desc = forms.CharField(
         required = True,
@@ -48,11 +55,20 @@ class ArtworkCreationForm(AbstractPostCreationForm):
         label = 'Описание')
     image = forms.ImageField(
         required = True,
-        widget = forms.widgets.FileInput(attrs={'class': 'image_inp', 'data-max_size': ARTWORK_IMAGE_MAX_SIZE}),
+        widget = forms.widgets.FileInput(
+            attrs={
+                'class': 'image_inp',
+                'data-max_size': ARTWORK_IMAGE_MAX_SIZE,
+                'autocomplete': 'off'
+            }),
         label = 'Загрузите фотографию')
     name = forms.CharField(
         required = True,
-        widget = forms.TextInput(attrs={'placeholder': 'Придумайте название для работы'}),
+        widget = forms.TextInput(
+            attrs={
+                'placeholder': 'Придумайте название для работы',
+                'autocomplete': 'off'
+            }),
         label = 'Название')
     category = forms.ModelChoiceField(
         required = False,
@@ -79,6 +95,7 @@ class FeedbackForm(forms.Form):
                         'Если нужно, укажите электронную почту или другие контакты для связи',
         'maxlength': '1000',
         'class': 'limited_length',
+        'autocomplete': 'off'
     }
     message = forms.CharField(
         required = True,

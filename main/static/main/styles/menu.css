@@ -5,6 +5,7 @@ div.menu {
 	float: left;
 	border-bottom: 2px solid rgb(200,200,200);
 	box-sizing: border-box;
+	cursor: default;
 }
 
 .navbar_item {

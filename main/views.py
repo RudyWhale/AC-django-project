@@ -4,7 +4,6 @@ from django.db.models import Count
 from django.urls import reverse
 from django.utils import timezone
 from django.core.mail import send_mail
-from django.http import HttpResponse
 from django.template.response import SimpleTemplateResponse
 from .models import Publication, Artwork, ArtistProfile, Tag, UserSettings, ArtworkCategory, FeedUpdateEmailTask
 from .forms import *

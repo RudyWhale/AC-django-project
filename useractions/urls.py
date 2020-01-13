@@ -35,7 +35,7 @@ urlpatterns = [
 		name='load content feed'
 	),
 	path(
-		'views',
+		'load_content_main',
 		views.load_content_main,
 		name='load content main'
 	),
@@ -55,7 +55,7 @@ urlpatterns = [
 		name='delete comment'
 	),
 	path(
-		'delete publication/<int:pk>',
+		'delete_publication/<int:pk>',
 		views.delete_publication,
 		name='delete publication'
 	),

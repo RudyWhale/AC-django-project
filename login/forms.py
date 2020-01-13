@@ -33,24 +33,44 @@ Form for ordinary user registration
 class RegistrationForm(UserCreationForm):
 	password1 = forms.CharField(
 		required = True,
-		widget = forms.widgets.PasswordInput(attrs={'placeholder': 'Придумайте пароль', 'class': 'pass1'}),
+		widget = forms.widgets.PasswordInput(
+			attrs={
+				'placeholder': 'Придумайте пароль',
+				'class': 'pass1',
+				'autocomplete': 'off'
+			}),
 		label = 'Пароль'
 	)
 	password2 = forms.CharField(
 		required = True,
-		widget = forms.widgets.PasswordInput(attrs={'placeholder': 'Повторите пароль', 'class': 'pass2'}),
+		widget = forms.widgets.PasswordInput(
+			attrs={
+				'placeholder': 'Повторите пароль',
+				'class': 'pass2',
+				'autocomplete': 'off'
+			}),
 		label = 'Пароль'
 	)
 	email = forms.CharField(
 		required = True,
-		widget = forms.widgets.EmailInput(attrs={'placeholder': 'Ваша действующая эл. почта', 'class': 'inp_email'}),
+		widget = forms.widgets.EmailInput(
+			attrs={
+				'placeholder': 'Ваша действующая эл. почта',
+				'class': 'inp_email',
+				'autocomplete': 'off'
+			}),
 		label = 'Почта'
 	)
 	username = forms.CharField(
 		required = True,
 		max_length = 254,
 		label = 'Имя',
-		widget = forms.widgets.TextInput(attrs={'placeholder': 'Имя профиля', 'class': 'inp_name'}),
+		widget = forms.widgets.TextInput(
+			attrs={
+				'placeholder': 'Имя профиля',
+				'class': 'inp_name',
+				'autocomplete': 'off'
+			}),
 	)
 	if USE_RECAPTCHA:
 		captcha = ReCaptchaField()

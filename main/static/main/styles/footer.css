@@ -2,11 +2,12 @@
 div.footer {
 	width: 100%;
 	float: left;
-	background: black;
+	background: rgb(40,40,40);
 	color: rgb(120,120,120);
 	text-align: center;
 	font-size: 14px;
 	font-family: 'Roboto', sans-serif;
+	padding: 10px 0;
 }
 
 a.footer_link {

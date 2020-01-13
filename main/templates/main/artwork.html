@@ -48,13 +48,13 @@
 
 				<p class="artwork_desc_text">{{artwork.desc}}</p>
 
-				<div class="artwork_desc_tags">
-					{% for tag in artwork.tag_set.all %}
-						<a class="tag hover_accent_dark" href="{% url 'tag' pk=tag.pk %}">#{{tag.name}}</a>
-					{% empty %}
-						<p class="no_tags_label">Теги не указаны</p>
-					{% endfor %}
-				</div>
+				{% if artwork.tag_set.all %}
+					<div class="artwork_desc_tags">
+						{% for tag in artwork.tag_set.all %}
+							<a class="tag hover_accent_dark" href="{% url 'tag' pk=tag.pk %}">#{{tag.name}}</a>
+						{% endfor %}
+					</div>
+				{% endif %}
 
 				<div class="artwork_desc_author">
 					<div class="artwork_author_avatar">

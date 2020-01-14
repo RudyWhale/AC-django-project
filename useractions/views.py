@@ -19,11 +19,15 @@ def like(request):
 		likes = 0;
 		publ = Publication.objects.get(pk = publ_pk)
 
-		if user not in publ.likes.all(): publ.likes.add(user)
-		else: publ.likes.remove(user)
+		if user not in publ.likes.all():
+			publ.likes.add(user)
+			label = 'не нравится'
+		else:
+			publ.likes.remove(user)
+			label = 'нравится'
 
 		likes = publ.likes.count();
-		return HttpResponse(likes)
+		return JsonResponse({'count': likes, 'label': label})
 
 	else: return HttpResponse(status=401)
 
@@ -40,14 +44,17 @@ def subscribe(request):
 
 		if profile.user == user:
 			return HttpResponse(status=403)
+
 		if user not in profile.subscribers.all():
 			profile.subscribers.add(user)
+			label = 'отписаться'
 		else:
 			profile.subscribers.remove(user)
+			label = 'подписаться'
 
 		subs = profile.subscribers.count();
 
-		return HttpResponse(subs)
+		return JsonResponse({'count': subs, 'label': label})
 
 	else: return HttpResponse(status=401)
 
@@ -181,7 +188,7 @@ def delete_publication(request, pk):
 
 		if profile.user == initiator:
 			publication.delete()
-			return redirect('artist', pk=profile.pk)
+			return redirect('artist', pk=profile.user.pk)
 
 		else: return HttpResponse(status=403)
 

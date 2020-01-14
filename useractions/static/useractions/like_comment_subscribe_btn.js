@@ -34,21 +34,21 @@ var comment_send = function(btn){
 var like_send = function(btn){
   var publpk = btn.attr('data-pk');
   $.get('../action/like', {publication_pk: publpk},
-    function(count){
-      $('.publication_likes_count').text(count);
-      btn.text(btn.text() == 'нравится' ? 'не нравится' : 'нравится');
+    function(response){
+      $('.publication_likes_count').text(response.count);
+      btn.text(response.label);
     },
     'json'
-  ).fail(function(){alert("Произошла ошибка");});
+  ).fail(function(){ alert("Произошла ошибка"); });
 };
 
 var submit_send = function(btn){
   var profilepk = btn.attr('data-pk');
   $.get('../action/subscribe', {profile_pk: profilepk},
-    function(count){
-      $('#subs_count_' + profilepk).text(count);
+    function(response){
+      $('#subs_count_' + profilepk).text(response.count);
       var btnselector = '#subs_btn_' + profilepk;
-      $(btnselector).text($(btnselector).text() == 'подписаться' ? 'отписаться' : 'подписаться');
+      $(btnselector).text(response.label);
     }
   ).fail(function(){ alert('Произошла ошибка'); });
 };

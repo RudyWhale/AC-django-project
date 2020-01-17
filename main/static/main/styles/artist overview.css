@@ -109,15 +109,7 @@ a.add_artwork>img {
 /* MEDIA ----------------------------------------*/
 /*===============================================*/
 
-@media screen and (max-width: 1000px){
-
-	div.artist_desc>p {
-		font-size: 18px;
-		line-height: 22px;
-	}
-}
-
-@media screen and (max-width: 800px){
+@media screen and (max-width: 600px){
 
 	div.artist_overview {
 		padding: 10px;
@@ -129,19 +121,17 @@ a.add_artwork>img {
 
 	div.artist_avatar {
 		margin: 4px;
-		height: 150px;
-		width: 150px;
-		border-radius: 75px;
+		height: 120px;
+		width: 120px;
+		border-radius: 69px;
 	}
 
 	div.artist_avatar>a>img {
-		height: 150px;
+		height: 120px;
 	}
 
 	div.artist_desc>a>h3 {
-		height: 60px;
-		line-height: 60px;
-		font-size: 40px;
+		font-size: 30px;
 		margin: 0px;
 	}
 }

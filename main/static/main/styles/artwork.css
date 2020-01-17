@@ -143,7 +143,7 @@ p.artwork_author_count {
 /* COMMENTS -------------------------------------*/
 /*===============================================*/
 
-div.comments {
+div#comments {
 	margin-top: 10px;
 	float: left;
 	width: 100%;
@@ -226,12 +226,8 @@ button.comment_delete {
 	padding: 0px;
 	float: left;
 	border: none;
-	outline: none;
 	background-color: inherit;
-	font-size: 12px;
-	font-family: 'Roboto Slab', sans-serif;
-	text-decoration: underline;
-	height: 24px;
+	line-height: 26px;
 	color: rgb(80,80,80);
 	cursor: pointer;
 	opacity: 0;

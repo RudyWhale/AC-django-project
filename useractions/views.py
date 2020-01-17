@@ -195,6 +195,14 @@ def delete_publication(request, pk):
 	else: return HttpResponse(status=401)
 
 
+def clear_notifications(request):
+	if not request.user.is_authenticated:
+		return HttpResponse(status=401)
+
+	request.user.webnotification_set.all().delete()
+	return HttpResponse('')
+
+
 def logout(request):
 	user_logout(request)
 	return HttpResponse('')

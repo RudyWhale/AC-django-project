@@ -60,6 +60,11 @@ urlpatterns = [
 		name='delete publication'
 	),
 	path(
+		'clear_notifications',
+		views.clear_notifications,
+		name='clear notifications'
+	),
+	path(
 		'logout',
 		views.logout,
 		name='logout'

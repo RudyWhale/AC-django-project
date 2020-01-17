@@ -1,8 +1,9 @@
 from django.db.models.signals import post_delete, post_save, post_init
 from django.dispatch import receiver
 from django.core.mail import send_mail
+from django.core.signals import request_finished
 from django.contrib.auth.models import User
-from main.models import ArtistProfile, Artwork, Comment, FeedUpdateEmailTask
+from main.models import ArtistProfile, Artwork, Comment, FeedUpdateEmailTask, WebNotification, CommentWebNotification
 import os
 
 
@@ -22,6 +23,16 @@ def on_artwork_delete(sender, instance, **kwargs):
 			os.remove(instance.image.path)
 
 
+# Notifies user about new comment in navbar
+@receiver(post_save, sender=Comment)
+def comment_notify(sender, instance, created, **kwargs):
+	if created and instance.author != instance.publication.author.user:
+		CommentWebNotification.objects.create(
+			recipient=instance.publication.author.user,
+			comment=instance
+		)
+
+
 '''
 Email tasks for sending email notification asynchronously
 '''
@@ -35,27 +46,3 @@ def notify_subs(sender, instance, created, **kwargs):
 			email_task = FeedUpdateEmailTask.objects.get_or_create(recipient=user)[0]
 			email_task.publications.add(instance)
 			email_task.save()
-
-
-# @receiver(post_save, sender=Comment)
-# def notify_comment(sender, instance, created, **kwargs):
-# 	if created:
-# 		profile = instance.publication.author
-# 		recipient = profile.user
-# 		commentator = instance.author
-#
-# 		if profile.profilesettings.publication_comments_update_notifications and commentator != recipient:
-# 			email_task = CommentsEmailTask.objects.get_or_create(recipient=recipient)[0]
-# 			email_task.comments.add(instance)
-# 			email_task.save()
-#
-#
-# @receiver(m2m_changed, sender=ArtistProfile.subscribers.through)
-# def notify_subscriber(sender, instance, action, pk_set, **kwargs):
-# 	if action == "post_add" and instance.profilesettings.subscribers_update_notifications:
-# 		recipient = instance.user
-# 		subscriber = User.objects.filter(pk__in=pk_set)[0]
-#
-# 		email_task = SubscribersEmailTask.objects.get_or_create(recipient=recipient)[0]
-# 		email_task.subscribers.add(subscriber)
-# 		email_task.save()

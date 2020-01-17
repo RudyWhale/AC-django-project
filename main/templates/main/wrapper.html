@@ -44,7 +44,8 @@
 	{% block scripts %}
 	{% endblock %}
 
-	<!-- preload navbar icons before user hovers it -->
+	<!-- preload navbar icons before user hovers them -->
+	<link rel="preload" href="{% static 'icons/notifications.png' %}" as="image" />
 	<link rel="preload" href="{% static 'icons/home.png' %}" as="image" />
 	<link rel="preload" href="{% static 'icons/settings.png' %}" as="image" />
 	<link rel="preload" href="{% static 'icons/logout.png' %}" as="image" />

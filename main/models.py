@@ -92,6 +92,15 @@ class Tag(models.Model):
 		return self.name
 
 
+# Web notifications for user
+class WebNotification(models.Model):
+	recipient = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+class CommentWebNotification(WebNotification):
+	comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+
+
 # Task for sending email notification asynchronously
 class BaseEmailTask(models.Model):
 	recipient = models.ForeignKey(User, on_delete=models.CASCADE)

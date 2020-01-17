@@ -29,12 +29,51 @@
 				{% if request.user.is_authenticated %}
 
 					<p class="user_menu_username">{{request.user.username}}</p>
+
+					<div class="notifications_container">
+						{% if request.user.webnotification_set.count %}
+							<button
+								class="user_menu_item user_menu_notifications"
+								onclick="notifications(this);" data-url="{% url 'clear notifications' %}" value=""/>
+							<p class="user_notifications_count">{{request.user.webnotification_set.count}}</p>
+							<div class="notifications_list">
+								{% for notification in request.user.webnotification_set.all %}
+									{% if notification.commentwebnotification %}
+
+										<div class="notification_item">
+											<p>
+												комментарий
+												<a href="{% url 'artist' pk=notification.commentwebnotification.comment.author.pk %}"
+													class="hover_accent_dark">
+													{{notification.commentwebnotification.comment.author.username}}</a>
+												к
+												<a href="{% url 'artwork' pk=notification.commentwebnotification.comment.publication.artwork.pk %}"
+													class="hover_accent_dark">
+													{{notification.commentwebnotification.comment.publication.name}}</a>:
+											</p>
+											<div class="comment_cite">
+												<div class="comment_cite_icon">
+													<img src="{% static 'icons/quotes.png' %}"/>
+												</div>
+												<cite>
+													{{notification.commentwebnotification.comment.text}}
+												</cite>
+											</div><!-- comment_cite -->
+										</div><!-- notification_item -->
+
+									{% endif %}
+								{% endfor %}
+							</div>
+						{% else %}
+							<button class="user_menu_item user_menu_notifications disabled" value=""/>
+						{% endif %}
+					</div>
+
 					<a href="{% url 'artist' pk=request.user.pk %}"
 						class="user_menu_item user_menu_home {% if page == 'artist' and user == request.user %}disabled{% endif %}"></a>
 					<a href="{% url 'settings' %}"
 						class="user_menu_item user_menu_settings hover_accent {% if page == 'settings' %}disabled{% endif %}"></a>
-					<a href=""
-						class="user_menu_item user_menu_logout logout_btn" data-url="{% url 'logout' %}"></a>
+					<a href="" class="user_menu_item user_menu_logout logout_btn" data-url="{% url 'logout' %}"></a>
 
 				{% else %}
 

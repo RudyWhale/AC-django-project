@@ -1,8 +1,3 @@
-function dropdown(btn) {
-  $(btn).toggleClass('disabled');
-  $('ul.navbar_ul').slideToggle(100);
-}
-
 function notifications(btn) {
   if ($('p.user_notifications_count').length){
     $('div.notifications_list').slideDown(100);
@@ -15,6 +10,18 @@ function notifications(btn) {
     $(btn).addClass('disabled');
     $(btn).attr('onclick', '');
   }
+}
+
+function logout(btn){
+  if (confirm('Вы действительно хотите выйти из своего аккаунта?')){
+    var url = $(btn).attr('data-url');
+    $.get(url, {}, function(){ location.reload(); });
+  }
+}
+
+function dropdown(btn) {
+  $(btn).toggleClass('disabled');
+  $('ul.navbar_ul').slideToggle(100);
 }
 
 $(function(){

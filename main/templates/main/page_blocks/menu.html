@@ -73,7 +73,7 @@
 						class="user_menu_item user_menu_home {% if page == 'artist' and user == request.user %}disabled{% endif %}"></a>
 					<a href="{% url 'settings' %}"
 						class="user_menu_item user_menu_settings hover_accent {% if page == 'settings' %}disabled{% endif %}"></a>
-					<a href="" class="user_menu_item user_menu_logout logout_btn" data-url="{% url 'logout' %}"></a>
+					<button class="user_menu_item user_menu_logout logout_btn" data-url="{% url 'logout' %}" onclick="logout(this);" value="" />
 
 				{% else %}
 

@@ -17,3 +17,7 @@ $(function() {
     $(this).val($(this).val().trim())
   })
 })
+
+$(function() {
+  $('textarea.limited_length').keyup();
+})

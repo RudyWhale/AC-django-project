@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.core.mail import send_mail
 from django.template.response import SimpleTemplateResponse
-from .models import Publication, Artwork, ArtistProfile, Tag, UserSettings, ArtworkCategory, FeedUpdateEmailTask
+from .models import *
 from .forms import *
 from ArtChart.settings import *
 
@@ -117,6 +117,10 @@ def feed(request):
 	user = request.user
 
 	if user.is_authenticated:
+		# Remove label notifying about new publications
+		if NewInFeed.objects.filter(user=request.user).exists():
+			user.newinfeed.publications.clear()
+
 		publications = Publication.objects.filter(author__in = user.subscriptions.all()).order_by('-datetime')[:CONTENT_ITEMS_LIMIT - 1]
 		infinite = publications.count() == (CONTENT_ITEMS_LIMIT - 1)
 		timestamp = timezone.now().timestamp()

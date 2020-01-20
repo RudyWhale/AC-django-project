@@ -3,7 +3,8 @@ from django.dispatch import receiver
 from django.core.mail import send_mail
 from django.core.signals import request_finished
 from django.contrib.auth.models import User
-from main.models import ArtistProfile, Artwork, Comment, FeedUpdateEmailTask, WebNotification, CommentWebNotification
+from main.models import ArtistProfile, Publication, Artwork, Comment, FeedUpdateEmailTask, WebNotification, \
+						CommentWebNotification, NewInFeed
 import os
 
 
@@ -33,14 +34,6 @@ def delete_avatar_when_changed(sender, instance, **kwargs):
             os.remove(old_file.path)
 
 
-# Deletes image file after instance deleting
-@receiver(post_delete, sender=Artwork)
-def on_artwork_delete(sender, instance, **kwargs):
-	if instance.image:
-		if os.path.isfile(instance.image.path):
-			os.remove(instance.image.path)
-
-
 # Notifies user about new comment in navbar
 @receiver(post_save, sender=Comment)
 def comment_notify(sender, instance, created, **kwargs):
@@ -51,9 +44,25 @@ def comment_notify(sender, instance, created, **kwargs):
 		)
 
 
-'''
-Email tasks for sending email notification asynchronously
-'''
+@receiver(post_save, sender=Artwork)
+def update_newinfeed_objects(sender, instance, created, **kwargs):
+	if created:
+		subs = instance.author.subscribers.all()
+
+		for user in subs:
+			new_in_feed = NewInFeed.objects.get_or_create(user=user)[0]
+			new_in_feed.publications.add(instance)
+			new_in_feed.save()
+
+
+# Deletes image file after instance deleting
+@receiver(post_delete, sender=Artwork)
+def on_artwork_delete(sender, instance, **kwargs):
+	if instance.image:
+		if os.path.isfile(instance.image.path):
+			os.remove(instance.image.path)
+
+
 # Creates email task for artist's subscribers or adds new publication to task
 @receiver(post_save, sender=Artwork)
 def notify_subs(sender, instance, created, **kwargs):

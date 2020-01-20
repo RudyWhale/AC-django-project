@@ -35,11 +35,22 @@ a.menu_item {
 	transition: all 0.3s;
 	margin: 0 30px 0 0;
 	border-bottom: 2px solid white;
+	position: relative;
 }
 
 a.menu_item:hover, a.menu_item.disabled {
  border-bottom: 2px solid black;
  color: black;
+}
+
+div.new_in_feed_label {
+	width: 10px;
+	height: 10px;
+	border-radius: 5px;
+	display: inline-block;
+	position: absolute;
+	top: 14px;
+	left: 54px;
 }
 
 button.dropdown {
@@ -127,7 +138,6 @@ div.notifications_container {
 }
 
 p.user_notifications_count {
-	display: inline-block;
 	position: absolute;
 	top: 12px;
 	left: 18px;
@@ -141,7 +151,6 @@ p.user_notifications_count {
 	font-size: 14px;
 	font-family: 'Oswald', sans-serif;
 	padding: 0 5px;
-	background-color: #006270;
 }
 
 div.notifications_list {

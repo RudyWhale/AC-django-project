@@ -92,6 +92,12 @@ class Tag(models.Model):
 		return self.name
 
 
+# This model keeps new publications in user's feed
+class NewInFeed(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
+	publications = models.ManyToManyField(Publication)
+
+
 # Web notifications for user
 class WebNotification(models.Model):
 	recipient = models.ForeignKey(User, on_delete=models.CASCADE)

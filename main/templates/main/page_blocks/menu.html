@@ -14,7 +14,12 @@
 					<a class="menu_item {% if page == 'artists' %}disabled{% endif %}" href="{% url 'artists' %}">художники</a>
 				</li>
 				<li class="navbar_li">
-					<a class="menu_item {% if page == 'feed' %}disabled{% endif %}" href="{% url 'feed' %}">лента</a>
+					<a class="menu_item {% if page == 'feed' %}disabled{% endif %}" href="{% url 'feed' %}">
+						лента
+						{% if request.user.newinfeed.publications.count %}
+							<div class="new_in_feed_label bg_accent"></div>
+						{% endif %}
+					</a>
 				</li>
 			</ul>
 
@@ -35,7 +40,7 @@
 							<button
 								class="user_menu_item user_menu_notifications"
 								onclick="notifications(this);" data-url="{% url 'clear notifications' %}" value=""/>
-							<p class="user_notifications_count">{{request.user.webnotification_set.count}}</p>
+							<p class="user_notifications_count bg_accent">{{request.user.webnotification_set.count}}</p>
 							<div class="notifications_list">
 								{% for notification in request.user.webnotification_set.all %}
 									{% if notification.commentwebnotification %}

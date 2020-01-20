@@ -69,6 +69,10 @@ h1.light_header {
 	color: #006270;
 }
 
+.bg_accent {
+	background-color: #2f9dad;
+}
+
 a.disabled {
 	pointer-events: none;
 }

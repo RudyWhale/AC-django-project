@@ -33,36 +33,6 @@ def delete_avatar_when_changed(sender, instance, **kwargs):
             os.remove(old_file.path)
 
 
-# Notifies user about new comment in navbar
-@receiver(post_save, sender=Comment)
-def comment_notify(sender, instance, created, **kwargs):
-	if created and instance.author != instance.publication.author.user:
-		CommentWebNotification.objects.create(
-			recipient=instance.publication.author.user,
-			comment=instance
-		)
-
-
-@receiver(m2m_changed, sender=ArtistProfile.subscribers.through)
-def subscriber_notify(sender, instance, action, **kwargs):
-	if action == "post_add" and len(kwargs['pk_set']) == 1:
-		SubscriberWebNotification.objects.create(
-			recipient=instance.user,
-			subscriber=User.objects.get(pk__in=kwargs['pk_set'])
-		)
-
-
-@receiver(post_save, sender=Artwork)
-def update_newinfeed_objects(sender, instance, created, **kwargs):
-	if created:
-		subs = instance.author.subscribers.all()
-
-		for user in subs:
-			new_in_feed = NewInFeed.objects.get_or_create(user=user)[0]
-			new_in_feed.publications.add(instance)
-			new_in_feed.save()
-
-
 # Deletes image file after instance deleting
 @receiver(post_delete, sender=Artwork)
 def on_artwork_delete(sender, instance, **kwargs):
@@ -81,3 +51,46 @@ def notify_subs(sender, instance, created, **kwargs):
 			email_task = FeedUpdateEmailTask.objects.get_or_create(recipient=user)[0]
 			email_task.publications.add(instance)
 			email_task.save()
+
+
+'''
+Web notifications handlers
+'''
+@receiver(m2m_changed, sender=ArtistProfile.subscribers.through)
+def subscriber_notify(sender, instance, action, **kwargs):
+	if action == 'post_add' and len(kwargs['pk_set']) == 1:
+		SubscriberWebNotification.objects.create(
+			recipient=instance.user,
+			subscriber=User.objects.get(pk__in=kwargs['pk_set'])
+		)
+
+
+# Notifies user about new comment in navbar
+@receiver(post_save, sender=Comment)
+def comment_notify(sender, instance, created, **kwargs):
+	if created and instance.author != instance.publication.author.user:
+		CommentWebNotification.objects.create(
+			recipient=instance.publication.author.user,
+			comment=instance
+		)
+
+
+@receiver(m2m_changed, sender=Publication.likes.through)
+def likes_notify(sender, instance, action, **kwargs):
+	if action=='post_add' and len(kwargs['pk_set'])==1 and instance.author.user.pk not in kwargs['pk_set']:
+		notification = LikesWebNotification.objects.get_or_create(
+			recipient=instance.author.user,
+			publication=instance
+		)[0]
+		notification.likes.add(*User.objects.filter(pk__in=kwargs['pk_set']))
+
+
+@receiver(post_save, sender=Artwork)
+def update_newinfeed_objects(sender, instance, created, **kwargs):
+	if created:
+		subs = instance.author.subscribers.all()
+
+		for user in subs:
+			new_in_feed = NewInFeed.objects.get_or_create(user=user)[0]
+			new_in_feed.publications.add(instance)
+			new_in_feed.save()

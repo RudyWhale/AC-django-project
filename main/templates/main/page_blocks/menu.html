@@ -77,6 +77,27 @@
 												подписался на ваши публикации
 										</div>
 
+									{% elif notification.likeswebnotification %}
+
+										<div class="notification_item">
+											<p>
+												{% for user in notification.likeswebnotification.likes.all|slice:":3" %}
+													<a href="{% url 'artist' pk=user.pk %}"
+														class="hover_accent_dark">
+														{{user.username}}{% if not forloop.last %},{% endif %}
+													</a>
+												{% endfor %}
+												{% if notification.likeswebnotification.likes.count > 3 %}
+													и еще {{notification.likeswebnotification.likes.count|add:'-3'}}
+												{% endif %}
+												нравится публикация
+												<a href="{% url 'artwork' pk=notification.likeswebnotification.publication.pk %}"
+													class="hover_accent_dark">
+													{{notification.likeswebnotification.publication.name}}
+												</a>
+											</p>
+										</div>
+
 									{% endif %}
 								{% endfor %}
 							</div>

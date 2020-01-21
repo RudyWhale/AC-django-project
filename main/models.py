@@ -29,13 +29,6 @@ class ArtistProfile(models.Model):
 		return render_to_string('main/page_blocks/artist overview.html', {'profile': self, 'user': user})
 
 
-# Settings related to artist profile
-# class ProfileSettings(models.Model):
-# 	profile = models.OneToOneField(ArtistProfile, on_delete=models.CASCADE)
-# 	subscribers_update_notifications = models.BooleanField(default=False)
-# 	publication_comments_update_notifications = models.BooleanField(default=True)
-
-
 # Abstract class for any publication
 class Publication(models.Model):
 	author = models.ForeignKey(ArtistProfile, on_delete=models.CASCADE)
@@ -109,6 +102,11 @@ class CommentWebNotification(WebNotification):
 
 class SubscriberWebNotification(WebNotification):
 	subscriber = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+class LikesWebNotification(WebNotification):
+	publication = models.ForeignKey(Publication, on_delete=models.CASCADE)
+	likes = models.ManyToManyField(User)
 
 
 # Task for sending email notification asynchronously

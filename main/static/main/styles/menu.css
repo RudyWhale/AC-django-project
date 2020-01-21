@@ -222,6 +222,14 @@ a.user_menu_link:hover {
 /* MEDIA ----------------------------------------*/
 /*===============================================*/
 
+@media screen and (max-width: 1000px) {
+
+	p.user_menu_username {
+		display: none;
+	}
+
+}
+
 @media screen and (max-width: 800px){
 
 	button.dropdown {
@@ -245,10 +253,6 @@ a.user_menu_link:hover {
 
 	ul.navbar_ul {
 		top: 160px;
-	}
-
-	p.user_menu_username {
-		display: none;
 	}
 
 	div.notifications_list {

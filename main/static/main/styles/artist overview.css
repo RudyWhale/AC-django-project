@@ -19,11 +19,14 @@ div.artist_avatar {
 	border: 1px rgb(40,40,40) solid;
 	margin-right: 20px;
 	box-sizing: border-box;
+	position: relative;
 }
 
 div.artist_avatar>a>img {
   height: 230px;
   position: relative;
+	opacity: 0;
+	transition: opacity 0.5s;
 }
 
 div.artist_desc {

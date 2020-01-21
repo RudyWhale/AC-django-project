@@ -1,10 +1,9 @@
-from django.db.models.signals import post_delete, pre_save, post_save, post_init
+from django.db.models.signals import post_delete, pre_save, post_save, post_init, m2m_changed
 from django.dispatch import receiver
 from django.core.mail import send_mail
 from django.core.signals import request_finished
 from django.contrib.auth.models import User
-from main.models import ArtistProfile, Publication, Artwork, Comment, FeedUpdateEmailTask, WebNotification, \
-						CommentWebNotification, NewInFeed
+from main.models import *
 import os
 
 
@@ -41,6 +40,15 @@ def comment_notify(sender, instance, created, **kwargs):
 		CommentWebNotification.objects.create(
 			recipient=instance.publication.author.user,
 			comment=instance
+		)
+
+
+@receiver(m2m_changed, sender=ArtistProfile.subscribers.through)
+def subscriber_notify(sender, instance, action, **kwargs):
+	if action == "post_add" and len(kwargs['pk_set']) == 1:
+		SubscriberWebNotification.objects.create(
+			recipient=instance.user,
+			subscriber=User.objects.get(pk__in=kwargs['pk_set'])
 		)
 
 

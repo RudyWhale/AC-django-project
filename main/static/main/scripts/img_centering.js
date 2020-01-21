@@ -41,6 +41,9 @@ function on_avatar_load(img){
       'top': function(){ return (container.height() - $(this).height()) / 2; }
     });
   }
+
+  $(img).siblings('p.image_loading_label').css('opacity', '0');
+  $(img).css('opacity', '1');
 }
 
 $(function(){

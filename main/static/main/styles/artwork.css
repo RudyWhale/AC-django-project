@@ -203,8 +203,8 @@ h6.comment_author {
 	font-weight: 600;
 	font-family: 'Roboto', sans-serif;
 	display: inline;
-	line-height: 20px;
 	float: left;
+	line-height: 22px;
 }
 
 div.comment_text>p {

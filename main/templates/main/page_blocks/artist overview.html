@@ -4,6 +4,7 @@
 		<div class="artist_wrapper">
 			<div class="artist_avatar">
 				<a href="{% url 'artist' pk=profile.user.pk %}" {% if page == 'artist' %}class="disabled"{% endif %}>
+					<p class="image_loading_label">Загружаю картинку, подождите...</p>
 					<img src="{{profile.avatar.url}}" alt="{{profile.user.username}}" onload="on_avatar_load(this);" />
 				</a>
 			</div><!-- artist_avatar -->

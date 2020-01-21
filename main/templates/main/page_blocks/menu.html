@@ -66,6 +66,17 @@
 											</div><!-- comment_cite -->
 										</div><!-- notification_item -->
 
+									{% elif notification.subscriberwebnotification %}
+
+										<div class="notification_item">
+											<p>
+												<a href="{% url 'artist' pk=notification.subscriberwebnotification.subscriber.pk %}"
+													class="hover_accent_dark">
+													{{notification.subscriberwebnotification.subscriber.username}}
+												</a>
+												подписался на ваши публикации
+										</div>
+
 									{% endif %}
 								{% endfor %}
 							</div>

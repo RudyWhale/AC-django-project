@@ -40,7 +40,7 @@ class Publication(models.Model):
 		return self.name
 
 
-# Is this picture artwork, photo or digital art?
+# Is this publication traditional artwork, photo or digital art?
 class ArtworkCategory(models.Model):
 	name = models.CharField(max_length=250)
 
@@ -48,11 +48,10 @@ class ArtworkCategory(models.Model):
 		return self.name
 
 
-# Publication representing an artwork
 class Artwork(Publication):
 	def upload_path(self, filename):
 		date = timezone.now()
-		return 'artworks/{}/{}/{}.{}'.format(date.year, date.month, str(self.pk), filename.split('.')[-1])
+		return 'artworks/{}/{}/{}.{}'.format(date.year, date.month, str(self.pk), filename.split('.')[-1].lower())
 
 	desc = models.TextField(default='no desc')
 	image = models.ImageField(upload_to=upload_path)

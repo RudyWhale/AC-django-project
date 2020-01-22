@@ -182,7 +182,7 @@ div.notifications_list a {
 	text-decoration: none;
 }
 
-div.notification_item {
+div.notification_item, div.notification_empty_label {
 	margin-top: 10px;
 }
 

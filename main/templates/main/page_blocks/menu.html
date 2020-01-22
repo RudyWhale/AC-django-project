@@ -11,7 +11,7 @@
 					<a class="menu_item {% if page == 'category 3' %}disabled{% endif %}" href="{% url 'category' pk=3 %}">цифровое</a>
 				</li>
 				<li class="navbar_li">
-					<a class="menu_item {% if page == 'artists' %}disabled{% endif %}" href="{% url 'artists' %}">художники</a>
+					<a class="menu_item {% if page == 'artists' %}disabled{% endif %}" href="{% url 'artists' %}">сообщество</a>
 				</li>
 				<li class="navbar_li">
 					<a class="menu_item {% if page == 'feed' %}disabled{% endif %}" href="{% url 'feed' %}">
@@ -36,74 +36,79 @@
 					<p class="user_menu_username">{{request.user.username}}</p>
 
 					<div class="notifications_container">
+						<button
+							class="user_menu_item user_menu_notifications"
+							onclick="notifications(this);" data-url="{% url 'clear notifications' %}" value=""/>
 						{% if request.user.webnotification_set.count %}
-							<button
-								class="user_menu_item user_menu_notifications"
-								onclick="notifications(this);" data-url="{% url 'clear notifications' %}" value=""/>
 							<p class="user_notifications_count bg_accent">{{request.user.webnotification_set.count}}</p>
-							<div class="notifications_list">
-								{% for notification in request.user.webnotification_set.all %}
-									{% if notification.commentwebnotification %}
-
-										<div class="notification_item">
-											<p>
-												комментарий
-												<a href="{% url 'artist' pk=notification.commentwebnotification.comment.author.pk %}"
-													class="hover_accent_dark">
-													{{notification.commentwebnotification.comment.author.username}}</a>
-												к
-												<a href="{% url 'artwork' pk=notification.commentwebnotification.comment.publication.artwork.pk %}"
-													class="hover_accent_dark">
-													{{notification.commentwebnotification.comment.publication.name}}</a>:
-											</p>
-											<div class="comment_cite">
-												<div class="comment_cite_icon">
-													<img src="{% static 'icons/quotes.png' %}"/>
-												</div>
-												<cite>
-													{{notification.commentwebnotification.comment.text}}
-												</cite>
-											</div><!-- comment_cite -->
-										</div><!-- notification_item -->
-
-									{% elif notification.subscriberwebnotification %}
-
-										<div class="notification_item">
-											<p>
-												<a href="{% url 'artist' pk=notification.subscriberwebnotification.subscriber.pk %}"
-													class="hover_accent_dark">
-													{{notification.subscriberwebnotification.subscriber.username}}
-												</a>
-												подписался на ваши публикации
-										</div>
-
-									{% elif notification.likeswebnotification %}
-
-										<div class="notification_item">
-											<p>
-												{% for user in notification.likeswebnotification.likes.all|slice:":3" %}
-													<a href="{% url 'artist' pk=user.pk %}"
-														class="hover_accent_dark">
-														{{user.username}}{% if not forloop.last %},{% endif %}
-													</a>
-												{% endfor %}
-												{% if notification.likeswebnotification.likes.count > 3 %}
-													и еще {{notification.likeswebnotification.likes.count|add:'-3'}}
-												{% endif %}
-												нравится публикация
-												<a href="{% url 'artwork' pk=notification.likeswebnotification.publication.pk %}"
-													class="hover_accent_dark">
-													{{notification.likeswebnotification.publication.name}}
-												</a>
-											</p>
-										</div>
-
-									{% endif %}
-								{% endfor %}
-							</div>
-						{% else %}
-							<button class="user_menu_item user_menu_notifications disabled" value=""/>
 						{% endif %}
+						<div class="notifications_list">
+							{% for notification in request.user.webnotification_set.all %}
+								{% if notification.commentwebnotification %}
+
+									<div class="notification_item">
+										<p>
+											комментарий
+											<a href="{% url 'artist' pk=notification.commentwebnotification.comment.author.pk %}"
+												class="hover_accent_dark">
+												{{notification.commentwebnotification.comment.author.username}}</a>
+											к
+											<a href="{% url 'artwork' pk=notification.commentwebnotification.comment.publication.artwork.pk %}"
+												class="hover_accent_dark">
+												{{notification.commentwebnotification.comment.publication.name}}</a>:
+										</p>
+										<div class="comment_cite">
+											<div class="comment_cite_icon">
+												<img src="{% static 'icons/quotes.png' %}"/>
+											</div>
+											<cite>
+												{{notification.commentwebnotification.comment.text}}
+											</cite>
+										</div><!-- comment_cite -->
+									</div><!-- notification_item -->
+
+								{% elif notification.subscriberwebnotification %}
+
+									<div class="notification_item">
+										<p>
+											<a href="{% url 'artist' pk=notification.subscriberwebnotification.subscriber.pk %}"
+												class="hover_accent_dark">
+												{{notification.subscriberwebnotification.subscriber.username}}
+											</a>
+											подписался на ваши публикации
+									</div>
+
+								{% elif notification.likeswebnotification %}
+
+									<div class="notification_item">
+										<p>
+											{% for user in notification.likeswebnotification.likes.all|slice:":3" %}
+												<a href="{% url 'artist' pk=user.pk %}"
+													class="hover_accent_dark">
+													{{user.username}}{% if not forloop.last %},{% endif %}
+												</a>
+											{% endfor %}
+											{% if notification.likeswebnotification.likes.count > 3 %}
+												и еще {{notification.likeswebnotification.likes.count|add:'-3'}}
+											{% endif %}
+											нравится публикация
+											<a href="{% url 'artwork' pk=notification.likeswebnotification.publication.pk %}"
+												class="hover_accent_dark">
+												{{notification.likeswebnotification.publication.name}}
+											</a>
+										</p>
+									</div>
+
+								{% endif %}
+
+							{% empty %}
+
+								<div class="notification_empty_label">
+									<p>Нет новых уведомлений</p>
+								</div>
+
+							{% endfor %}
+						</div>
 					</div>
 
 					<a href="{% url 'artist' pk=request.user.pk %}"

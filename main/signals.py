@@ -7,6 +7,26 @@ from main.models import *
 import os
 
 
+# Resize artwork or avatar image
+from PIL import Image
+def resize_image(path, size, crop=False):
+	image = Image.open(path)
+	width, height = image.size
+
+	if crop:
+		padding = abs(width - height) / 2
+
+		if width >= height:
+			box = (padding, 0, width-padding, height)
+		else:
+			box = (0, padding, width, height-padding)
+
+		image = image.crop(box)
+
+	image.thumbnail(size)
+	image.save(path)
+
+
 # Deletes avatar file after profile deleting
 @receiver(post_delete, sender=ArtistProfile)
 def on_profile_delete(sender, instance, **kwargs):
@@ -33,6 +53,13 @@ def delete_avatar_when_changed(sender, instance, **kwargs):
             os.remove(old_file.path)
 
 
+from ArtChart.settings import AVATAR_SIZE
+
+@receiver(post_save, sender=ArtistProfile)
+def resize_avatar(sender, instance, **kwargs):
+	resize_image(instance.avatar.path, AVATAR_SIZE, crop=True)
+
+
 # Deletes image file after instance deleting
 @receiver(post_delete, sender=Artwork)
 def on_artwork_delete(sender, instance, **kwargs):
@@ -51,6 +78,13 @@ def notify_subs(sender, instance, created, **kwargs):
 			email_task = FeedUpdateEmailTask.objects.get_or_create(recipient=user)[0]
 			email_task.publications.add(instance)
 			email_task.save()
+
+
+from ArtChart.settings import ARTWORK_SIZE
+
+@receiver(post_save, sender=Artwork)
+def resize_artwork(sender, instance, **kwargs):
+	resize_image(instance.image.path, ARTWORK_SIZE)
 
 
 '''

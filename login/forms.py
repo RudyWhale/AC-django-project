@@ -2,19 +2,13 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordResetForm, SetPasswordForm
 from django.contrib.auth.models import User
 from django.core.validators import validate_email
-from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.urls import reverse
-
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Checkbox
-from PIL import Image
-from io import BytesIO
-from datetime import datetime
-
 from main.models import ArtistProfile
 from main.widgets import LimitedLengthTextarea
 from .snippets import get_hash
-from ArtChart.settings import EMAIL_HOST_USER, PROFILE_AVATAR_MAX_SIZE as MAX_AVATAR_SIZE, PROFILE_DESC_MAX_LENGTH, USE_RECAPTCHA
+from ArtChart.settings import USE_RECAPTCHA
 
 
 '''

@@ -265,6 +265,8 @@ def new_artwork(request):
 		return render(request, 'main/form.html', args)
 
 
+from django.db.models.signals import post_save
+
 def settings(request):
 	user = request.user
 

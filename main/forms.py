@@ -4,7 +4,8 @@ from PIL import Image
 from datetime import datetime
 from .models import Artwork, Tag, UserSettings, ArtistProfile, ArtworkCategory
 from .widgets import LimitedLengthTextarea, ACCheckBox
-from ArtChart.settings import ARTWORK_DESC_MAX_LENGTH, ARTWORK_IMAGE_MAX_SIZE, PROFILE_AVATAR_MAX_SIZE, PROFILE_DESC_MAX_LENGTH
+from ArtChart.settings import ARTWORK_DESC_MAX_LENGTH, PROFILE_DESC_MAX_LENGTH
+import os
 
 
 class AbstractPostCreationForm(ModelForm):
@@ -58,7 +59,6 @@ class ArtworkCreationForm(AbstractPostCreationForm):
         widget = forms.widgets.FileInput(
             attrs={
                 'class': 'image_inp',
-                'data-max_size': ARTWORK_IMAGE_MAX_SIZE,
                 'autocomplete': 'off'
             }),
         label = 'Загрузите фотографию')
@@ -79,14 +79,6 @@ class ArtworkCreationForm(AbstractPostCreationForm):
     class Meta:
         model = Artwork
         fields = ['name', 'desc', 'image', 'category']
-
-    def clean_image(self):
-        file = self.cleaned_data['image']
-
-        if file.size > ARTWORK_IMAGE_MAX_SIZE:
-            raise forms.ValidationError('Artwork image is too big')
-
-        return file
 
 
 class FeedbackForm(forms.Form):
@@ -120,43 +112,34 @@ class UserSettingsForm(forms.ModelForm):
 Form for artist profile
 '''
 class ArtistProfileForm(forms.ModelForm):
-	avatar = forms.ImageField(
-		required=False,
-		widget=forms.widgets.FileInput(attrs={'class': 'avatar_inp image_inp', 'data-max_size': PROFILE_AVATAR_MAX_SIZE}),
-		label='Фото',
-	)
-	desc_attrs = {
-		'cols': '38',
-		'rows': '7',
-		'placeholder': 'Напишите о себе. Эта информация будет отображаться в вашем профиле',
-		'maxlength': PROFILE_DESC_MAX_LENGTH,
-		'class': 'limited_length'
-	}
-	desc = forms.CharField(
-		required=False,
-		widget=LimitedLengthTextarea(attrs=desc_attrs),
-		label='Описание',
-	)
+    avatar = forms.ImageField(
+    	required=False,
+    	widget=forms.widgets.FileInput(attrs={'class': 'avatar_inp image_inp'}),
+    	label='Фото',
+    )
+    desc_attrs = {
+    	'cols': '38',
+    	'rows': '7',
+    	'placeholder': 'Напишите о себе. Эта информация будет отображаться в вашем профиле',
+    	'maxlength': PROFILE_DESC_MAX_LENGTH,
+    	'class': 'limited_length'
+    }
+    desc = forms.CharField(
+    	required=False,
+    	widget=LimitedLengthTextarea(attrs=desc_attrs),
+    	label='Описание',
+    )
 
 
-	class Meta:
-		model = ArtistProfile
-		fields = ['avatar', 'desc']
+    class Meta:
+    	model = ArtistProfile
+    	fields = ['avatar', 'desc']
 
 
-	def clean_avatar(self):
-		file = self.cleaned_data['avatar']
+    def clean_desc(self):
+        text = self.cleaned_data['desc']
 
-		if file and file.size > PROFILE_AVATAR_MAX_SIZE:
-			raise forms.ValidationError('Avatar is too big')
+        if len(text) > PROFILE_DESC_MAX_LENGTH:
+        	raise forms.ValidationError('Desc text is too long')
 
-		return file
-
-
-	def clean_desc(self):
-		text = self.cleaned_data['desc']
-
-		if len(text) > PROFILE_DESC_MAX_LENGTH:
-			raise forms.ValidationError('Desc text is too long')
-
-		return text
+        return text

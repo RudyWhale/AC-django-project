@@ -11,12 +11,14 @@ class UserSettings(models.Model):
 	feed_update_notifications = models.BooleanField(default=True)
 
 
+def image_upload_path(obj, filename, dir):
+	date = timezone.now()
+	return f"{dir}/{date.year}/{date.month}/{str(obj.pk)}.{filename.split('.')[-1].lower()}"
+
+
 # Additional data of user, who can add publications
 class ArtistProfile(models.Model):
-	def avatar_upload_path(self, filename):
-		date = timezone.now()
-		return 'avatars/{}/{}/{}'.format(date.year, date.month, filename)
-
+	avatar_upload_path = lambda self, filename : image_upload_path(self, filename, dir='avatars')
 	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
 	desc = models.TextField(default ='')
 	avatar = models.ImageField(upload_to=avatar_upload_path, default='avatars/default.png')
@@ -49,12 +51,9 @@ class ArtworkCategory(models.Model):
 
 
 class Artwork(Publication):
-	def upload_path(self, filename):
-		date = timezone.now()
-		return 'artworks/{}/{}/{}.{}'.format(date.year, date.month, str(self.pk), filename.split('.')[-1].lower())
-
+	artwork_upload_path = lambda self, filename : image_upload_path(self, filename, dir='artworks')
 	desc = models.TextField(default='no desc')
-	image = models.ImageField(upload_to=upload_path)
+	image = models.ImageField(upload_to=artwork_upload_path)
 	category = models.ForeignKey(ArtworkCategory, on_delete=models.SET_NULL, null=True)
 
 	def as_html(self):

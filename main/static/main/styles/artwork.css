@@ -65,13 +65,12 @@ p.artwork_date {
 
 button.publication_delete {
 	color: rgb(120,120,120);
-	margin: 0px;
+	margin: 0 0 0 5px;
 	padding: 0px;
 	border: none;
 	background: inherit;
 	font-family: 'Roboto', sans-serif;
 	font-size: 16px;
-	text-decoration: underline;
 	cursor: pointer;
 }
 

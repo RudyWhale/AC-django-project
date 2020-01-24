@@ -14,6 +14,7 @@ div.min_height {
 
 button, input, select {
 	outline: none;
+	cursor: pointer;
 }
 
 a, button, input, textarea, body {
@@ -49,7 +50,6 @@ h1.light_header {
 .transparent_btn {
 	background-color: inherit;
 	border: 1px solid black;
-	cursor: pointer;
 	text-align: center;
 	font-family: 'Oswald', sans-serif;
 	box-sizing: border-box;
@@ -71,6 +71,11 @@ h1.light_header {
 
 .bg_accent {
 	background-color: #2f9dad;
+}
+
+.no_decor {
+	border: none;
+	background: inherit;
 }
 
 a.disabled {

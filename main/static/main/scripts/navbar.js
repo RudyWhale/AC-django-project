@@ -1,11 +1,15 @@
 function notifications(btn) {
   $('div.notifications_list').slideToggle(100);
+}
 
-  if ($('div.notification_item').length) {
+function clear_notifications(btn) {
+  var url = $(btn).attr('data-url');
+  $.get(url, {}, function() {
+    $('div.notifications_list').slideUp(100, function(){
+      $('div.notifications_list').html('<div class="notification_empty_label"><p>Нет новых уведомлений</p></div>');
+    })
     $('p.user_notifications_count').remove();
-    var url = $(btn).attr('data-url');
-    $.get(url);
-  }
+  });
 }
 
 function logout(btn){

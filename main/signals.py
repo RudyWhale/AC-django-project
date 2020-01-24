@@ -93,7 +93,7 @@ Web notifications handlers
 @receiver(m2m_changed, sender=ArtistProfile.subscribers.through)
 def subscriber_notify(sender, instance, action, **kwargs):
 	if action == 'post_add' and len(kwargs['pk_set']) == 1:
-		SubscriberWebNotification.objects.create(
+		SubscriberWebNotification.objects.get_or_create(
 			recipient=instance.user,
 			subscriber=User.objects.get(pk__in=kwargs['pk_set'])
 		)

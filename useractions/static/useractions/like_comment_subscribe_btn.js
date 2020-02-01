@@ -1,7 +1,7 @@
-var comment_delete = function(btn){
+function comment_delete(btn){
   if (confirm('Вы действительно хотите удалить комментарий? Это действие нельзя оменить')){
     var url = btn.attr('data-url');
-    var comment = btn.parent();
+    var comment = btn.parent().parent();
     $.get(
       url, {},
       function(response){
@@ -11,14 +11,16 @@ var comment_delete = function(btn){
   }
 };
 
-var comment_send = function(btn){
+
+function comment_send(btn){
   var publpk = btn.attr('data-pk');
+  var url = btn.attr('data-url');
   var text = $('.comment_form>textarea').val();
-  var username = btn.attr('data-username');
+
   if (text.trim()){
-    $.get('../action/comment', {publication_pk: publpk, text: text},
+    $.get(url, {publication_pk: publpk, text: text},
       function(response){
-        $('.comment_form').after(response);
+        $('#comment_form').after(response);
         $('div.comment_container').hover(
           function() { on_comment_hover_in($(this)); },
           function() { on_comment_hover_out($(this)); }
@@ -27,11 +29,36 @@ var comment_send = function(btn){
         $('.comment_form>textarea').keyup();
         $('.no_comments_label').remove();
       }
-    ).fail(function(){alert("Произошла ошибка");});}
+    ).fail(function(){ alert("Произошла ошибка"); });
+  }
 };
 
 
-var like_send = function(btn){
+function reply_send(btn) {
+  var comment_pk = btn.attr('data-pk');
+  var url = btn.attr('data-url');
+  var txtarea = btn.siblings('textarea');
+  var text = txtarea.val();
+  var form = btn.parent();
+  var replies_container = btn.parent().siblings('div.comment_replies');
+
+  if (text.trim()){
+    $.get(url, {comment_pk: comment_pk, text: text},
+      function(response){
+        replies_container.append(response);
+        $('div.comment_container').hover(
+          function() { on_comment_hover_in($(this)); },
+          function() { on_comment_hover_out($(this)); }
+        );
+        txtarea.val("").keyup();
+        form.slideUp(300);
+      }
+    ).fail(function(){ alert("Произошла ошибка"); });
+  }
+}
+
+
+function like_send(btn){
   var publpk = btn.attr('data-pk');
   $.get('../action/like', {publication_pk: publpk},
     function(response){
@@ -42,7 +69,8 @@ var like_send = function(btn){
   ).fail(function(){ alert("Произошла ошибка"); });
 };
 
-var submit_send = function(btn){
+
+function submit_send(btn){
   var profilepk = btn.attr('data-pk');
   $.get('../action/subscribe', {profile_pk: profilepk},
     function(response){
@@ -53,8 +81,10 @@ var submit_send = function(btn){
   ).fail(function(){ alert('Произошла ошибка'); });
 };
 
-var not_auth_alert = function(){
+
+function not_auth_alert(){
   alert('Войдите на сайт для того, чтобы иметь возможность отмечать понравившиеся работы, оставлять комментарии и подписываться на любимых художников');
 };
 
-var self_sub_alert = function(){ alert('Вы не можете подписаться на собственный аккаунт'); }
+
+function self_sub_alert(){ alert('Вы не можете подписаться на собственный аккаунт'); }

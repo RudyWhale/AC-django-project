@@ -48,6 +48,9 @@
 	<link rel="preload" href="{% static 'icons/home.png' %}" as="image" />
 	<link rel="preload" href="{% static 'icons/settings.png' %}" as="image" />
 	<link rel="preload" href="{% static 'icons/logout.png' %}" as="image" />
+
+	{% block preload %}
+	{% endblock %}
 </head>
 
 <body>

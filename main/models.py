@@ -74,6 +74,20 @@ class Comment(models.Model):
 		ordering = ['-datetime']
 
 
+# Replies to comments
+class Reply(models.Model):
+	author = models.ForeignKey(User, on_delete=models.CASCADE)
+	datetime = models.DateTimeField()
+	text = models.TextField()
+	comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+
+	def __str__(self):
+		return self.author.username + ' on comment ' + str(self.comment.pk) + ': ' + self.text
+
+	class Meta:
+		ordering = ['datetime']
+
+
 # Publication tags. Names are unique, lowercased and contain no spaces
 class Tag(models.Model):
 	name = models.CharField(max_length=30)

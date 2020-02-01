@@ -27,7 +27,7 @@ div.artwork_desc {
 	float: left;
 	width: 33%;
 	height: 100%;
-	padding-left: 10px;
+	padding: 0 0 0 10px;
 	box-sizing: border-box;
 	overflow-wrap: break-word;
 	word-wrap: break-word;
@@ -36,11 +36,11 @@ div.artwork_desc {
 div.artwork_desc_text {
 	width: 100%;
 	height: 430px;
-	padding: 0 10px 0 0;
 	box-sizing: border-box;
 	line-height: 25px;
 	font-family: 'Roboto', sans-serif;
 	overflow-y: auto;
+	padding-right: 10px;
 }
 
 div.artwork_desc_text>* {
@@ -80,29 +80,11 @@ p.artwork_desc_text {
 }
 
 /*===============================================*/
-/* TAGS -----------------------------------------*/
-/*===============================================*/
-
-div.artwork_desc_tags {
-	margin-top: 8px;
-}
-
-a.tag {
-	display: block;
-	float: left;
-	margin: 2px 6px 0 0;
-	font-family: 'Roboto', sans-serif;
-	font-size: 18px;
-	font-weight: bold;
-	text-decoration: none;
-}
-
-/*===============================================*/
 /* AUTHOR ---------------------------------------*/
 /*===============================================*/
 
 div.artwork_desc_author {
-	margin-top: 10px;
+	margin-top: 18px;
 }
 
 div.artwork_desc_author>* {
@@ -139,46 +121,53 @@ p.artwork_author_count {
 }
 
 /*===============================================*/
+/* TAGS -----------------------------------------*/
+/*===============================================*/
+
+div.artwork_desc_tags {
+	margin-top: 16px;
+}
+
+a.tag {
+	display: block;
+	float: left;
+	margin: 2px 6px 0 0;
+	font-family: 'Roboto', sans-serif;
+	font-size: 18px;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+/*===============================================*/
 /* COMMENTS -------------------------------------*/
 /*===============================================*/
 
 div#comments {
-	margin-top: 10px;
-	float: left;
-	width: 100%;
-}
-
-h5.comments_header {
-	display: block;
-	font-size: 20px;
-	margin: 0px;
 	float: left;
 	width: 100%;
 }
 
 div.comment_form {
-	margin: 4px 0 10px 0;
+	margin-top: 20px;
 	width: 100%;
 	float: left;
-	height: 50px;
 }
 
 div.comment_form>textarea {
 	width: calc(100% - 56px);
-	height: 100%;
+	height: 50px;
 	box-sizing: border-box;
 	border: 1px solid black;
-	outline: none;
 	font-family: 'Roboto', sans-serif;
 	font-size: 16px;
 	resize: none;
 	float: left;
+	padding: 4px 6px;
 }
 
 div.comment_form>button {
 	width: 50px;
-	height: 100%;
-	line-height: 0px;
+	height: 50px;
 	float: left;
 	margin-left: 6px;
 }
@@ -192,25 +181,21 @@ div.comment_container {
 	width: 100%;
 	float: left;
 	padding: 0;
-	margin: 10px 0 0 0;
+	margin: 8px 0;
 	box-sizing: border-box;
+	line-height: 22px;
+	font-size: 18px;
+	font-family: 'Roboto', sans-serif;
 }
 
-h6.comment_author {
+a.comment_author {
 	margin: 0 4px 0 0;
-	font-size: 18px;
-	font-weight: 600;
-	font-family: 'Roboto', sans-serif;
-	display: inline;
+	font-weight: bold;
 	float: left;
-	line-height: 22px;
 }
 
 div.comment_text>p {
 	margin: 0px;
-	font-size: 18px;
-	line-height: 22px;
-	font-family: 'Roboto', sans-serif;
 }
 
 p.comment_datetime {
@@ -220,24 +205,51 @@ p.comment_datetime {
 	color: rgb(120,120,120);
 }
 
-button.comment_delete {
+button.comment_btn {
 	margin: 0 0 0 4px;
 	padding: 0px;
-	float: left;
-	border: none;
-	background-color: inherit;
-	line-height: 26px;
-	color: rgb(80,80,80);
+	line-height: inherit;
+	color: rgb(120,120,120);
 	cursor: pointer;
 	opacity: 0;
 	transition: opacity 0.5s;
+}
+
+button.comment_delete {
+	width: 18px;
+	height: 18px;
+	display: inline-block;
+	vertical-align: middle;
+	background-image: url('../../icons/delete.png');
+	background-size: 100% 100%;
+}
+
+button.comment_delete:hover {
+	background-image: url('../../icons/green delete.png');
+}
+
+div.reply_form {
+	margin: 0;
+	display: none;
+}
+
+div.comment_replies {
+	float: left;
+	width: 100%;
+	padding-left: 10px;
+	border-left: 2px solid rgb(200,200,200);
+	box-sizing: border-box;
 }
 
 /*===============================================*/
 /* MEDIA ----------------------------------------*/
 /*===============================================*/
 
-@media screen and (max-width: 800px){
+@media screen and (max-width: 1000px){
+
+	div.artwork_desc_text>h3 {
+		margin-top: 6px;
+	}
 
 	div.artwork_repr {
 		height: auto;
@@ -246,6 +258,7 @@ button.comment_delete {
 	div.artwork_img {
 		padding: 0px;
 		width: 100%;
+		height: 400px;
 	}
 
 	div.artwork_desc {
@@ -253,15 +266,8 @@ button.comment_delete {
 		height: auto;
 	}
 
-	div.painting_name {
-		height: 60px;
-		line-height: 60px;
-	}
-
 	div.artwork_desc_text {
 		height: auto;
-		max-height: 400px;
-		overflow-y: auto;
 	}
 }
 

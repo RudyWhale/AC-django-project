@@ -1,0 +1,16 @@
+<div class="comment_container">
+  <a href="{% url 'artist' pk=reply.author.pk %}" class="comment_author hover_accent_dark">{{reply.author.username}}:</a>
+
+  <div class="comment_text">
+    <p>{{reply.text}}</p>
+  </div>
+
+  <p class="comment_datetime">
+    {{reply.datetime|date:"j E Y в G:i"}}
+    {% if user == reply.author %}
+      <button class="comment_btn hover_accent_dark no_decor comment_delete"
+              data-url="{% url 'delete reply' pk=reply.pk %}" onclick="comment_delete($(this))">
+      </button>
+    {% endif %}
+  </p>
+</div>

@@ -3,8 +3,9 @@ from django.http import JsonResponse, HttpResponse
 from django.db.models import Count
 from django.template.loader import render_to_string
 from django.contrib.auth import logout as user_logout
+from django.urls import reverse
 from datetime import datetime
-from main.models import Publication, Artwork, Tag, ArtistProfile, Comment, ArtworkCategory
+from main.models import Publication, Artwork, Tag, ArtistProfile, Comment, Reply, ArtworkCategory
 from ArtChart.settings import CONTENT_ITEMS_LIMIT, ARTIST_PROFILES_LIMIT, COMMENT_MAX_LENGTH
 import json
 
@@ -79,6 +80,32 @@ def comment(request):
 			text = text
 		)
 		result = render_to_string('main/includes/artwork comment.html', {'comment': comment, 'user': user})
+		return HttpResponse(result)
+
+	else:
+		return HttpResponse(status=401)
+
+
+def reply(request):
+	user = request.user;
+
+	if user.is_authenticated:
+		if not all(key in request.GET for key in ['comment_pk', 'text']):
+			return HttpResponse(status=400)
+
+		comment_pk = int(request.GET['comment_pk'])
+		text = request.GET['text'].strip().replace('  ', ' ')
+
+		if not text or len(text) > COMMENT_MAX_LENGTH: return HttpResponse(status=400)
+
+		comment = Comment.objects.get(pk = comment_pk)
+		reply = Reply.objects.create(
+			author = user,
+			datetime = datetime.now(),
+			text = text,
+			comment = comment
+		)
+		result = render_to_string('main/includes/artwork comment reply.html', {'reply': reply, 'user': user})
 		return HttpResponse(result)
 
 	else:
@@ -164,14 +191,18 @@ def load_artist_profiles(request):
 	return JsonResponse({'content': content, 'hide_btn': hide_btn})
 
 
-def delete_comment(request, pk):
+'''
+Deletes object from DB. User has to be authenticated and same with author
+'''
+def delete_object(request, object, author, redirect_to=''):
 	initiator = request.user
 
 	if request.user.is_authenticated:
-		comment = get_object_or_404(Comment, pk = pk)
 
-		if comment.author == initiator:
-			comment.delete()
+		if author == initiator:
+			object.delete()
+
+			if redirect_to: return redirect(redirect_to)
 			return HttpResponse('')
 
 		else: return HttpResponse(status=403)
@@ -179,20 +210,23 @@ def delete_comment(request, pk):
 	else: return HttpResponse(status=401)
 
 
+def delete_comment(request, pk):
+	comment = get_object_or_404(Comment, pk=pk)
+	author = comment.author
+	return delete_object(request, comment, author)
+
+
+def delete_reply(request, pk):
+	reply = get_object_or_404(Reply, pk=pk)
+	author = reply.author
+	return delete_object(request, reply, author)
+
+
 def delete_publication(request, pk):
-	initiator = request.user
-
-	if request.user.is_authenticated:
-		publication = get_object_or_404(Publication, pk = pk)
-		profile = publication.author
-
-		if profile.user == initiator:
-			publication.delete()
-			return redirect('artist', pk=profile.user.pk)
-
-		else: return HttpResponse(status=403)
-
-	else: return HttpResponse(status=401)
+	publication = get_object_or_404(Publication, pk=pk)
+	author = publication.author.user
+	redirect = reverse('artist', args=[author.pk,])
+	return delete_object(request, publication, author, redirect)
 
 
 def clear_notifications(request):

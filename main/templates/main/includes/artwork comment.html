@@ -1,11 +1,35 @@
 <div class="comment_container">
-  <a href="{% url 'artist' pk=comment.author.pk %}"><h6 class="comment_author hover_accent_dark">{{comment.author}}:</h6></a>
+
+  <a href="{% url 'artist' pk=comment.author.pk %}" class="comment_author hover_accent_dark">{{comment.author}}:</a>
+
   <div class="comment_text">
     <p>{{comment.text}}</p>
   </div>
-  <p class="comment_datetime">{{comment.datetime|date:"j E Y в G:i"}}</p>
 
-  {% if user == comment.author %}
-    <button class="comment_delete hover_accent_dark" data-url="{% url 'delete comment' pk=comment.pk %}" onclick="comment_delete($(this))">Удалить</button>
-  {% endif %}
-</div>
+  <p class="comment_datetime">
+    {{comment.datetime|date:"j E Y в G:i"}}
+    {% if user == comment.author %}
+      <button class="comment_btn hover_accent_dark no_decor comment_delete" data-url="{% url 'delete comment' pk=comment.pk %}" onclick="comment_delete($(this))">
+      </button>
+    {% endif %}
+    <button class="comment_btn hover_accent_dark no_decor" onclick="reply_form_toggle($(this));">
+      Ответить
+    </button>
+  </p>
+
+  <div class="comment_form reply_form">
+    <textarea rows="2" cols="20" class="limited_length" placeholder="Ответ {{comment.author.username}}" maxlength="{{max_comment_length}}"></textarea>
+    <button class="transparent_btn" data-pk="{{comment.pk}}" data-url="{% url 'reply' %}" onclick="reply_send($(this));" >
+      {% load static %}
+      <img src="{% static 'icons/send.png' %}">
+    </button>
+    <p class="symbols_left_label hide">осталось символов: {{max_comment_length}}</p>
+  </div><!-- reply_form -->
+
+  <div class="comment_replies">
+    {% for reply in comment.reply_set.all %}
+      {% include "main/includes/artwork comment reply.html" %}
+    {% endfor %}
+  </div><!-- comment_replies -->
+
+</div><!-- comment_container -->

@@ -12,9 +12,17 @@ div.min_height {
 	min-height: 350px;
 }
 
-button, input, select {
+.fl_left {
+	float: left;
+}
+
+button, input, select, textarea {
 	outline: none;
 	cursor: pointer;
+}
+
+a {
+	text-decoration: none;
 }
 
 a, button, input, textarea, body {
@@ -84,12 +92,14 @@ a.disabled {
 
 p.symbols_left_label {
 	margin: 0;
-	font-family: 'Roboto Slab', sans-serif;
+	display: block;
+	font-family: 'Roboto', sans-serif;
 	font-size: 14px;
 	color: rgb(120,120,120);
 	float: left;
 	width: 100%;
 	line-height: 16px;
+	height: 17px;
 	transition: opacity 0.5s;
 }
 
@@ -103,7 +113,7 @@ p.image_loading_label {
 	font-size: 12px;
 	top: 50%;
 	left: 50%;
-	transform:  translate(-50%, -50%);
+	transform: translate(-50%, -50%);
 }
 
 .hide {

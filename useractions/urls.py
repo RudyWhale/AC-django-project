@@ -20,6 +20,11 @@ urlpatterns = [
 		name='comment'
 	),
 	path(
+		'reply',
+		views.reply,
+		name='reply'
+	),
+	path(
 		'load_content_category/<int:pk>',
 		views.load_content_category,
 		name='load content category'
@@ -53,6 +58,11 @@ urlpatterns = [
 		'delete_comment/<int:pk>',
 		views.delete_comment,
 		name='delete comment'
+	),
+	path(
+		'delete_reply/<int:pk>',
+		views.delete_reply,
+		name='delete reply'
 	),
 	path(
 		'delete_publication/<int:pk>',

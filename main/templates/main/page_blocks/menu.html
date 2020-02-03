@@ -56,8 +56,7 @@
 												комментарий
 												<a href="{% url 'artist' pk=notification.commentwebnotification.comment.author.pk %}"
 													class="hover_accent_dark">
-													{{notification.commentwebnotification.comment.author.username}}</a>
-												к
+													{{notification.commentwebnotification.comment.author.username}}</a> к
 												<a href="{% url 'artwork' pk=notification.commentwebnotification.comment.publication.artwork.pk %}"
 													class="hover_accent_dark">
 													{{notification.commentwebnotification.comment.publication.name}}</a>:
@@ -71,6 +70,28 @@
 												</cite>
 											</div><!-- comment_cite -->
 										</div><!-- notification_item -->
+
+									{% elif notification.replywebnotification %}
+
+									<div class="notification_item">
+										<p>
+											ответ
+											<a href="{% url 'artist' pk=notification.replywebnotification.reply.author.pk %}"
+												class="hover_accent_dark">
+												{{notification.replywebnotification.reply.author.username}}</a> на ваш комментарий к
+											<a href="{% url 'artwork' pk=notification.replywebnotification.reply.comment.publication.artwork.pk %}"
+												class="hover_accent_dark">
+												{{notification.replywebnotification.reply.comment.publication.name}}</a>:
+										</p>
+										<div class="comment_cite">
+											<div class="comment_cite_icon">
+												<img src="{% static 'icons/quotes.png' %}"/>
+											</div>
+											<cite>
+												{{notification.replywebnotification.reply.text}}
+											</cite>
+										</div><!-- comment_cite -->
+									</div><!-- notification_item -->
 
 									{% elif notification.subscriberwebnotification %}
 

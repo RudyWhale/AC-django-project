@@ -103,13 +103,21 @@ class NewInFeed(models.Model):
 	publications = models.ManyToManyField(Publication)
 
 
-# Web notifications for user
+'''
+Web notifications
+-----------------
+Notify user about related events in navbar
+'''
 class WebNotification(models.Model):
 	recipient = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class CommentWebNotification(WebNotification):
 	comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+
+
+class ReplyWebNotification(WebNotification):
+	reply = models.ForeignKey(Reply, on_delete=models.CASCADE)
 
 
 class SubscriberWebNotification(WebNotification):

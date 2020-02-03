@@ -1,5 +1,5 @@
-function on_comment_hover_in(btn) { btn.find('button.comment_btn').css('opacity', 1); };
-function on_comment_hover_out(btn) { btn.find('button.comment_btn').css('opacity', 0); };
+function on_comment_hover_in(btn) { btn.css('opacity', 1); };
+function on_comment_hover_out(btn) { btn.css('opacity', 0); };
 
 function reply_form_toggle(btn) {
   var form = btn.parent().siblings('div.reply_form');
@@ -8,7 +8,7 @@ function reply_form_toggle(btn) {
 
 $(function(){
   $('div.comment_container').hover(
-    function() { on_comment_hover_in($(this)); },
-    function() { on_comment_hover_out($(this)); }
+    function() { on_comment_hover_in( $(this).children('p.comment_datetime').children('button.comment_btn')); },
+    function() { on_comment_hover_out( $(this).children('p.comment_datetime').children('button.comment_btn')); }
   );
 });

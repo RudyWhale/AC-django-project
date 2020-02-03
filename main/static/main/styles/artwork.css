@@ -27,7 +27,7 @@ div.artwork_desc {
 	float: left;
 	width: 33%;
 	height: 100%;
-	padding: 0 0 0 10px;
+	padding: 0 0 0 15px;
 	box-sizing: border-box;
 	overflow-wrap: break-word;
 	word-wrap: break-word;
@@ -39,8 +39,9 @@ div.artwork_desc_text {
 	box-sizing: border-box;
 	line-height: 25px;
 	font-family: 'Roboto', sans-serif;
+	font-size: 16px;
 	overflow-y: auto;
-	padding-right: 10px;
+	padding-right: 15px;
 }
 
 div.artwork_desc_text>* {
@@ -50,16 +51,15 @@ div.artwork_desc_text>* {
 
 div.artwork_desc_text>h3 {
 	margin: 0px;
-	font-size: 36px;
-	line-height: 40px;
+	font-size: 30px;
+	line-height: 34px;
 	box-sizing: border-box;
 	font-weight: 600;
 }
 
 p.artwork_date {
-	font-family: 'Roboto', sans-serif;
+	font-size: 14px;
 	margin: 0;
-	font-size: 16px;
 	color: rgb(120,120,120);
 }
 
@@ -70,13 +70,11 @@ button.publication_delete {
 	border: none;
 	background: inherit;
 	font-family: 'Roboto', sans-serif;
-	font-size: 16px;
 	cursor: pointer;
 }
 
 p.artwork_desc_text {
 	margin: 10px 0 0 0;
-	font-size: 18px;
 }
 
 /*===============================================*/
@@ -117,7 +115,6 @@ a.artwork_author_name {
 p.artwork_author_count {
 	margin: 0;
 	width: 100%;
-	font-size: 16px;
 }
 
 /*===============================================*/
@@ -133,7 +130,6 @@ a.tag {
 	float: left;
 	margin: 2px 6px 0 0;
 	font-family: 'Roboto', sans-serif;
-	font-size: 18px;
 	font-weight: bold;
 	text-decoration: none;
 }
@@ -159,7 +155,6 @@ div.comment_form>textarea {
 	box-sizing: border-box;
 	border: 1px solid black;
 	font-family: 'Roboto', sans-serif;
-	font-size: 16px;
 	resize: none;
 	float: left;
 	padding: 4px 6px;
@@ -181,10 +176,9 @@ div.comment_container {
 	width: 100%;
 	float: left;
 	padding: 0;
-	margin: 8px 0;
+	margin: 5px 0;
 	box-sizing: border-box;
 	line-height: 22px;
-	font-size: 18px;
 	font-family: 'Roboto', sans-serif;
 }
 
@@ -239,6 +233,21 @@ div.comment_replies {
 	padding-left: 10px;
 	border-left: 2px solid rgb(200,200,200);
 	box-sizing: border-box;
+}
+
+/*===============================================*/
+/* SCROLLBAR ------------------------------------*/
+/*===============================================*/
+
+div.artwork_desc_text::-webkit-scrollbar {
+  background-color: rgb(240,240,240);
+	border-radius: 4px;
+	width: 8px;
+}
+
+div.artwork_desc_text::-webkit-scrollbar-thumb {
+  background-color: rgb(200,200,200);
+	border-radius: 4px;
 }
 
 /*===============================================*/

@@ -36,6 +36,7 @@ def on_profile_delete(sender, instance, **kwargs):
 			os.remove(instance.avatar.path)
 
 
+# Deletes avatar when profile changed
 @receiver(pre_save, sender=ArtistProfile)
 def delete_avatar_when_changed(sender, instance, **kwargs):
 	# Taken from https://djangosnippets.org/snippets/10638/
@@ -53,6 +54,7 @@ def delete_avatar_when_changed(sender, instance, **kwargs):
             os.remove(old_file.path)
 
 
+# After avatar loaded to server resize it to keep more space on disk
 from ArtChart.settings import AVATAR_SIZE
 
 @receiver(post_save, sender=ArtistProfile)
@@ -80,6 +82,7 @@ def notify_subs(sender, instance, created, **kwargs):
 			email_task.save()
 
 
+# Resize artwork image after loading to keep more space on disk
 from ArtChart.settings import ARTWORK_SIZE
 
 @receiver(post_save, sender=Artwork)
@@ -89,6 +92,8 @@ def resize_artwork(sender, instance, **kwargs):
 
 '''
 Web notifications handlers
+--------------------------
+Notify user about related events in navbar
 '''
 @receiver(m2m_changed, sender=ArtistProfile.subscribers.through)
 def subscriber_notify(sender, instance, action, **kwargs):
@@ -99,13 +104,21 @@ def subscriber_notify(sender, instance, action, **kwargs):
 		)
 
 
-# Notifies user about new comment in navbar
 @receiver(post_save, sender=Comment)
 def comment_notify(sender, instance, created, **kwargs):
 	if created and instance.author != instance.publication.author.user:
 		CommentWebNotification.objects.create(
 			recipient=instance.publication.author.user,
 			comment=instance
+		)
+
+
+@receiver(post_save, sender=Reply)
+def reply_notify(sender, instance, created, **kwargs):
+	if created and instance.author != instance.comment.author:
+		ReplyWebNotification.objects.create(
+			recipient=instance.comment.author,
+			reply=instance
 		)
 
 

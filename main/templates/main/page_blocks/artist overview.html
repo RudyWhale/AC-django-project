@@ -39,6 +39,12 @@
 					{% endif %}
 				</p>
 
+				<div class="artist_stats">
+					<p>С нами с {{profile.user.date_joined|date:"j E Y"}}</p>
+					<p>|</p>
+					<p>публикаций: {{profile.publication_set.count}}</p>
+				</div>
+
 			</div><!-- artist_desc -->
 		</div><!-- artist_wrapper -->
 

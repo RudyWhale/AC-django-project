@@ -1,0 +1,37 @@
+{% extends "main/wrapper.html" %}
+
+{% block styles %}
+	{% load static %}
+
+	<link href="{% static 'main/styles/artist overview.css' %}" type="text/css" rel="stylesheet" />
+	<link href="{% static 'main/styles/content.css' %}" type="text/css" rel="stylesheet" />
+	<link href="{% static 'main/styles/site desc.css' %}" type="text/css" rel="stylesheet" />
+  <link href="{% static 'main/styles/banner.css' %}" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+
+{% include "main/page_blocks/header.html" %}
+{% include "main/page_blocks/menu.html" %}
+
+{% if profile %}
+	{% include "main/page_blocks/artist overview.html" with profile=profile user=request.user %}
+{% endif %}
+
+{% include "main/page_blocks/content collection.html" %}
+{% include "main/page_blocks/banner vk group.html" %}
+
+	<div class="bounded_wrapper">
+		<div class="desc_container">
+			<div class="desc">
+        <img src="{% static 'icons/black logo.png' %}" alt="logo" />
+				<p>
+					ArtChart - портал для художников, дизайнеров и людей, интересующихся искусством и творчеством. Здесь художники рассказывают о своих работах. Зарегистрировавшись, вы сможете отмечать понравившиеся работы, подписываться на любимых авторов и следить за их деятельностью на портале.
+				</p>
+			</div><!-- desc -->
+		</div><!-- desc_container -->
+	</div><!-- bounded_wrapper -->
+
+{% include "main/page_blocks/footer.html" %}
+
+{% endblock %}

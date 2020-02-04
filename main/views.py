@@ -10,9 +10,7 @@ from .forms import *
 from ArtChart.settings import *
 
 def index(request):
-	publications = Publication.objects.annotate(likes_count=Count('likes')).order_by('-likes_count')[:CONTENT_ITEMS_LIMIT - 1]
-	infinite = publications.count() == (CONTENT_ITEMS_LIMIT - 1)
-	timestamp = timezone.now().timestamp()
+	publications = Publication.objects.annotate(likes_count=Count('likes')).order_by('-likes_count')[:6]
 	args = {
 		'meta_title': 'ArtChart',
 		'meta_description': 'ArtChart - портал для художников, дизайнеров и людей, интересующихся искусством и творчеством. ' \
@@ -22,11 +20,9 @@ def index(request):
 		'page': 'index',
 		'publications': publications,
 		'content_header': 'популярные работы',
-		'infinite': infinite,
-		'timestamp': timestamp,
-		'load_content_url': reverse('load content main'),
+		'infinite': False,
 	}
-	return render(request, 'main/publications.html', args)
+	return render(request, 'main/main.html', args)
 
 
 def artist(request, pk):

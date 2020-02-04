@@ -1,0 +1,32 @@
+div.vk_banner {
+  width: 100%;
+  background-image: url('../../bg/city.png');
+  background-size: 100% auto;
+  background-position: center;
+  float: left;
+  font-size: 50px;
+  font-weight: bold;
+}
+
+div.vk_banner>a {
+  float: left;
+  width: 100%;
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+div.vk_banner>a>p {
+  float: left;
+  margin: 0px;
+  width: calc(100% - 180px);
+  max-width: 600px;
+  box-sizing: border-box;
+  color: white;
+}
+
+img.vk_logo {
+  width: 100px;
+  height: 100px;
+  float: right;
+  margin-top: 10px;
+}

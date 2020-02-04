@@ -7,19 +7,28 @@ div.desc_container {
 
 div.desc {
 	width: 100%;
-	font-size: 18px;
-	font-family: 'Roboto Slab', sans-serif;
-	text-align: center;
-	padding: 20px 70px;
+	font-size: 24px;
+	font-family: 'Roboto', sans-serif;
+	font-weight: bold;
 	box-sizing: border-box;
 }
 
+div.desc>img {
+	width: 180px;
+	height: 180px;
+	float: left;
+}
+
 div.desc>p {
-	line-height: 32px;
-	vertical-align: middle;
+	line-height: 30px;
+	margin: 40px 40px 40px 0;
+	float: right;
+	padding-left: 20px;
+	width: calc(100% - 260px);
+	box-sizing: border-box;
 	display: inline-block;
-	max-width: 1100px;
-	margin: 0;
+	vertical-align: middle;
+	border-left: 3px solid rgb(40,40,40);
 }
 
 /*===============================================*/

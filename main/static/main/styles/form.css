@@ -3,6 +3,7 @@ div.form {
   width: 100%;
   padding: 0 5px 12px 5px;
   box-sizing: border-box;
+  font-size: 16px;
 }
 
 div.form>form {
@@ -34,7 +35,6 @@ p.help_text {
   margin: 4px 0 0 0;
   color: rgb(120,120,120);
   font-family: 'Roboto', sans-serif;
-  font-size: 16px;
 }
 
 div.form_input {
@@ -100,7 +100,6 @@ div.form_input>select>option:hover {
 p.checkbox_label {
   float: left;
   font-family: 'Roboto', sans-serif;
-  font-size: 18px;
   color: rgb(120,120,120);
   margin: 0;
   line-height: 24px;

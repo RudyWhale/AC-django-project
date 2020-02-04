@@ -30,3 +30,24 @@ img.vk_logo {
   float: right;
   margin-top: 10px;
 }
+
+/*===============================================*/
+/* MEDIA ----------------------------------------*/
+/*===============================================*/
+
+@media screen and (max-width: 600px) {
+
+  div.vk_banner {
+    font-size: 30px;
+  }
+
+  div.vk_banner>a>p {
+    width: calc(100% - 100px);
+  }
+
+  img.vk_logo {
+    height: 40px;
+    width: 40px;
+  }
+
+}

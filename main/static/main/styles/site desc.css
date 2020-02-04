@@ -7,7 +7,7 @@ div.desc_container {
 
 div.desc {
 	width: 100%;
-	font-size: 24px;
+	font-size: 20px;
 	font-family: 'Roboto', sans-serif;
 	font-weight: bold;
 	box-sizing: border-box;
@@ -32,17 +32,25 @@ div.desc>p {
 }
 
 /*===============================================*/
-/*-------------------- MEDIA --------------------*/
+/* MEDIA ----------------------------------------*/
 /*===============================================*/
 
-@media screen and (max-width: 1000px){
+@media screen and (max-width: 800px){
 	div.desc {
 		font-size: 16px;
 	}
 }
 
 @media screen and (max-width: 600px){
-	div.desc {
+	div.desc>img {
+		height: 140px;
+		width: 140px;
+	}
+
+	div.desc>p {
+		width: 100%;
 		padding: 10px;
+		border: none;
+		margin: 0;
 	}
 }

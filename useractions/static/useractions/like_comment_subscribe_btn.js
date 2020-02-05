@@ -21,12 +21,6 @@ function comment_send(btn){
     $.get(url, {publication_pk: publpk, text: text},
       function(response){
         $('#comment_form').after(response);
-
-        $('div.comment_container').hover(
-          function() { on_comment_hover_in( $(this).children('p.comment_datetime').children('button.comment_btn')); },
-          function() { on_comment_hover_out( $(this).children('p.comment_datetime').children('button.comment_btn')); }
-        );
-
         $('.comment_form>textarea').val("");
         $('.comment_form>textarea').keyup();
         $('.no_comments_label').remove();
@@ -48,12 +42,6 @@ function reply_send(btn) {
     $.get(url, {comment_pk: comment_pk, text: text},
       function(response){
         replies_container.append(response);
-
-        $('div.comment_replies>div.comment_container').hover(
-          function() { on_comment_hover_in( $(this).children('p.comment_datetime').children('button.comment_btn')); },
-          function() { on_comment_hover_out( $(this).children('p.comment_datetime').children('button.comment_btn')); }
-        );
-
         txtarea.val("").keyup();
         form.slideUp(300);
       }

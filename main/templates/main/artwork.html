@@ -76,7 +76,8 @@
 				<div id="comments">
 
 					<div id="comment_form" class="comment_form">
-						<textarea rows="2" cols="20" class="limited_length" placeholder="Напишите комментарий" maxlength="{{max_comment_length}}"></textarea>
+						<textarea rows="2" cols="20" class="limited_length" placeholder="Напишите комментарий"
+							maxlength="{{max_comment_length}}" onfocusin="send_on_enter(this);" onblur="dont_send_on_enter(this);"></textarea>
 						<button class="transparent_btn" data-pk="{{artwork.pk}}" data-url="{% url 'comment' %}"
 						{% if user.is_authenticated %}
 							onclick="comment_send($(this));"

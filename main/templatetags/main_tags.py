@@ -17,3 +17,14 @@ def subscribe_btn_text(profile, user):
         return "подписаться"
     else:
         return "отписаться"
+
+# Counts comments and replies at publication together
+@register.filter
+def count_comments(publication):
+    query = publication.comment_set
+    count = query.count()
+
+    for comment in query.all():
+        count += comment.reply_set.count()
+
+    return count

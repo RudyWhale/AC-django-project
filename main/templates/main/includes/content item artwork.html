@@ -18,7 +18,8 @@
 			</div>
 			<div class="content_item_social">
 				<img src="{% static 'icons/grey comments.png' %}" alt="comment">
-				<p class="social_count">{{artwork.comment_set.count}}</p>
+				{% load main_tags %}
+				<p class="social_count">{{artwork|count_comments}}</p>
 			</div>
 		</div><!-- content_item_likes -->
 

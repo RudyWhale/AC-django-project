@@ -5,7 +5,7 @@ from django.core.validators import validate_email
 from django.urls import reverse
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Checkbox
-from main.models import ArtistProfile
+from main.models import ArtistProfile, BlackList
 from main.widgets import LimitedLengthTextarea
 from .snippets import get_hash
 from ArtChart.settings import USE_RECAPTCHA
@@ -22,7 +22,7 @@ class ACAuthenticationForm(AuthenticationForm):
 
 
 '''
-Form for ordinary user registration
+Form for user registration
 '''
 class RegistrationForm(UserCreationForm):
 	password1 = forms.CharField(
@@ -84,8 +84,13 @@ class RegistrationForm(UserCreationForm):
 		if User.objects.filter(email=email).exists():
 			raise forms.ValidationError('Email already used')
 
-		elif BlackList.objects.all() and BlackList.objects.get(email=email):
-			raise forms.ValidationError('Email in blacklist')
+		# Check if email not in blacklist
+		if BlackList.objects.all():
+			try:
+				BlackList.objects.get(email=email)
+				raise forms.ValidationError('Email in blacklist')
+			except BlackList.DoesNotExist:
+				pass
 
 		return email
 

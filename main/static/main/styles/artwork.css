@@ -278,6 +278,14 @@ div.artwork_desc_text::-webkit-scrollbar-thumb {
 	div.artwork_desc_text {
 		height: auto;
 	}
+
+	div.artwork_desc {
+		padding-left: 10px;
+	}
+
+	div.artwork_desc_text {
+		padding-right: 10px;
+	}
 }
 
 @media screen and (max-width: 600px){

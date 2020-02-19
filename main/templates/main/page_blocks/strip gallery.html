@@ -9,7 +9,7 @@
 
 				<a href="{% url 'artwork' pk=artwork.pk %}" class="artwork_item_image">
 					<p class="image_loading_label">Загружаю картинку, подождите...</p>
-					<img src="{{artwork.image.url}}" class="hor_center" alt="{{artwork.name}}" onload="on_content_image_load(this)" />
+					<img src="{{artwork.image.url}}" class="hor_center" alt="{{artwork.name}}" onload="on_artwork_load(this)" />
 				</a>
 
 				<div class="item_artwork_desc">

@@ -1,69 +1,73 @@
+// Centers image horizontally
+function horisontal_center(img){
+  var container = $(img).parent();
+
+  $(img).css({
+    'height': container.height(),
+    'left': function(){ return (container.width() - $(this).width()) / 2; },
+    'top': 0
+  })
+}
+
+// Moves artwork image to the center of given space
 function set_artwork(img) {
   var container = $(img).parent();
 
   if ($(img).width() > container.width()){
+    // Reduce image
     $(img).css({
       'height': function() { return (container.width() / $(img).width()) * $(img).height(); },
       'top': function() { return (container.height() - $(this).height()) / 2; },
       'left': 0
     });
   }
+  else if ($(img).height() < container.height() && $(img).width() < container.width()){
+    // Grow image
+    $(img).css('height', container.height());
+    set_artwork($(this));
+  }
   else {
-    $(img).css({
-      'height': container.height(),
-      'left': function(){ return (container.width() - $(this).width()) / 2; },
-      'top': 0
-    })
+    horisontal_center(img);
   }
 }
 
-function on_content_image_load(img){
-  $(img).css('left', function(){ return ($(this).parent().width() - $(this).width()) / 2; });
+// Hides image loading label and shows the image
+function display_image(img){
   $(img).siblings('p.image_loading_label').css('opacity', '0');
   $(img).css('opacity', '1');
 }
 
 function on_artwork_load(img){
   set_artwork(img);
-  $(img).siblings('p.image_loading_label').css('opacity', '0');
-  $(img).css('opacity', '1');
+  display_image(img);
+}
+
+function on_content_image_load(img){
+  horisontal_center(img);
+  display_image(img);
 }
 
 function on_avatar_load(img){
-  var container = $(img).parent().parent();
-
-  if ($(img).width() > $(img).height()){
-    $(img).css('left', function(){ return (container.width() - $(this).width()) / 2; });
-  }
-  else {
-    $(img).css({
-      'height': function(){ return (container.width() / $(this).width()) * $(this).height(); },
-      'top': function(){ return (container.height() - $(this).height()) / 2; }
-    });
-  }
-
-  $(img).siblings('p.image_loading_label').css('opacity', '0');
-  $(img).css('opacity', '1');
+  display_image(img);
 }
 
 $(function(){
   $(window).resize(function(){
     $('img.center').each(function(index) {
-      var container = $(this).parent();
+      var img = $(this);
+      var container = img.parent();
 
-      if ($(this).height() < container.height() && $(this).width() < container.width()){
+      if (img.height() < container.height() && img.width() < container.width()){
         // Grow image
-        $(this).css('height', container.height());
-        set_artwork($(this));
+        img.css('height', container.height());
+        set_artwork(img);
       }
       else {
         // Reduce and center image
-        set_artwork($(this));
+        set_artwork(img);
       }
     });
 
-    $('img.hor_center').each(function(index) {
-      $(this).css('left', function(){ return ($(this).parent().width() - $(this).width()) / 2; });
-    })
+    horisontal_center($('img.hor_center'));
   });
 })

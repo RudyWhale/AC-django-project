@@ -88,6 +88,22 @@ h1.light_header {
 	background: inherit;
 }
 
+.image_bg {
+	background-position: center;
+	background-size: 100% auto;
+	transition: 0.3s all;
+	position: relative; /* for image loading label positioning */
+}
+
+div.shadow_layer {
+  background-color: rgba(40, 40, 40, 0.5);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+}
+
 a.disabled {
 	pointer-events: none;
 }

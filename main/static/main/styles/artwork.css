@@ -10,7 +10,9 @@ div.artwork_img {
 	float: left;
 	height: calc(100% - 10px);
 	width: 67%;
-	background-color: rgb(60,60,60);
+	background-color: rgb(40,40,40);
+	/* background: linear-gradient(90deg, rgb(40,40,40) 0%, rgb(60,60,60) 50%, rgb(40,40,40) 100%); */
+	background: radial-gradient(circle, rgb(60,60,60) 0%, rgb(40,40,40) 100%);
 	overflow: hidden;
 	box-sizing: border-box;
 	position: relative; /* for image loading label positioning */
@@ -265,7 +267,7 @@ div.artwork_desc_text::-webkit-scrollbar-thumb {
 	}
 
 	div.artwork_img {
-		padding: 0px;
+		padding: 20px;
 		width: 100%;
 		height: 400px;
 	}

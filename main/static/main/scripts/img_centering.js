@@ -70,4 +70,4 @@ $(function(){
 
     horisontal_center($('img.hor_center'));
   });
-})
+});

@@ -1,6 +1,7 @@
 <div class="content_item_artwork content_block">
 
-	<a href="{% url 'artwork' pk=artwork.pk %}" class="artwork_item_image">
+	<a href="{% url 'artwork' pk=artwork.pk %}" class="artwork_item_image image_bg" data-bg="{{artwork.image.url}}">
+		<div class="shadow_layer"></div>
 		<p class="image_loading_label">Загружаю картинку, подождите...</p>
 		<img src="{{artwork.image.url}}" class="hor_center" alt="{{artwork.name}}" onload="on_content_image_load(this)" />
 	</a>

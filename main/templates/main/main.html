@@ -13,11 +13,6 @@
 
 {% include "main/page_blocks/header.html" %}
 {% include "main/page_blocks/menu.html" %}
-
-{% if profile %}
-	{% include "main/page_blocks/artist overview.html" with profile=profile user=request.user %}
-{% endif %}
-
 {% include "main/page_blocks/content collection.html" %}
 {% include "main/page_blocks/banner vk group.html" %}
 

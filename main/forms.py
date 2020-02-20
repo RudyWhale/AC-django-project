@@ -115,7 +115,7 @@ class ArtistProfileForm(forms.ModelForm):
     avatar = forms.ImageField(
     	required=False,
     	widget=forms.widgets.FileInput(attrs={'class': 'avatar_inp image_inp'}),
-    	label='Фото',
+    	label='Сменить фото',
     )
     desc_attrs = {
     	'cols': '38',

@@ -92,7 +92,7 @@ input.submit_btn {
 }
 
 a.help_link {
-	font-family: 'Roboto Slab', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	font-size: 14px;
 	color: rgb(120,120,120);
 	width: 100%;
@@ -104,13 +104,13 @@ a.help_link:hover {
 }
 
 p.login_warning {
-	font-family: 'Roboto Slab', sans-serif;
-	background-color: rgb(100,100,100);
-	color: white;
-	padding: 5px;
+	font-family: 'Roboto', sans-serif;
+	background-color: rgb(220,220,220);
+	padding: 5px 20px;
 	width: 100%;
 	margin: 2px auto;
 	box-sizing: border-box;
+	border-radius: 10px;
 }
 
 div.help_links {

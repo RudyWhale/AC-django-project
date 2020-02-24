@@ -4,7 +4,6 @@
 	{% load static %}
 	<link href="{% static 'main/styles/artist overview.css' %}" type="text/css" rel="stylesheet" />
 	<link href="{% static 'main/styles/artwork.css' %}" type="text/css" rel="stylesheet" />
-	<link href="{% static 'main/styles/publication.css' %}" type="text/css" rel="stylesheet" />
 	<link href="{% static 'main/styles/strip gallery.css' %}" type="text/css" rel="stylesheet" />
 	<link href="{% static 'main/styles/content.css' %}" type="text/css" rel="stylesheet" />
 {% endblock %}
@@ -46,6 +45,19 @@
 						<button href="{% url 'delete publication' pk=artwork.pk %}" class="publication_delete hover_accent_dark">Удалить</button>
 					{% endif %}
 				</p>
+
+				<div class="publication_likes">
+					<button
+						class="publication_likes_btn {% if user in artwork.likes.all %}clicked{% endif %}"
+						data-pk="{{artwork.pk}}"
+					{% if user.is_authenticated %}
+						onclick="like_send($(this));"
+					{% else %}
+						onclick="not_auth_alert();"
+					{% endif %}>
+					</button>
+					<p class="publication_likes_count">{{artwork.likes.count}}</p>
+				</div><!-- publication_likes -->
 
 				<p class="artwork_desc_text">{{artwork.desc}}</p>
 
@@ -97,17 +109,6 @@
 				</div>
 
 			</div><!-- desc_text -->
-
-			<div class="publication_likes">
-			  {% load main_tags %}
-			  <button class="publication_likes_btn hover_accent" data-pk="{{artwork.pk}}"
-			  {% if user.is_authenticated %}
-			    onclick="like_send($(this));"
-			  {% else %}
-			    onclick="not_auth_alert();"
-			  {% endif %}>{{artwork|like_btn_text:user}}</button>
-				<p class="publication_likes_count">{{artwork.likes.count}}</p>
-			</div><!-- publication_likes -->
 
 		</div><!-- artwork_desc -->
 

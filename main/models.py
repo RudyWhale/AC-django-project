@@ -20,7 +20,7 @@ def image_upload_path(obj, filename, dir):
 class ArtistProfile(models.Model):
 	avatar_upload_path = lambda self, filename : image_upload_path(self, filename, dir='avatars')
 	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-	desc = models.TextField(default ='')
+	desc = models.TextField(default='')
 	avatar = models.ImageField(upload_to=avatar_upload_path, default='avatars/default.png')
 	subscribers = models.ManyToManyField(User, related_name='subscriptions', blank=True)
 

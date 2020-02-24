@@ -55,7 +55,7 @@ function like_send(btn){
   $.get('../action/like', {publication_pk: publpk},
     function(response){
       $('.publication_likes_count').text(response.count);
-      btn.text(response.label);
+      btn.toggleClass('clicked');
     },
     'json'
   ).fail(function(){ alert("Произошла ошибка"); });

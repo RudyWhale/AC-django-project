@@ -24,38 +24,18 @@ div.strip_gallery>h1 {
 	margin: 0 0 0 5px;
 }
 
-div.content_block {
-	width: 33.33%;
-	float: left;
-	height: 350px;
-	padding: 5px;
-	box-sizing: border-box;
-}
-
 /*===============================================*/
 /* MEDIA ----------------------------------------*/
 /*===============================================*/
 
 @media screen and (max-width: 1000px){
-
-	div.strip_gallery_item_artwork {
-		width: 50%;
-	}
-
-	div.sg_last {
-		display: none;
-	}
-
+	div.last_in_row {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 600px){
-
-	div.strip_gallery_item_artwork {
-		width: 100%;
-	}
-
-	div.sg_last {
+	div.last_in_row {
 		display: block;
 	}
-
 }

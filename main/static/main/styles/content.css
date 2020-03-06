@@ -86,11 +86,38 @@ div.content_item_social {
   margin-left: 10px;
 }
 
-div.content_item_social>img {
+div.content_item_social>* {
+  float: left;
+  margin: 0;
+  padding: 0;
+}
+
+button.content_item_social, a.content_item_social {
   width: 20px;
   height: 20px;
   margin-right: 5px;
-  float: left;
+  background-size: 100% 100%;
+  transition: all 0.3s;
+}
+
+a.item_social_icon.comments_link {
+  background-image: url('../../icons/grey comments.png');
+}
+
+a.item_social_icon.comments_link:hover {
+  background-image: url('../../icons/green comments.png');
+}
+
+button.content_item_social.like_btn:not(clicked) {
+  background-image: url('../../icons/grey heart.png');
+}
+
+button.content_item_social.like_btn.clicked {
+  background-image: url('../../icons/green filled heart.png');
+}
+
+button.content_item_social.like_btn:hover {
+  background-image: url('../../icons/green filled heart.png');
 }
 
 p.social_count {

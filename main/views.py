@@ -104,7 +104,10 @@ def artwork(request, pk):
 		'artwork': artwork,
 		'related_pubs': related_pubs,
 		'delete_link': show_delete_link,
-		'max_comment_length': COMMENT_MAX_LENGTH
+		'max_comment_length': COMMENT_MAX_LENGTH,
+
+		# Focus on comments if user came by clicking comments button on content block
+		'focus_comments': 'focus_comments' in request.GET
 	}
 	return render(request, 'main/artwork.html', args)
 

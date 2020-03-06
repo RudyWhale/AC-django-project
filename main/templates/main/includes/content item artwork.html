@@ -1,4 +1,4 @@
-<div class="content_item_artwork content_block">
+<div class="content_item_artwork content_block {% if last_in_row %}last_in_row{% endif %}">
 
 	<a href="{% url 'artwork' pk=artwork.pk %}" class="artwork_item_image image_bg" data-bg="{{artwork.image.url}}">
 		<div class="shadow_layer"></div>
@@ -14,11 +14,18 @@
 			<a class="item_artwork_author_href hover_accent {% if page == 'artist' %}disabled{% endif %}" href="{% url 'artist' pk=artwork.author.user.pk %}">{{artwork.author.user.username}}</a>
 			{% load static %}
 			<div class="content_item_social">
-				<img src="{% static 'icons/grey heart.png' %}" alt="heart">
+				<button
+					class="no_decor content_item_social like_btn {% if request.user in artwork.likes.all %}clicked{% endif %}"
+					data-pk="{{artwork.pk}}"
+					{% if user.is_authenticated %}
+						onclick="like_send($(this), $(this).siblings('p.social_count'));"
+					{% else %}
+						onclick="not_auth_alert();"
+					{% endif %}></button>
 				<p class="social_count">{{artwork.likes.count}}</p>
 			</div>
 			<div class="content_item_social">
-				<img src="{% static 'icons/grey comments.png' %}" alt="comment">
+				<a href="{% url 'artwork' pk=artwork.pk %}?focus_comments" class="content_item_social item_social_icon comments_link"></a>
 				{% load main_tags %}
 				<p class="social_count">{{artwork|count_comments}}</p>
 			</div>

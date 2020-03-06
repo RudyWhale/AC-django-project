@@ -3,10 +3,7 @@
 		<h1 class="section_header">
 			{{content_header}}
 			{% if create_publication %}
-				<a href="{% url 'new artwork' %}" class="add_artwork">
-					{% load static %}
-					<img src="{% static 'icons/add artwork.png' %}">
-				</a>
+				<a href="{% url 'new artwork' %}" class="add_artwork"></a>
 			{% endif %}
 		</h1>
 	{% endif %}

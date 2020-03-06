@@ -50,11 +50,12 @@ function reply_send(btn) {
 }
 
 
-function like_send(btn){
+function like_send(btn, counter){
   var publpk = btn.attr('data-pk');
+
   $.get('../action/like', {publication_pk: publpk},
     function(response){
-      $('.publication_likes_count').text(response.count);
+      counter.text(response.count);
       btn.toggleClass('clicked');
     },
     'json'

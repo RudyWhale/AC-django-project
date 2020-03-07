@@ -24,7 +24,7 @@
 </div>
 
 {% for profile in artists %}
-	{% include "main/page_blocks/artist overview.html" with profile=profile user=request.user %}
+	{% include "main/page_blocks/artist overview.html" with profile=profile %}
 {% endfor %}
 
 <div class="bounded_wrapper">

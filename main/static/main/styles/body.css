@@ -2,6 +2,8 @@ body {
 	margin: 0;
 	background-color: white;
 	font-family: 'Roboto', sans-serif;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
 }
 
 div.bounded_wrapper {

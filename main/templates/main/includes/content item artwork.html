@@ -17,7 +17,7 @@
 				<button
 					class="no_decor content_item_social like_btn {% if request.user in artwork.likes.all %}clicked{% endif %}"
 					data-pk="{{artwork.pk}}"
-					{% if user.is_authenticated %}
+					{% if request.user.is_authenticated %}
 						onclick="like_send($(this), $(this).siblings('p.social_count'));"
 					{% else %}
 						onclick="not_auth_alert();"

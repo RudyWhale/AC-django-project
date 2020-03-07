@@ -16,18 +16,17 @@ def like(request):
 	if user.is_authenticated:
 		if 'publication_pk' not in request.GET: return HttpResponse(status=400)
 
-		publ_pk = int(request.GET['publication_pk'])
 		likes = 0;
-		publ = Publication.objects.get(pk = publ_pk)
+		publication = get_object_or_404(Publication, pk=int(request.GET['publication_pk']))
 
-		if user not in publ.likes.all():
-			publ.likes.add(user)
+		if user not in publication.likes.all():
+			publication.likes.add(user)
 			label = 'не нравится'
 		else:
-			publ.likes.remove(user)
+			publication.likes.remove(user)
 			label = 'нравится'
 
-		likes = publ.likes.count();
+		likes = publication.likes.count();
 		return JsonResponse({'count': likes, 'label': label})
 
 	else: return HttpResponse(status=401)
@@ -39,9 +38,8 @@ def subscribe(request):
 	if user.is_authenticated:
 		if 'profile_pk' not in request.GET: return HttpResponse(status=400)
 
-		profile_pk = int(request.GET['profile_pk'])
+		profile = get_object_or_404(ArtistProfile, pk=int(request.GET['profile_pk']))
 		subs = 0;
-		profile = ArtistProfile.objects.get(pk = profile_pk)
 
 		if profile.user == user:
 			return HttpResponse(status=403)
@@ -67,12 +65,11 @@ def comment(request):
 		if not all(key in request.GET for key in ['publication_pk', 'text']):
 			return HttpResponse(status=400)
 
-		publ_pk = int(request.GET['publication_pk'])
 		text = request.GET['text'].strip().replace('  ', ' ')
-
 		if not text or len(text) > COMMENT_MAX_LENGTH: return HttpResponse(status=400)
 
-		publication = Publication.objects.get(pk = publ_pk)
+		publication = get_object_or_404(Publication, pk=int(request.GET['publication_pk']))
+
 		comment = Comment.objects.create(
 			publication = publication,
 			author = user,
@@ -93,12 +90,11 @@ def reply(request):
 		if not all(key in request.GET for key in ['comment_pk', 'text']):
 			return HttpResponse(status=400)
 
-		comment_pk = int(request.GET['comment_pk'])
 		text = request.GET['text'].strip().replace('  ', ' ')
-
 		if not text or len(text) > COMMENT_MAX_LENGTH: return HttpResponse(status=400)
 
-		comment = Comment.objects.get(pk = comment_pk)
+		comment = get_object_or_404(Comment, pk=int(request.GET['comment_pk']))
+
 		reply = Reply.objects.create(
 			author = user,
 			datetime = datetime.now(),
@@ -120,7 +116,7 @@ def load_content_category(request, pk):
 	shown = int(request.GET['shown'])
 	category = get_object_or_404(ArtworkCategory, pk=pk)
 	query = category.artwork_set.exclude(datetime__gt = from_date).order_by('-datetime')[shown:shown + CONTENT_ITEMS_LIMIT]
-	content = ''.join([obj.as_html() for obj in query])
+	content = ''.join([obj.as_html(request) for obj in query])
 	hide_btn = query.count() < CONTENT_ITEMS_LIMIT
 	return JsonResponse({'content': content, 'hide_btn': hide_btn})
 
@@ -131,8 +127,9 @@ def load_content_tag(request, pk):
 
 	from_date = datetime.fromtimestamp(float(request.GET['from_tstamp']))
 	shown = int(request.GET['shown'])
-	query = Tag.objects.get(pk = pk).publications.exclude(datetime__gt = from_date).order_by('-datetime')[shown:shown + CONTENT_ITEMS_LIMIT]
-	content = ''.join([obj.artwork.as_html() for obj in query])
+	tag = get_object_or_404(Tag, pk=pk)
+	query = tag.publications.exclude(datetime__gt = from_date).order_by('-datetime')[shown:shown + CONTENT_ITEMS_LIMIT]
+	content = ''.join([obj.artwork.as_html(request) for obj in query])
 	hide_btn = query.count() < CONTENT_ITEMS_LIMIT
 	return JsonResponse({'content': content, 'hide_btn': hide_btn})
 
@@ -147,7 +144,7 @@ def load_content_feed(request):
 		shown = int(request.GET['shown'])
 		publications = Publication.objects.exclude(datetime__gt = from_date).filter(author__in = user.subscriptions.all()).order_by('-datetime')
 		query = publications.order_by('-datetime')[shown:shown + CONTENT_ITEMS_LIMIT]
-		content = ''.join([obj.artwork.as_html() for obj in query])
+		content = ''.join([obj.artwork.as_html(request) for obj in query])
 		hide_btn = query.count() < CONTENT_ITEMS_LIMIT
 		return JsonResponse({'content': content, 'hide_btn': hide_btn})
 
@@ -162,7 +159,7 @@ def load_content_main(request):
 	from_date = datetime.fromtimestamp(float(request.GET['from_tstamp']))
 	shown = int(request.GET['shown'])
 	query = Publication.objects.exclude(datetime__gte = from_date).annotate(likes_count=Count('likes')).order_by('-likes_count')[shown:shown + CONTENT_ITEMS_LIMIT]
-	content = ''.join([obj.artwork.as_html() for obj in query])
+	content = ''.join([obj.artwork.as_html(request) for obj in query])
 	hide_btn = query.count() < CONTENT_ITEMS_LIMIT
 	return JsonResponse({'content': content, 'hide_btn': hide_btn})
 
@@ -175,7 +172,7 @@ def load_content_artist(request, pk):
 	shown = int(request.GET['shown'])
 	profile = get_object_or_404(ArtistProfile, pk = pk)
 	query = profile.publication_set.all().order_by('-datetime')[shown:shown + CONTENT_ITEMS_LIMIT]
-	content = ''.join([obj.artwork.as_html() for obj in query])
+	content = ''.join([obj.artwork.as_html(request) for obj in query])
 	hide_btn = query.count() < CONTENT_ITEMS_LIMIT
 	return JsonResponse({'content': content, 'hide_btn': hide_btn})
 
@@ -186,7 +183,7 @@ def load_artist_profiles(request):
 	# from_date = datetime.fromtimestamp(float(request.GET['from_tstamp']))
 	shown = int(request.GET['shown'])
 	query = ArtistProfile.objects.annotate(subs_count=Count('subscribers')).order_by('-subs_count')[shown:shown + ARTIST_PROFILES_LIMIT]
-	content = ''.join([obj.as_html(request.user) for obj in query])
+	content = ''.join([obj.as_html(request) for obj in query])
 	hide_btn = query.count() < ARTIST_PROFILES_LIMIT
 	return JsonResponse({'content': content, 'hide_btn': hide_btn})
 

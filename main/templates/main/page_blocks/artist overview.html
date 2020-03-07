@@ -22,13 +22,13 @@
 						class="subscribe_btn transparent_btn"
 						id="subs_btn_{{profile.pk}}"
 						data-pk={{profile.pk}}
-						{% if not user.is_authenticated %}
+						{% if not request.user.is_authenticated %}
 							onclick="not_auth_alert($(this));"
-						{% elif user == profile.user %}
+						{% elif request.user == profile.user %}
 							onclick="self_sub_alert($(this));"
 						{% else %}
 							onclick="submit_send($(this));"
-						{% endif %}>{{profile|subscribe_btn_text:user}}</button>
+						{% endif %}>{{profile|subscribe_btn_text:request.user}}</button>
 				</div>
 
 				<p>

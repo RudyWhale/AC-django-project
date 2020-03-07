@@ -27,8 +27,8 @@ class ArtistProfile(models.Model):
 	def __str__(self):
 		return self.user.username
 
-	def as_html(self, user):
-		return render_to_string('main/page_blocks/artist overview.html', {'profile': self, 'user': user})
+	def as_html(self, request):
+		return render_to_string('main/page_blocks/artist overview.html', {'request': request, 'profile': self})
 
 
 # Abstract class for any publication
@@ -56,8 +56,8 @@ class Artwork(Publication):
 	image = models.ImageField(upload_to=artwork_upload_path)
 	category = models.ForeignKey(ArtworkCategory, on_delete=models.SET_NULL, null=True)
 
-	def as_html(self):
-		return render_to_string('main/includes/content item artwork.html', {'artwork': self})
+	def as_html(self, request):
+		return render_to_string('main/includes/content item artwork.html', {'request': request, 'artwork': self})
 
 
 # Publication comments

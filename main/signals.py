@@ -40,18 +40,20 @@ def on_profile_delete(sender, instance, **kwargs):
 @receiver(pre_save, sender=ArtistProfile)
 def delete_avatar_when_changed(sender, instance, **kwargs):
 	# Taken from https://djangosnippets.org/snippets/10638/
-    if not instance.pk:
-        return False
+	if not instance.pk:
+		return False
 
-    try:
-        old_file = sender.objects.get(pk=instance.pk).avatar
-    except sender.DoesNotExist:
-        return False
+	try:
+		old_file = sender.objects.get(pk=instance.pk).avatar
+	except sender.DoesNotExist:
+		return False
 
-    new_file = instance.avatar
-    if not old_file == new_file:
-        if os.path.isfile(old_file.path):
-            os.remove(old_file.path)
+	if old_file:
+		new_file = instance.avatar
+
+		if not old_file == new_file:
+			if os.path.isfile(old_file.path):
+				os.remove(old_file.path)
 
 
 # After avatar loaded to server resize it to keep more space on disk
@@ -59,7 +61,9 @@ from ArtChart.settings import AVATAR_SIZE
 
 @receiver(post_save, sender=ArtistProfile)
 def resize_avatar(sender, instance, **kwargs):
-	resize_image(instance.avatar.path, AVATAR_SIZE, crop=True)
+	if instance.avatar:
+		if os.path.isfile(instance.avatar.path):
+			resize_image(instance.avatar.path, AVATAR_SIZE, crop=True)
 
 
 # Deletes image file after instance deleting

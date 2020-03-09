@@ -5,7 +5,12 @@
 			<div class="artist_avatar">
 				<a href="{% url 'artist' pk=profile.user.pk %}" {% if page == 'artist' %}class="disabled"{% endif %}>
 					<p class="image_loading_label">Загружаю картинку, подождите...</p>
-					<img src="{{profile.avatar.url}}" alt="{{profile.user.username}}" onload="on_avatar_load(this);" />
+					{% if profile.avatar %}
+						<img src="{{profile.avatar.url}}" alt="{{profile.user.username}}" onload="on_avatar_load(this);" />
+					{% else %}
+						{% load static %}
+						<img src="{% static 'icons/default avatar.png' %}" alt="{{profile.user.username}}" onload="on_avatar_load(this);" />
+					{% endif %}
 				</a>
 			</div><!-- artist_avatar -->
 

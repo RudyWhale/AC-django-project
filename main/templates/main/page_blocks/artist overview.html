@@ -37,6 +37,9 @@
 				</div>
 
 				<p>
+					{% if page == 'artist' and user == request.user %}
+						<button class="edit_profile_desc icon_btn"></button>
+					{% endif %}
 					{% if profile.desc %}
 						{{profile.desc}}
 					{% else %}

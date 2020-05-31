@@ -288,9 +288,9 @@ def settings(request):
 
 	if request.method == 'POST':
 		settings_form = UserSettingsForm(request.POST, instance=settings)
-		profile_form = ArtistProfileForm(request.POST, request.FILES, instance=profile)
+		# profile_form = ArtistProfileForm(request.POST, request.FILES, instance=profile)
 
-		if not settings_form.is_valid() or not profile_form.is_valid():
+		if not settings_form.is_valid():
 			args = {
 				'meta_title': 'Ошибка',
 				'meta_description': '',
@@ -309,7 +309,7 @@ def settings(request):
 			return render(request, 'main/info message.html', args)
 
 		settings_form.save()
-		profile_form.save()
+		# profile_form.save()
 
 		args = {
 			'meta_title': 'Настройки изменены',
@@ -328,8 +328,8 @@ def settings(request):
 		args = {
 			'page': 'settings',
 			'forms': {
-				'Настройки профиля': ArtistProfileForm(instance=profile),
-				'Email-уведомления': UserSettingsForm(instance=settings)
+				# 'Настройки профиля': ArtistProfileForm(instance=profile),
+				'Настройки email-уведомлений': UserSettingsForm(instance=settings)
 			},
 			'submit_text': 'Сохранить настройки'
 		}

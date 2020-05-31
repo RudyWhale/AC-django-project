@@ -26,7 +26,7 @@
 			{% load static %}
 
 			<div class="dropdown_btn navbar_item">
-				<button class="dropdown" onclick="dropdown(this);"></button>
+				<button class="dropdown icon_btn" onclick="dropdown(this);"></button>
 			</div>
 
 			<div class="user_menu navbar_item">
@@ -137,7 +137,8 @@
 							</div><!-- notifications_scroll_container -->
 
 							{% if request.user.webnotification_set.count %}
-								<button class="no_decor remove_notifications_btn" onclick="clear_notifications(this);" data-url="{% url 'clear notifications' %}">
+								<button class="no_decor remove_notifications_btn"
+									onclick="clear_notifications(this);" data-url="{% url 'clear notifications' %}">
 									Убрать все
 								</button>
 							{% endif %}

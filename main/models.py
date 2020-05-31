@@ -1,8 +1,9 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.utils import timezone
 from django.template.loader import render_to_string
+
+from .snippets import get_image_upload_path
 
 
 # Settings attached to any registrated user
@@ -11,14 +12,9 @@ class UserSettings(models.Model):
 	feed_update_notifications = models.BooleanField(default=True)
 
 
-def image_upload_path(obj, filename, dir):
-	date = timezone.now()
-	return f"{dir}/{date.year}/{date.month}/{str(obj.pk)}.{filename.split('.')[-1].lower()}"
-
-
 # Additional data of user, who can add publications
 class ArtistProfile(models.Model):
-	avatar_upload_path = lambda self, filename : image_upload_path(self, filename, dir='avatars')
+	avatar_upload_path = get_image_upload_path('avatars')
 	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
 	desc = models.TextField(blank=True)
 	avatar = models.ImageField(upload_to=avatar_upload_path)
@@ -29,6 +25,13 @@ class ArtistProfile(models.Model):
 
 	def as_html(self, request):
 		return render_to_string('main/page_blocks/artist overview.html', {'request': request, 'profile': self})
+
+
+# Contact info on user profile
+class ContactInfo(models.Model):
+	profile = models.ForeignKey(ArtistProfile, on_delete=models.CASCADE)
+	name = models.CharField(max_length=250)
+	url = models.CharField(max_length=250)
 
 
 # Abstract class for any publication
@@ -51,7 +54,7 @@ class ArtworkCategory(models.Model):
 
 
 class Artwork(Publication):
-	artwork_upload_path = lambda self, filename : image_upload_path(self, filename, dir='artworks')
+	artwork_upload_path = get_image_upload_path('artworks')
 	desc = models.TextField(default='no desc')
 	image = models.ImageField(upload_to=artwork_upload_path)
 	category = models.ForeignKey(ArtworkCategory, on_delete=models.SET_NULL, null=True)

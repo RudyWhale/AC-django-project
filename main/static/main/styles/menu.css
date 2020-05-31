@@ -56,13 +56,11 @@ div.new_in_feed_label {
 button.dropdown {
 	height: 28px;
 	width: 28px;
-	border: none;
 	background-color: inherit;
 	background-image: url('../../icons/grey menu.png');
 	background-size: 100% 100%;
 	cursor: pointer;
 	display: none;
-	float: left;
 	transition: all 0.3s;
 	margin-left: 10px;
 }

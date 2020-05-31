@@ -60,6 +60,13 @@ h1.light_header {
 	overflow: hidden;
 }
 
+.icon_btn {
+	border: none;
+	float: left;
+	background-size: 100% 100%;
+	transition: all 0.3s;
+}
+
 .transparent_btn {
 	border: 1px solid black;
 	text-align: center;

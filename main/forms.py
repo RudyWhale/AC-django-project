@@ -1,14 +1,14 @@
 from django import forms
-from django.forms import ModelForm
 from PIL import Image
 from datetime import datetime
 from .models import Artwork, Tag, UserSettings, ArtistProfile, ArtworkCategory
 from .widgets import LimitedLengthTextarea, ACCheckBox
 from ArtChart.settings import ARTWORK_DESC_MAX_LENGTH, PROFILE_DESC_MAX_LENGTH
+
 import os
 
 
-class AbstractPostCreationForm(ModelForm):
+class AbstractPostCreationForm(forms.ModelForm):
     tag_set = forms.CharField(
         max_length = 100,
         widget = forms.TextInput(
@@ -76,6 +76,7 @@ class ArtworkCreationForm(AbstractPostCreationForm):
         label='Выберите категорию'
     )
 
+
     class Meta:
         model = Artwork
         fields = ['name', 'desc', 'image', 'category']
@@ -108,15 +109,11 @@ class UserSettingsForm(forms.ModelForm):
         fields = ['feed_update_notifications',]
 
 
+
 '''
-Form for artist profile
+Profile forms
 '''
-class ArtistProfileForm(forms.ModelForm):
-    avatar = forms.ImageField(
-    	required=False,
-    	widget=forms.widgets.FileInput(attrs={'class': 'avatar_inp image_inp'}),
-    	label='Сменить фото',
-    )
+class ArtistDescForm(forms.Form):
     desc_attrs = {
     	'cols': '38',
     	'rows': '7',
@@ -124,22 +121,40 @@ class ArtistProfileForm(forms.ModelForm):
     	'maxlength': PROFILE_DESC_MAX_LENGTH,
     	'class': 'limited_length'
     }
-    desc = forms.CharField(
-    	required=False,
-    	widget=LimitedLengthTextarea(attrs=desc_attrs),
-    	label='Описание',
-    )
+    desc = forms.CharField(widget=LimitedLengthTextarea(attrs=desc_attrs))
 
 
-    class Meta:
-    	model = ArtistProfile
-    	fields = ['avatar', 'desc']
 
-
-    def clean_desc(self):
-        text = self.cleaned_data['desc']
-
-        if len(text) > PROFILE_DESC_MAX_LENGTH:
-        	raise forms.ValidationError('Desc text is too long')
-
-        return text
+# '''
+# Form for artist profile settings
+# '''
+# class ArtistProfileForm(forms.ModelForm):
+#     avatar = forms.ImageField(
+#     	required=False,
+#     	widget=forms.widgets.FileInput(attrs={'class': 'avatar_inp image_inp'}),
+#     	label='Сменить фото',
+#     )
+#     desc_attrs = {
+#     	'cols': '38',
+#     	'rows': '7',
+#     	'placeholder': 'Напишите о себе. Эта информация будет отображаться в вашем профиле',
+#     	'maxlength': PROFILE_DESC_MAX_LENGTH,
+#     	'class': 'limited_length'
+#     }
+#     desc = forms.CharField(
+#     	required=False,
+#     	widget=LimitedLengthTextarea(attrs=desc_attrs),
+#     	label='Описание',
+#     )
+#
+#     class Meta:
+#     	model = ArtistProfile
+#     	fields = ['avatar', 'desc']
+#
+#     def clean_desc(self):
+#         text = self.cleaned_data['desc']
+#
+#         if len(text) > PROFILE_DESC_MAX_LENGTH:
+#         	raise forms.ValidationError('Desc text is too long')
+#
+#         return text

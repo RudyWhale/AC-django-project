@@ -81,6 +81,17 @@ button.subscribe_btn {
 	font-size: 16px;
 }
 
+button.edit_profile_desc {
+	height: 18px;
+	width: 18px;
+	background-image: url('../../icons/edit.png');
+	margin-right: 10px;
+}
+
+button.edit_profile_desc:hover {
+	background-image: url('../../icons/green filled edit.png');
+}
+
 div.artist_stats {
 	float: left;
 	margin-top: 20px;
